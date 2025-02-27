@@ -21,8 +21,11 @@ jobs:
           node-version: '18'
           cache: 'npm'
           
+      - name: Synchronize package.json and package-lock.json
+        run: npm install --package-lock-only
+          
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         
       - name: Run ESLint
         run: npm run lint
@@ -51,8 +54,11 @@ jobs:
           node-version: '18'
           cache: 'npm'
           
+      - name: Synchronize package.json and package-lock.json
+        run: npm install --package-lock-only
+          
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
@@ -86,8 +92,11 @@ jobs:
           node-version: '18'
           cache: 'npm'
           
+      - name: Synchronize package.json and package-lock.json
+        run: npm install --package-lock-only
+          
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         
       - name: Build application
         run: npm run build
