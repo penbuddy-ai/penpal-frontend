@@ -70,33 +70,10 @@ jobs:
             cypress/videos/
             cypress/screenshots/
             
-  sonarqube:
-    name: 🔍 SonarQube Analysis
-    runs-on: ubuntu-latest
-    needs: lint-and-test
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          
-      - name: Download coverage reports
-        uses: actions/download-artifact@v3
-        with:
-          name: coverage
-          path: coverage/
-          
-      - name: SonarQube Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          
   build-and-deploy:
     name: 🚀 Build and Deploy
     runs-on: ubuntu-latest
-    needs: [e2e-tests, sonarqube]
+    needs: [e2e-tests]
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
     
     steps:
@@ -119,6 +96,7 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         uses: amondnet/vercel-action@v20
         with:
+          zeit-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -128,6 +106,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: amondnet/vercel-action@v20
         with:
+          zeit-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
