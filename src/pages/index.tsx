@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { motion } from 'framer-motion';
-import Button from '@/components/ui/Button';
+import Button from '@/components/ui/Button/Button';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import type { GetStaticProps } from 'next';
 

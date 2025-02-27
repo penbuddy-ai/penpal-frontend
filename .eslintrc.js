@@ -8,8 +8,8 @@ module.exports = {
     },
   },
   extends: [
+    'next',
     'next/core-web-vitals',
-    'typescript',
     'plugin:@typescript-eslint/recommended',
     'plugin:jest/recommended',
     'prettier',
