@@ -61,8 +61,8 @@ Le projet utilise GitHub Actions pour l'intégration et le déploiement continus
 
 - `main` - Code de production
 - `develop` - Code de développement
-- `feature/*` - Nouvelles fonctionnalités
-- `bugfix/*` - Corrections de bugs
+- `feat/*` - Nouvelles fonctionnalités
+- `fix/*` - Corrections de bugs
 - `release/*` - Préparation des versions
 
 ## Déploiement
