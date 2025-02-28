@@ -1,5 +1,17 @@
 {
-  "welcome": "Bienvenue sur PenPal AI",
-  "tagline": "Votre partenaire d'apprentissage linguistique IA",
-  "getStarted": "Commencer"
+  "title": "PenPal",
+  "welcome": "Bienvenue sur PenPal",
+  "tagline": "Commencez à correspondre avec des personnes du monde entier",
+  "getStarted": "Commencer",
+  "login": "Se connecter",
+  "register": "S'inscrire",
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
+  },
+  "language": {
+    "fr": "Français",
+    "en": "Anglais"
+  }
 }
