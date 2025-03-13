@@ -6,23 +6,21 @@ COPY package.json package-lock.json ./
 
 RUN npm ci
 
+# Stage 2: Builder
 FROM node:18-alpine AS builder
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Set environment variables for build
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-
 RUN npm run build
 
+# Stage 3: Runner
 FROM node:18-alpine AS runner
 WORKDIR /app
 
 # Set to production or development environment
-ARG NODE_ENV=production
+ARG NODE_ENV
 ENV NODE_ENV=${NODE_ENV}
 
 # Create a non-root user to run the app
