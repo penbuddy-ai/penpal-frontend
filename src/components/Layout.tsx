@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { ThemeToggle } from './theme';
-import LanguageSwitcher from './LanguageSwitcher';
 
 interface LayoutProps {
   children: React.ReactNode;
