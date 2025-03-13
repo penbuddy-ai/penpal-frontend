@@ -122,10 +122,14 @@ jobs:
                 cache-from: type=gha
                 cache-to: type=gha,mode=max
             
+            - name: Get primary image tag
+              id: primary_tag
+              run: echo "PRIMARY_TAG=$(echo '${{ steps.meta.outputs.tags }}' | head -n 1)" >> $GITHUB_OUTPUT
+            
             - name: Scan image for vulnerabilities
               uses: aquasecurity/trivy-action@master
               with:
-                image-ref: ${{ steps.meta.outputs.tags }}
+                image-ref: ${{ steps.primary_tag.outputs.PRIMARY_TAG }}
                 format: 'sarif'
                 output: 'trivy-results.sarif'
             
