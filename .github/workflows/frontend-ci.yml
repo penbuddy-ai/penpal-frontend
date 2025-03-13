@@ -37,8 +37,14 @@ jobs:
             - name: Run tests
               run: npm run test
             
-            - name: Run end-to-end tests (headless)
-              run: npm run test:e2e:headless
+            - name: Build Next.js app
+              run: npm run build
+              
+            - name: Start Next.js app and run Cypress tests
+              run: |
+                npm run start & 
+                npx wait-on http://localhost:3000
+                npm run test:e2e:headless
             
             - name: Upload test coverage
               if: success()
