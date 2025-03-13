@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { ThemeToggle } from './theme';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ export function Layout({ children }: LayoutProps) {
           <h1 className="text-2xl font-bold text-primary-600 dark:text-primary-400">PenPal AI</h1>
           <div className="flex items-center space-x-4">
             <ThemeToggle />
+            <LanguageSwitcher />
           </div>
         </div>
       </header>
