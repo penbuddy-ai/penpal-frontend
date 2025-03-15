@@ -5,11 +5,38 @@
 
 import React from 'react';
 import theme from '../styles/theme';
+import { ThemeToggle } from './theme';
 
 const StyleGuideDemo = () => {
   return (
     <div className="container py-8">
-      <h1 className="text-3xl font-bold mb-8">PenPal AI - Démonstration de la charte graphique</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">PenPal AI - Démonstration de la charte graphique</h1>
+        <ThemeToggle />
+      </div>
+
+      {/* Dark Mode Demo */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-semibold mb-4">Mode sombre</h2>
+        <div className="p-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 mb-4">
+          <p className="mb-4">
+            Le mode sombre est activé via Tailwind CSS en utilisant la classe{' '}
+            <code className="bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">dark:</code>{' '}
+            comme préfixe. Vous pouvez basculer entre les modes en utilisant les boutons ci-dessus.
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <div className="p-4 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg">
+              Fond clair/sombre
+            </div>
+            <div className="p-4 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg">
+              Fond secondaire
+            </div>
+            <div className="p-4 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-100 border border-primary-200 dark:border-primary-800 rounded-lg">
+              Fond primaire
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Color Palette */}
       <section className="mb-12">
