@@ -3,8 +3,6 @@ import type { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import { motion } from 'framer-motion';
-import { Layout } from '@/components/Layout';
-import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 
