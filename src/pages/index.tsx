@@ -44,10 +44,10 @@ export default function Home() {
             </Link>
 
             <Link
-              href="/chat"
+              href="/onboarding"
               className="bg-secondary-600 text-white px-6 py-3 rounded-md text-lg font-medium hover:bg-secondary-700 transition-colors dark:bg-secondary-700 dark:hover:bg-secondary-600"
             >
-              Essayer le chat
+              Démarrer l&apos;onboarding
             </Link>
           </div>
 
