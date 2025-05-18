@@ -7,10 +7,12 @@ const nextConfig = {
   i18n,
   output: 'standalone',
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_AUTH_API_URL: process.env.NEXT_PUBLIC_AUTH_API_URL,
+    NEXT_PUBLIC_DB_API_URL: process.env.NEXT_PUBLIC_DB_API_URL,
   },
   publicRuntimeConfig: {
-    apiUrl: process.env.NEXT_PUBLIC_API_URL,
+    authApiUrl: process.env.NEXT_PUBLIC_AUTH_API_URL,
+    dbApiUrl: process.env.NEXT_PUBLIC_DB_API_URL,
   },
 };
 

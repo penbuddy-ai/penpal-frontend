@@ -26,7 +26,11 @@ export function Divider({ text, className }: DividerProps) {
     setIsClient(true);
   }, []);
 
-  if (!text || !isClient) {
+  if (!text) {
+    return <hr className={cn('border-t border-gray-200 dark:border-gray-700 my-6', className)} />;
+  }
+
+  if (!isClient) {
     return <hr className={cn('border-t border-gray-200 dark:border-gray-700 my-6', className)} />;
   }
 

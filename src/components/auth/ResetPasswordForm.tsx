@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -48,6 +48,12 @@ export function ResetPasswordForm({
   const { t } = useTranslation('auth');
   const [authError, setAuthError] = useState<string | undefined>(error);
   const [submitted, setSubmitted] = useState<boolean>(isSuccess);
+  const [isClient, setIsClient] = useState(false);
+
+  // Résoudre le problème d'hydratation en retardant le rendu côté client
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Schéma de validation pour le formulaire de réinitialisation de mot de passe
   const resetPasswordSchema = z
@@ -100,85 +106,101 @@ export function ResetPasswordForm({
   if (!token) {
     return (
       <div className="w-full max-w-md space-y-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            {t('resetPassword.invalidLink')}
-          </h1>
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-            {t('resetPassword.invalidLinkMessage')}
-          </p>
-        </div>
-        <div className="text-center">
-          <Link
-            href="/auth/forgot-password"
-            className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
-          >
-            {t('resetPassword.requestNewLink')}
-          </Link>
-        </div>
+        {isClient ? (
+          <>
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                {t('resetPassword.invalidLink')}
+              </h1>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                {t('resetPassword.invalidLinkMessage')}
+              </p>
+            </div>
+            <div className="text-center">
+              <Link
+                href="/auth/forgot-password"
+                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+              >
+                {t('resetPassword.requestNewLink')}
+              </Link>
+            </div>
+          </>
+        ) : (
+          <div className="flex justify-center items-center min-h-[200px]">
+            {/* Placeholder when rendering on server */}
+          </div>
+        )}
       </div>
     );
   }
 
   return (
     <div className="w-full max-w-md space-y-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          {t('resetPassword.title')}
-        </h1>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-          {t('resetPassword.welcome')}
-        </p>
-      </div>
-
-      <AuthError message={authError} />
-
-      {submitted ? (
-        <div className="space-y-6">
-          <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md">
-            <p className="text-green-800 dark:text-green-200 text-sm">
-              {t('resetPassword.success')}
+      {isClient ? (
+        <>
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              {t('resetPassword.title')}
+            </h1>
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+              {t('resetPassword.welcome')}
             </p>
           </div>
-          <div className="text-center">
-            <Link
-              href="/auth/login"
-              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
-            >
-              {t('resetPassword.loginWithNewPassword')}
-            </Link>
-          </div>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
-          <FormField
-            label={t('resetPassword.newPassword')}
-            id="password"
-            required
-            error={errors.password?.message}
-            render={(props) => (
-              <PasswordInput
-                {...props}
-                {...register('password')}
-                placeholder="••••••••"
-                showStrength
+
+          <AuthError message={authError} />
+
+          {submitted ? (
+            <div className="space-y-6">
+              <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md">
+                <p className="text-green-800 dark:text-green-200 text-sm">
+                  {t('resetPassword.success')}
+                </p>
+              </div>
+              <div className="text-center">
+                <Link
+                  href="/auth/login"
+                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+                >
+                  {t('resetPassword.loginWithNewPassword')}
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+              <FormField
+                label={t('resetPassword.newPassword')}
+                id="password"
+                required
+                error={errors.password?.message}
+                render={(props) => (
+                  <PasswordInput
+                    {...props}
+                    {...register('password')}
+                    placeholder="••••••••"
+                    showStrength
+                  />
+                )}
               />
-            )}
-          />
 
-          <FormField
-            label={t('resetPassword.confirmPassword')}
-            id="confirmPassword"
-            type="password"
-            required
-            error={errors.confirmPassword?.message}
-            {...register('confirmPassword')}
-          />
+              <FormField
+                label={t('resetPassword.confirmPassword')}
+                id="confirmPassword"
+                type="password"
+                required
+                error={errors.confirmPassword?.message}
+                {...register('confirmPassword')}
+              />
 
-          <Button type="submit" className="w-full" disabled={!isValid || isLoading}>
-            {isLoading ? t('resetPassword.loading') : t('resetPassword.submit')}
-          </Button>
-        </form>
+              <Button type="submit" className="w-full" disabled={!isValid || isLoading}>
+                {isLoading ? t('resetPassword.loading') : t('resetPassword.submit')}
+              </Button>
+            </form>
+          )}
+        </>
+      ) : (
+        <div className="flex justify-center items-center min-h-[200px]">
+          {/* Placeholder when rendering on server */}
+        </div>
       )}
     </div>
   );

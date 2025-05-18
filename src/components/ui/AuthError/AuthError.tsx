@@ -27,7 +27,8 @@ export function AuthError({ message, className }: AuthErrorProps) {
     setIsClient(true);
   }, []);
 
-  if (!message || !isClient) return null;
+  if (!message) return null;
+  if (!isClient) return null;
 
   return (
     <div
