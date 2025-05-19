@@ -3,15 +3,35 @@ import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import axios from 'axios';
 import { useAuthStore } from '@/store/authStore';
+
+/**
+ * Parse les cookies en objet
+ */
+function parseCookies() {
+  if (typeof document === 'undefined') return {};
+
+  return document.cookie
+    .split(';')
+    .map((cookie) => cookie.trim())
+    .reduce(
+      (acc, cookie) => {
+        const [name, value] = cookie.split('=');
+        if (name && value) {
+          acc[name] = decodeURIComponent(value);
+        }
+        return acc;
+      },
+      {} as Record<string, string>
+    );
+}
 
 /**
  * Page de callback OAuth
  */
 export default function OAuthCallbackPage() {
   const router = useRouter();
-  const { token, error } = router.query;
+  const { error, userData } = router.query;
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const { user } = useAuthStore();
 
@@ -22,7 +42,6 @@ export default function OAuthCallbackPage() {
     if (error) {
       console.error('OAuth error:', error);
       setStatus('error');
-      // Rediriger vers la page de connexion après un délai
       setTimeout(() => {
         router.push('/auth/login');
       }, 3000);
@@ -35,55 +54,42 @@ export default function OAuthCallbackPage() {
       return;
     }
 
-    if (token && typeof token === 'string') {
-      handleOAuthCallback(token);
-    } else {
-      setStatus('error');
-      setTimeout(() => {
-        router.push('/auth/login');
-      }, 3000);
-    }
-  }, [router, token, error, user]);
+    // Traiter la réponse OAuth
+    handleOAuthCallback();
+  }, [router, error, userData, user]);
 
   /**
    * Function to handle the OAuth callback
    */
-  const handleOAuthCallback = async (token: string) => {
+  const handleOAuthCallback = () => {
     try {
-      // Set token in localStorage
-      localStorage.setItem('token', token);
+      if (userData) {
+        // Décoder les informations utilisateur depuis le paramètre d'URL
+        const decodedUserData = decodeURIComponent(userData as string);
+        const parsedUserData = JSON.parse(decodedUserData);
 
-      // Configure axios to use the token
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        // Sauvegarder dans localStorage pour la persistance
+        localStorage.setItem('user', JSON.stringify(parsedUserData));
 
-      // Get user info from API
-      const baseUrl = process.env.NEXT_PUBLIC_AUTH_URL ?? 'http://localhost:3001/auth';
-      const response = await axios.get(`${baseUrl}/api/v1/auth/me`);
-      
-      if (response.data && response.data.user) {
-        // Save user data to localStorage
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        
-        // Update auth store
-        useAuthStore.setState({ 
-          user: response.data.user,
+        // Mettre à jour le store d'authentification
+        useAuthStore.setState({
+          user: parsedUserData,
           isLoading: false,
-          error: null
+          error: null,
         });
-        
+
         setStatus('success');
-        
-        // Redirect to home page after a short delay
+
+        // Rediriger vers la page d'accueil après un court délai
         setTimeout(() => {
           router.push('/');
         }, 1500);
       } else {
-        throw new Error("Impossible de récupérer les données utilisateur");
+        throw new Error("Impossible de récupérer les données utilisateur depuis l'URL");
       }
     } catch (err) {
       console.error('Error handling OAuth response:', err);
       setStatus('error');
-      // Rediriger vers la page de connexion après un délai
       setTimeout(() => {
         router.push('/auth/login');
       }, 3000);
