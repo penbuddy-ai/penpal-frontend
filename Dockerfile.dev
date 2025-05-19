@@ -1,0 +1,16 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Installer les dépendances seulement (sans copier le code source)
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Exposer le port pour Next.js
+EXPOSE 3000
+
+# Variable d'environnement pour désactiver la télémétrie Next.js
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Commande pour lancer le serveur de développement
+CMD ["npm", "run", "dev"] 
