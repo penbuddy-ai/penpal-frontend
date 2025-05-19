@@ -4,6 +4,24 @@ import { Label } from '../Label/Label';
 import { cn } from '@/lib/utils';
 
 /**
+ * Type pour les props passées à la fonction render
+ */
+type FormFieldRenderProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className'> & {
+  /**
+   * ID pour l'input
+   */
+  id?: string;
+  /**
+   * Message d'erreur pour le champ
+   */
+  error?: string;
+  /**
+   * Test ID pour le champ
+   */
+  'data-testid'?: string;
+};
+
+/**
  * FormField component props
  */
 interface FormFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -26,7 +44,7 @@ interface FormFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   /**
    * Custom render function to replace the default Input
    */
-  render?: (props: any) => React.ReactElement;
+  render?: (props: FormFieldRenderProps) => React.ReactElement;
   /**
    * Test ID for the field
    */

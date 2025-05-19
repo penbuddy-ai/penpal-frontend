@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { ResetPasswordForm } from '@/components/auth/ResetPasswordForm';
 
 /**
@@ -16,7 +15,6 @@ interface ResetPasswordPageProps {
  * Reset password page
  */
 export default function ResetPasswordPage({ token }: ResetPasswordPageProps) {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
