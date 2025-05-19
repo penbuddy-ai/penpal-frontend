@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { RegisterForm } from '@/components/auth/RegisterForm';
+import { redirectToOAuth } from '@/lib/auth';
 
 /**
  * Register page
@@ -21,9 +22,11 @@ export default function RegisterPage() {
   };
 
   const handleOAuthLogin = async (provider: 'google' | 'apple') => {
-    // TODO: Implement OAuth login/register logic
-    console.log('OAuth register with provider:', provider);
-    // Exemple: await signIn(provider, { callbackUrl: '/' });
+    try {
+      redirectToOAuth(provider);
+    } catch (error) {
+      console.error(`Error during ${provider} OAuth:`, error);
+    }
   };
 
   return (

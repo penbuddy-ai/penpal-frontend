@@ -3,11 +3,15 @@ import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { LoginForm } from '@/components/auth/LoginForm';
+import { useRouter } from 'next/router';
+import { redirectToOAuth } from '@/lib/auth';
 
 /**
  * Login page
  */
 export default function LoginPage() {
+  const router = useRouter();
+
   const handleLogin = async (data: { email: string; password: string }) => {
     // TODO: Implement login logic with API
     console.log('Login data:', data);
@@ -15,9 +19,11 @@ export default function LoginPage() {
   };
 
   const handleOAuthLogin = async (provider: 'google' | 'apple') => {
-    // TODO: Implement OAuth login logic
-    console.log('OAuth login with provider:', provider);
-    // Exemple: await signIn(provider, { callbackUrl: '/' });
+    try {
+      redirectToOAuth(provider);
+    } catch (error) {
+      console.error(`Error during ${provider} OAuth:`, error);
+    }
   };
 
   return (

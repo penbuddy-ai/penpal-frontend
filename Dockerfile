@@ -4,6 +4,9 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
+# Install all dependencies (including devDependencies) for development
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
 RUN npm ci
 
 # Stage 2: Builder
@@ -15,13 +18,29 @@ COPY . .
 
 RUN npm run build
 
-# Stage 3: Runner
-FROM node:18-alpine AS runner
+# Stage 3: Development
+FROM node:18-alpine AS development
 WORKDIR /app
 
-# Set to production or development environment
-ARG NODE_ENV
-ENV NODE_ENV=${NODE_ENV}
+# Copy all files including node_modules for development
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Set development environment
+ENV NODE_ENV=development
+ENV PORT=3000
+ENV NEXT_TELEMETRY_DISABLED=1
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
+
+# Stage 4: Production
+FROM node:18-alpine AS production
+WORKDIR /app
+
+# Set to production environment
+ENV NODE_ENV=production
 
 # Create a non-root user to run the app
 RUN addgroup --system --gid 1001 nodejs && \
