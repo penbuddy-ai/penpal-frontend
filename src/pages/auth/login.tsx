@@ -5,7 +5,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { useAuth } from '@/store/authStore';
-import { useRouter } from 'next/router';
 import { redirectToOAuth } from '@/lib/auth';
 
 /**
@@ -18,7 +17,7 @@ export default function LoginPage() {
   // Rediriger l'utilisateur s'il est déjà connecté
   useEffect(() => {
     if (user) {
-      router.push('/dashboard');
+      router.push('/');
     }
   }, [user, router]);
 

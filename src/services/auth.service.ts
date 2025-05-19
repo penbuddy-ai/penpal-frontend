@@ -23,7 +23,7 @@ export class AuthService {
 
   private constructor() {
     // Get the API URL from environment or use default
-    this.baseUrl = process.env.NEXT_PUBLIC_AUTH_API_URL ?? 'http://localhost:3001/auth';
+    this.baseUrl = process.env.NEXT_PUBLIC_AUTH_URL ?? 'http://localhost:3001/auth';
   }
 
   /**
@@ -41,7 +41,7 @@ export class AuthService {
    */
   public async login(email: string, password: string): Promise<AuthResponse> {
     try {
-      const response = await axios.post<AuthResponse>(`${this.baseUrl}/login`, {
+      const response = await axios.post<AuthResponse>(`${this.baseUrl}/api/v1/auth/login`, {
         email,
         password,
       });

@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const response = await authService.login(email, password);
         setUser(response.user);
-        router.push('/dashboard');
+        router.push('/chat');
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Erreur de connexion');
         throw err;
@@ -97,7 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const response = await authService.loginWithOAuth(provider, tokenData);
         setUser(response.user);
-        router.push('/dashboard');
+        router.push('/chat');
       } catch (err) {
         setError(err instanceof Error ? err.message : `Erreur de connexion avec ${provider}`);
         throw err;

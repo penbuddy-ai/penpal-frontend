@@ -17,7 +17,7 @@ export default function RegisterPage() {
   // Rediriger l'utilisateur s'il est déjà connecté
   useEffect(() => {
     if (user) {
-      router.push('/dashboard');
+      router.push('/chat');
     }
   }, [user, router]);
 

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
-import { handleOAuthResponse } from '@/lib/auth';
 import Head from 'next/head';
+import axios from 'axios';
+import { useAuthStore } from '@/store/authStore';
 
 /**
  * Page de callback OAuth
@@ -12,6 +13,7 @@ export default function OAuthCallbackPage() {
   const router = useRouter();
   const { token, error } = router.query;
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const { user } = useAuthStore();
 
   useEffect(() => {
     // Vérifier si les paramètres de requête sont disponibles
@@ -27,27 +29,66 @@ export default function OAuthCallbackPage() {
       return;
     }
 
+    // Si l'utilisateur est déjà connecté, rediriger vers la page d'accueil
+    if (user) {
+      router.push('/');
+      return;
+    }
+
     if (token && typeof token === 'string') {
-      try {
-        // Traiter le token et rediriger
-        handleOAuthResponse(token);
-        setStatus('success');
-      } catch (err) {
-        console.error('Error handling OAuth response:', err);
-        setStatus('error');
-        // Rediriger vers la page de connexion après un délai
-        setTimeout(() => {
-          router.push('/auth/login');
-        }, 3000);
-      }
+      handleOAuthCallback(token);
     } else {
+      setStatus('error');
+      setTimeout(() => {
+        router.push('/auth/login');
+      }, 3000);
+    }
+  }, [router, token, error, user]);
+
+  /**
+   * Function to handle the OAuth callback
+   */
+  const handleOAuthCallback = async (token: string) => {
+    try {
+      // Set token in localStorage
+      localStorage.setItem('token', token);
+
+      // Configure axios to use the token
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      // Get user info from API
+      const baseUrl = process.env.NEXT_PUBLIC_AUTH_URL ?? 'http://localhost:3001/auth';
+      const response = await axios.get(`${baseUrl}/api/v1/auth/me`);
+      
+      if (response.data && response.data.user) {
+        // Save user data to localStorage
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        
+        // Update auth store
+        useAuthStore.setState({ 
+          user: response.data.user,
+          isLoading: false,
+          error: null
+        });
+        
+        setStatus('success');
+        
+        // Redirect to home page after a short delay
+        setTimeout(() => {
+          router.push('/');
+        }, 1500);
+      } else {
+        throw new Error("Impossible de récupérer les données utilisateur");
+      }
+    } catch (err) {
+      console.error('Error handling OAuth response:', err);
       setStatus('error');
       // Rediriger vers la page de connexion après un délai
       setTimeout(() => {
         router.push('/auth/login');
       }, 3000);
     }
-  }, [router, token, error]);
+  };
 
   return (
     <>

@@ -126,7 +126,7 @@ export function useAuth() {
   // Fonctions enrichies avec la redirection
   const login = async (email: string, password: string) => {
     await storeLogin(email, password);
-    router.push('/dashboard');
+    router.push('/chat');
   };
 
   const register = async (data: {
@@ -141,7 +141,7 @@ export function useAuth() {
 
   const loginWithOAuth = async (provider: 'google' | 'apple', tokenData: any) => {
     await storeLoginWithOAuth(provider, tokenData);
-    router.push('/dashboard');
+    router.push('/chat');
   };
 
   const logout = async () => {
