@@ -18,6 +18,10 @@ interface UserState {
   isLoading: boolean;
   error: string | null;
 
+  _authCheckPromise: Promise<void> | null;
+  _lastAuthCheck: number;
+  _authCheckCooldown: number;
+
   // Actions d'authentification
   login: (email: string, password: string) => Promise<void>;
   register: (userData: {
@@ -61,6 +65,10 @@ const useUserStore = create<UserState>()(
       isLoading: false,
       error: null,
 
+      _authCheckPromise: null as Promise<void> | null,
+      _lastAuthCheck: 0,
+      _authCheckCooldown: 5000,
+
       // Actions d'authentification
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
@@ -71,6 +79,7 @@ const useUserStore = create<UserState>()(
             isAuthenticated: true,
             isLoading: false,
             error: null,
+            _lastAuthCheck: Date.now(),
           });
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : 'Erreur de connexion';
@@ -114,7 +123,6 @@ const useUserStore = create<UserState>()(
             error: null,
           });
         } catch (error) {
-          // Même en cas d'erreur, on déconnecte localement
           set({
             user: null,
             isAuthenticated: false,
@@ -207,35 +215,57 @@ const useUserStore = create<UserState>()(
         set({ error: null });
       },
 
-      // Vérification d'authentification
       checkAuthStatus: async () => {
-        set({ isLoading: true });
-        try {
-          const isAuthenticated = await authService.checkAuthStatus();
-          if (isAuthenticated) {
-            const user = await authService.getCurrentUser();
-            set({
-              user,
-              isAuthenticated: true,
-              isLoading: false,
-              error: null,
-            });
-          } else {
+        const state = get();
+        const now = Date.now();
+
+        if (state._authCheckPromise) {
+          return state._authCheckPromise;
+        }
+
+        if (state._lastAuthCheck && now - state._lastAuthCheck < state._authCheckCooldown) {
+          return Promise.resolve();
+        }
+
+        const authPromise = (async () => {
+          set({ isLoading: true });
+          try {
+            const isAuthenticated = await authService.checkAuthStatus();
+            if (isAuthenticated) {
+              const user = await authService.getCurrentUser();
+              set({
+                user,
+                isAuthenticated: true,
+                isLoading: false,
+                error: null,
+                _lastAuthCheck: Date.now(),
+                _authCheckPromise: null,
+              });
+            } else {
+              set({
+                user: null,
+                isAuthenticated: false,
+                isLoading: false,
+                error: null,
+                _lastAuthCheck: Date.now(),
+                _authCheckPromise: null,
+              });
+            }
+          } catch (error) {
             set({
               user: null,
               isAuthenticated: false,
               isLoading: false,
               error: null,
+              _lastAuthCheck: Date.now(),
+              _authCheckPromise: null,
             });
           }
-        } catch (error) {
-          set({
-            user: null,
-            isAuthenticated: false,
-            isLoading: false,
-            error: null,
-          });
-        }
+        })();
+
+        set({ _authCheckPromise: authPromise });
+
+        return authPromise;
       },
 
       // Langues (compatibilité avec l'ancien store)

@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/router';
 import useUserStore from '@/store/useUserStore';
 import { authService } from '@/services/auth.service';
@@ -8,6 +8,7 @@ import { authService } from '@/services/auth.service';
  */
 export const useAuth = () => {
   const router = useRouter();
+  const hasInitialized = useRef(false);
   const {
     user,
     isAuthenticated,
@@ -22,11 +23,14 @@ export const useAuth = () => {
   } = useUserStore();
 
   /**
-   * Vérifier le statut d'authentification au chargement
+   * Vérifier le statut d'authentification au chargement (une seule fois)
    */
   useEffect(() => {
-    checkAuthStatus();
-  }, [checkAuthStatus]);
+    if (!hasInitialized.current) {
+      hasInitialized.current = true;
+      checkAuthStatus();
+    }
+  }, []); // Pas de dépendances pour éviter les re-exécutions
 
   /**
    * Connexion avec gestion d'erreurs et redirection
@@ -37,7 +41,6 @@ export const useAuth = () => {
         await login(email, password);
         router.push(redirectTo);
       } catch (error) {
-        console.error('Erreur de connexion:', error);
         throw error;
       }
     },
@@ -53,7 +56,6 @@ export const useAuth = () => {
         await register(userData);
         router.push('/auth/login?message=registration-success');
       } catch (error) {
-        console.error("Erreur d'inscription:", error);
         throw error;
       }
     },
@@ -69,7 +71,6 @@ export const useAuth = () => {
         await logout();
         router.push(redirectTo);
       } catch (error) {
-        console.error('Erreur de déconnexion:', error);
         // Même en cas d'erreur, on redirige
         router.push(redirectTo);
       }

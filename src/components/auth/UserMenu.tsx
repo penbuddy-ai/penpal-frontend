@@ -14,7 +14,7 @@ export const UserMenu: React.FC = () => {
     try {
       await logout();
     } catch (error) {
-      console.error('Erreur lors de la déconnexion:', error);
+      // Erreur silencieuse, on continue la déconnexion
     }
   };
 
@@ -142,6 +142,27 @@ export const UserMenu: React.FC = () => {
                   />
                 </svg>
                 Paramètres
+              </Link>
+
+              <Link
+                href="/pricing"
+                className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <svg
+                  className="w-4 h-4 mr-3 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                  />
+                </svg>
+                Tarifs
               </Link>
 
               {user.role === 'admin' && (

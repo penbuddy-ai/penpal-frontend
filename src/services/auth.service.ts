@@ -12,6 +12,9 @@ export interface User {
   role: string;
   isEmailVerified?: boolean;
   provider?: string;
+  subscriptionPlan?: 'monthly' | 'yearly';
+  subscriptionStatus?: 'trial' | 'active' | 'past_due' | 'canceled' | 'unpaid';
+  subscriptionTrialEnd?: string;
 }
 
 export interface AuthResponse {
