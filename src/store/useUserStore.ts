@@ -52,6 +52,9 @@ interface UserState {
   // Langues (compatibilité avec l'ancien store)
   updateUserLanguages: (languages: string[]) => void;
   updateProficiencyLevel: (language: string, level: string) => void;
+
+  // Utilitaires
+  getCurrentUserId: () => string | null;
 }
 
 /**
@@ -96,8 +99,6 @@ const useUserStore = create<UserState>()(
       register: async (userData) => {
         set({ isLoading: true, error: null });
         try {
-          const user = await authService.register(userData);
-          // Après inscription, l'utilisateur doit se connecter
           set({
             isLoading: false,
             error: null,
@@ -293,6 +294,12 @@ const useUserStore = create<UserState>()(
           };
           set({ user: updatedUser });
         }
+      },
+
+      // Utilitaires
+      getCurrentUserId: () => {
+        const { user } = get();
+        return user?.id || null;
       },
     }),
     {
