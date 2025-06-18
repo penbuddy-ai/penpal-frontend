@@ -12,6 +12,7 @@ export function MessageInput() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const addMessage = useChatStore((state) => state.addMessage);
   const isTyping = useChatStore((state) => state.isTyping);
+  const canSendMessage = useChatStore((state) => state.canSendDemoMessage());
 
   // Auto-resize textarea as content grows
   useEffect(() => {
@@ -22,16 +23,21 @@ export function MessageInput() {
     }
   }, [message]);
 
-  const handleSendMessage = () => {
-    if (message.trim() === '' || isTyping) return;
+  const sendDemoMessage = useChatStore((state) => state.sendDemoMessage);
 
-    addMessage(message.trim(), 'user');
+  const handleSendMessage = async () => {
+    if (message.trim() === '' || isTyping || !canSendMessage) return;
+
+    const messageToSend = message.trim();
     setMessage('');
 
     // Reset textarea height
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
     }
+
+    // Use AI demo instead of the mock message system
+    await sendDemoMessage(messageToSend);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -58,22 +64,26 @@ export function MessageInput() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Écrivez votre message..."
+            placeholder={
+              !canSendMessage
+                ? 'Limite de messages atteinte - utilisez le reset'
+                : 'Écrivez votre message...'
+            }
             className="w-full border border-neutral-300 dark:border-neutral-700 rounded-2xl px-4 py-2 pr-12 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-neutral-800 dark:text-neutral-100 resize-none min-h-[40px] max-h-[150px] leading-normal"
             rows={1}
-            disabled={isTyping}
+            disabled={isTyping || !canSendMessage}
           />
           <div className="absolute right-3 flex items-center">
             <button
               onClick={handleSendMessage}
-              disabled={message.trim() === '' || isTyping}
+              disabled={message.trim() === '' || isTyping || !canSendMessage}
               className={`p-1 rounded-full transition-colors flex items-center justify-center ${
-                message.trim() === '' || isTyping
+                message.trim() === '' || isTyping || !canSendMessage
                   ? 'text-neutral-400 dark:text-neutral-600'
                   : 'text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900'
               }`}
               aria-label="Envoyer"
-              title="Envoyer"
+              title={!canSendMessage ? 'Limite de messages atteinte' : 'Envoyer'}
             >
               <Send size={20} />
             </button>

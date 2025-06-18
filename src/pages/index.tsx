@@ -44,10 +44,13 @@ export default function Home() {
             </Link>
 
             <Link
-              href="/chat"
-              className="bg-secondary-600 text-white px-6 py-3 rounded-md text-lg font-medium hover:bg-secondary-700 transition-colors dark:bg-secondary-700 dark:hover:bg-secondary-600"
+              href="/demo"
+              className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-md text-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-2"
             >
-              Essayer le chat
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Démo AI Gratuite
             </Link>
           </div>
 

@@ -36,3 +36,43 @@ export interface Conversation {
   createdAt: Date;
   updatedAt: Date;
 }
+
+// Demo AI Integration Types
+export type LanguageLevel = 'beginner' | 'intermediate' | 'advanced';
+export type ChatMode = 'tutor' | 'conversation-partner';
+export type SupportedLanguage = 'English' | 'French' | 'Spanish';
+
+export interface DemoChatRequest {
+  message: string;
+  language?: SupportedLanguage;
+  level?: LanguageLevel;
+  mode?: ChatMode;
+}
+
+export interface MessageCorrections {
+  hasErrors: boolean;
+  correctedText: string;
+  errors: string[];
+  explanation: string;
+}
+
+export interface ConversationContext {
+  language: SupportedLanguage;
+  level: LanguageLevel;
+  mode: ChatMode;
+}
+
+export interface DemoChatResponse {
+  success: boolean;
+  data?: {
+    userMessage: string;
+    corrections: MessageCorrections;
+    aiResponse: string;
+    conversationContext: ConversationContext;
+  };
+  timestamp: string;
+  error?: {
+    message: string;
+    details: string;
+  };
+}

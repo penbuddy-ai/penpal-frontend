@@ -2,7 +2,9 @@
  * Chat components exports
  */
 
-export * from './ChatInterface';
-export * from './MessageBubble';
-export * from './MessageInput';
-export * from './TypingIndicator';
+export { ChatInterface } from './ChatInterface';
+export { MessageBubble } from './MessageBubble';
+export { MessageInput } from './MessageInput';
+export { TypingIndicator } from './TypingIndicator';
+export { DemoSettings } from './DemoSettings';
+export { DemoLimitDisplay } from './DemoLimitDisplay';
