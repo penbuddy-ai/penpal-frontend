@@ -26,8 +26,8 @@ export const useSubscription = () => {
     const trialEnd = user.subscriptionTrialEnd ? new Date(user.subscriptionTrialEnd) : null;
     const now = new Date();
 
-    // Vérifications d'état
-    const hasActiveSubscription = status === 'active';
+    // Vérifications d'état - utilise le champ calculé côté backend si disponible
+    const hasActiveSubscription = user.hasActiveSubscription ?? status === 'active';
     const isInTrial = status === 'trial' && trialEnd && trialEnd > now;
     const isTrialExpired = status === 'trial' && trialEnd && trialEnd <= now;
 
