@@ -117,7 +117,7 @@ function TrialSignupFormContent({
 
       // Success!
       onSuccess?.();
-      router.push('/dashboard?welcome=true&trial=true');
+      // router.push('/dashboard?welcome=true&trial=true');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Une erreur est survenue';
       onError?.(errorMessage);
