@@ -18,6 +18,20 @@ export interface User {
   hasActiveSubscription?: boolean;
 }
 
+// Type pour la réponse brute de l'API (avec _id)
+interface ApiUser extends Omit<User, 'id'> {
+  _id: string;
+}
+
+// Fonction utilitaire pour transformer _id en id
+const transformApiUser = (apiUser: ApiUser): User => {
+  const { _id, ...rest } = apiUser;
+  return {
+    id: _id,
+    ...rest,
+  };
+};
+
 export interface AuthResponse {
   access_token: string;
   user: User;
@@ -108,10 +122,18 @@ export class AuthService {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     const validatedData = loginSchema.parse(credentials);
 
-    return this.makeRequest<AuthResponse>('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(validatedData),
-    });
+    const response = await this.makeRequest<{ access_token: string; user: ApiUser }>(
+      '/auth/login',
+      {
+        method: 'POST',
+        body: JSON.stringify(validatedData),
+      }
+    );
+
+    return {
+      access_token: response.access_token,
+      user: transformApiUser(response.user),
+    };
   }
 
   /**
@@ -120,10 +142,12 @@ export class AuthService {
   async register(userData: RegisterData): Promise<User> {
     const validatedData = registerSchema.parse(userData);
 
-    return this.makeRequest<User>('/auth/register', {
+    const apiUser = await this.makeRequest<ApiUser>('/auth/register', {
       method: 'POST',
       body: JSON.stringify(validatedData),
     });
+
+    return transformApiUser(apiUser);
   }
 
   /**
@@ -159,37 +183,67 @@ export class AuthService {
    * Récupérer les données utilisateur après callback OAuth
    */
   async getOAuthSessionUser(sessionToken: string): Promise<{ user: User }> {
-    return this.makeRequest<{ user: User }>(`/auth/oauth/session/user?session=${sessionToken}`);
+    const response = await this.makeRequest<{ user: ApiUser }>(
+      `/auth/oauth/session/user?session=${sessionToken}`
+    );
+
+    return {
+      user: transformApiUser(response.user),
+    };
   }
 
   /**
    * Authentification OAuth Facebook
    */
   async authenticateWithFacebook(accessToken: string): Promise<AuthResponse> {
-    return this.makeRequest<AuthResponse>('/auth/oauth/facebook', {
-      method: 'POST',
-      body: JSON.stringify({ accessToken }),
-    });
+    const response = await this.makeRequest<{ access_token: string; user: ApiUser }>(
+      '/auth/oauth/facebook',
+      {
+        method: 'POST',
+        body: JSON.stringify({ accessToken }),
+      }
+    );
+
+    return {
+      access_token: response.access_token,
+      user: transformApiUser(response.user),
+    };
   }
 
   /**
    * Authentification OAuth Apple
    */
   async authenticateWithApple(idToken: string, authorizationCode?: string): Promise<AuthResponse> {
-    return this.makeRequest<AuthResponse>('/auth/oauth/apple', {
-      method: 'POST',
-      body: JSON.stringify({ idToken, authorizationCode }),
-    });
+    const response = await this.makeRequest<{ access_token: string; user: ApiUser }>(
+      '/auth/oauth/apple',
+      {
+        method: 'POST',
+        body: JSON.stringify({ idToken, authorizationCode }),
+      }
+    );
+
+    return {
+      access_token: response.access_token,
+      user: transformApiUser(response.user),
+    };
   }
 
   /**
    * Authentification OAuth GitHub
    */
   async authenticateWithGitHub(accessToken: string): Promise<AuthResponse> {
-    return this.makeRequest<AuthResponse>('/auth/oauth/github', {
-      method: 'POST',
-      body: JSON.stringify({ accessToken }),
-    });
+    const response = await this.makeRequest<{ access_token: string; user: ApiUser }>(
+      '/auth/oauth/github',
+      {
+        method: 'POST',
+        body: JSON.stringify({ accessToken }),
+      }
+    );
+
+    return {
+      access_token: response.access_token,
+      user: transformApiUser(response.user),
+    };
   }
 
   /**
@@ -216,17 +270,19 @@ export class AuthService {
    * Obtenir le profil utilisateur actuel
    */
   async getCurrentUser(): Promise<User> {
-    return this.makeRequest<User>('/users/me');
+    const apiUser = await this.makeRequest<ApiUser>('/users/me');
+    return transformApiUser(apiUser);
   }
 
   /**
    * Mettre à jour le profil utilisateur
    */
   async updateProfile(userData: Partial<User>): Promise<User> {
-    return this.makeRequest<User>('/users/me', {
+    const apiUser = await this.makeRequest<ApiUser>('/users/me', {
       method: 'PUT',
       body: JSON.stringify(userData),
     });
+    return transformApiUser(apiUser);
   }
 
   /**
