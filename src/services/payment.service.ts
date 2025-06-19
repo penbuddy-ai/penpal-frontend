@@ -1,7 +1,7 @@
 import { SubscriptionPlan } from '@/lib/stripe';
 
 // API Configuration
-const PAYMENT_API_URL = process.env.NEXT_PUBLIC_PAYMENT_API_URL || 'http://localhost:3003';
+const PAYMENT_API_URL = process.env.NEXT_PUBLIC_PAYMENT_API_URL || 'http://localhost:3004';
 
 // Types
 export interface CreateSubscriptionRequest {
