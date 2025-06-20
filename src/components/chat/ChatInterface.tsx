@@ -89,7 +89,11 @@ export function ChatInterface() {
           )}
 
           {currentConversation.messages.map((message) => (
-            <MessageBubble key={message.id} message={message} />
+            <MessageBubble
+              key={message.id}
+              message={message}
+              messageCorrections={currentConversation.messageCorrections?.[message.id]}
+            />
           ))}
 
           {isTyping && <TypingIndicator />}

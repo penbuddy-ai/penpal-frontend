@@ -35,6 +35,7 @@ export interface Conversation {
   messages: ChatMessage[];
   createdAt: Date;
   updatedAt: Date;
+  messageCorrections?: Record<string, MessageCorrections>; // Store corrections by message ID
 }
 
 // Demo AI Integration Types

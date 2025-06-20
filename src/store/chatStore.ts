@@ -278,37 +278,24 @@ export const useChatStore = create<ChatState>()(
             timestamp: new Date(),
           };
 
-          // If there are corrections, update the user message with correction info
+          // Store corrections in conversation metadata for MessageBubble access
           set((state) => ({
             conversations: state.conversations.map((conv) => {
               if (conv.id === currentConversationId) {
-                let updatedMessages = [...conv.messages];
-
-                // Update user message with corrections if any
-                if (corrections.hasErrors) {
-                  updatedMessages = updatedMessages.map((msg) => {
-                    if (msg.id === userMessage.id) {
-                      return {
-                        ...msg,
-                        corrections: [
-                          {
-                            originalText: message,
-                            correctedText: corrections.correctedText,
-                            explanation: corrections.explanation,
-                            type: 'grammar' as const,
-                          },
-                        ],
-                      };
-                    }
-                    return msg;
-                  });
-                }
-
-                return {
+                const updatedConv = {
                   ...conv,
-                  messages: [...updatedMessages, aiMessage],
+                  messages: [...conv.messages, aiMessage],
                   updatedAt: new Date(),
                 };
+
+                // Store corrections in conversation metadata
+                if (corrections.hasErrors) {
+                  (updatedConv as any).messageCorrections = {
+                    [userMessage.id]: corrections,
+                  };
+                }
+
+                return updatedConv;
               }
               return conv;
             }),
