@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
@@ -14,7 +15,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PaymentService } from '@/services/payment.service';
-import { PLANS } from '@/lib/stripe';
+import { getTranslatedPlan } from '@/lib/plan-utils';
+import { SubscriptionPlan } from '@/lib/stripe';
 import {
   CreditCardIcon,
   CalendarIcon,
@@ -29,20 +31,27 @@ import {
 import { ConfirmationModal, AlertModal } from '@/components/ui/Modal';
 import { useModal } from '@/hooks/useModal';
 
-// Profile schema
-const profileSchema = z.object({
-  firstName: z.string().min(2, 'Prénom requis (min. 2 caractères)'),
-  lastName: z.string().min(2, 'Nom requis (min. 2 caractères)'),
-  email: z.string().email('Email invalide'),
-  preferredName: z.string().optional(),
-});
+// Profile schema - we'll use translations in the component
+const createProfileSchema = (t: any) =>
+  z.object({
+    firstName: z.string().min(2, t('validation.firstNameRequired')),
+    lastName: z.string().min(2, t('validation.lastNameRequired')),
+    email: z.string().email(t('validation.emailInvalid')),
+    preferredName: z.string().optional(),
+  });
 
-type ProfileFormValues = z.infer<typeof profileSchema>;
+type ProfileFormValues = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  preferredName?: string;
+};
 
 /**
  * User profile page
  */
 function ProfilePage() {
+  const { t } = useTranslation('profile');
   const { user, isLoading, isHydrated, isAuthenticated, updateProfile } = useHydratedUserStore();
   const router = useRouter();
   const { subscription, getSubscriptionDisplayText } = useSubscription();
@@ -53,6 +62,9 @@ function ProfilePage() {
   const [isClient, setIsClient] = useState(false);
   const cancelModal = useModal();
   const successModal = useModal();
+
+  // Create schema with translations
+  const profileSchema = createProfileSchema(t);
 
   const {
     register,
@@ -102,12 +114,12 @@ function ProfilePage() {
 
     try {
       await updateProfile(data);
-      setMessage({ type: 'success', text: 'Profil mis à jour avec succès !' });
+      setMessage({ type: 'success', text: t('messages.updateSuccess') });
       setIsEditing(false);
     } catch (error) {
       setMessage({
         type: 'error',
-        text: error instanceof Error ? error.message : 'Erreur lors de la mise à jour',
+        text: error instanceof Error ? error.message : t('messages.updateError'),
       });
     } finally {
       setUpdateLoading(false);
@@ -143,8 +155,7 @@ function ProfilePage() {
     } catch (error) {
       setMessage({
         type: 'error',
-        text:
-          error instanceof Error ? error.message : "Erreur lors de l'annulation de l'abonnement",
+        text: error instanceof Error ? error.message : t('messages.cancelError'),
       });
     } finally {
       setCancelLoading(false);
@@ -173,7 +184,7 @@ function ProfilePage() {
               </div>
             </motion.div>
             <p className="text-gray-600 dark:text-gray-300 font-medium">
-              {!isHydrated ? 'Initialisation...' : "Vérification de l'authentification..."}
+              {!isHydrated ? t('loading.initializing') : t('loading.authenticating')}
             </p>
           </motion.div>
         </div>
@@ -185,8 +196,8 @@ function ProfilePage() {
     <ProtectedRoute>
       <Layout>
         <Head>
-          <title>Mon Profil | PenPal AI</title>
-          <meta name="description" content="Gérez votre profil PenPal AI" />
+          <title>{t('title')}</title>
+          <meta name="description" content={t('description')} />
         </Head>
 
         <div className="min-h-[calc(100vh-73px)] bg-gradient-to-br from-blue-50/30 via-purple-50/30 to-pink-50/30 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10 py-8">
@@ -233,7 +244,7 @@ function ProfilePage() {
                   <div className="flex items-center justify-between mb-8">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
                       <UserIcon className="w-5 h-5 mr-3 text-blue-500" />
-                      Informations personnelles
+                      {t('personalInfo')}
                     </h2>
                     {!isEditing && (
                       <Button
@@ -243,7 +254,7 @@ function ProfilePage() {
                         className="flex items-center gap-2"
                       >
                         <EditIcon size={16} />
-                        Modifier
+                        {t('actions.edit')}
                       </Button>
                     )}
                   </div>
@@ -267,7 +278,7 @@ function ProfilePage() {
                   <form onSubmit={handleSubmit(handleUpdateProfile)} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <FormField
-                        label="Prénom"
+                        label={t('firstName')}
                         id="firstName"
                         type="text"
                         disabled={!isEditing}
@@ -276,7 +287,7 @@ function ProfilePage() {
                       />
 
                       <FormField
-                        label="Nom"
+                        label={t('lastName')}
                         id="lastName"
                         type="text"
                         disabled={!isEditing}
@@ -286,7 +297,7 @@ function ProfilePage() {
                     </div>
 
                     <FormField
-                      label="Nom préféré (optionnel)"
+                      label={t('preferredName')}
                       id="preferredName"
                       type="text"
                       disabled={!isEditing}
@@ -295,7 +306,7 @@ function ProfilePage() {
                     />
 
                     <FormField
-                      label="Email"
+                      label={t('email')}
                       id="email"
                       type="email"
                       disabled={!isEditing}
@@ -307,21 +318,21 @@ function ProfilePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                          Langue native
+                          {t('nativeLanguage')}
                         </label>
                         <div className="px-4 py-3 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-900/10 dark:to-purple-900/10 border border-blue-200/30 dark:border-blue-700/30 rounded-xl text-gray-700 dark:text-gray-300">
-                          {user?.nativeLanguage || 'Non définie'}
+                          {user?.nativeLanguage || t('notDefined')}
                         </div>
                       </div>
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                          Langues apprises
+                          {t('learningLanguages')}
                         </label>
                         <div className="px-4 py-3 bg-gradient-to-r from-purple-50/50 to-pink-50/50 dark:from-purple-900/10 dark:to-pink-900/10 border border-purple-200/30 dark:border-purple-700/30 rounded-xl text-gray-700 dark:text-gray-300">
                           {user?.learningLanguages?.length
                             ? user.learningLanguages.join(', ')
-                            : 'Aucune langue sélectionnée'}
+                            : t('noLanguagesSelected')}
                         </div>
                       </div>
                     </div>
@@ -335,16 +346,16 @@ function ProfilePage() {
                           variant="outline"
                           disabled={updateLoading}
                         >
-                          Annuler
+                          {t('actions.cancel')}
                         </Button>
                         <Button type="submit" disabled={!isValid || updateLoading}>
                           {updateLoading ? (
                             <div className="flex items-center gap-2">
                               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                              Mise à jour...
+                              {t('loading.updating')}
                             </div>
                           ) : (
-                            'Sauvegarder'
+                            t('actions.save')
                           )}
                         </Button>
                       </div>
@@ -364,7 +375,7 @@ function ProfilePage() {
                   <div className="flex items-center justify-between mb-8">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
                       <ShieldIcon className="w-5 h-5 mr-3 text-green-500" />
-                      Sécurité
+                      {t('security.title')}
                     </h2>
                   </div>
 
@@ -375,15 +386,15 @@ function ProfilePage() {
                           <KeyIcon className="w-5 h-5 text-blue-500 mr-4" />
                           <div>
                             <h3 className="text-base font-medium text-gray-900 dark:text-white">
-                              Mot de passe
+                              {t('security.password.title')}
                             </h3>
                             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                              Dernière modification récente
+                              {t('security.password.lastModified')}
                             </p>
                           </div>
                         </div>
                         <Button variant="outline" size="sm">
-                          Changer
+                          {t('security.password.change')}
                         </Button>
                       </div>
                     </div>
@@ -394,15 +405,15 @@ function ProfilePage() {
                           <SmartphoneIcon className="w-5 h-5 text-purple-500 mr-4" />
                           <div>
                             <h3 className="text-base font-medium text-gray-900 dark:text-white">
-                              Authentification 2FA
+                              {t('security.twoFactor.title')}
                             </h3>
                             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                              Protection supplémentaire
+                              {t('security.twoFactor.description')}
                             </p>
                           </div>
                         </div>
                         <Button variant="outline" size="sm">
-                          Configurer
+                          {t('security.twoFactor.configure')}
                         </Button>
                       </div>
                     </div>
@@ -422,7 +433,7 @@ function ProfilePage() {
                 <div className="px-8 py-8">
                   <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-8 flex items-center">
                     <CreditCardIcon className="w-6 h-6 mr-3 text-blue-500" />
-                    Mon Abonnement
+                    {t('subscription.title')}
                   </h2>
 
                   {/* Current status */}
@@ -445,14 +456,33 @@ function ProfilePage() {
                         {/* Plan details */}
                         {subscription.plan && (
                           <div className="space-y-3 mb-6">
-                            <div className="text-gray-600 dark:text-gray-300">
-                              <strong>Plan :</strong>{' '}
-                              {PLANS[subscription.plan]?.name || subscription.plan}
-                            </div>
-                            <div className="text-gray-600 dark:text-gray-300">
-                              <strong>Prix :</strong> {PLANS[subscription.plan]?.price || 'N/A'}€/
-                              {PLANS[subscription.plan]?.interval || 'N/A'}
-                            </div>
+                            {(() => {
+                              try {
+                                const translatedPlan = getTranslatedPlan(
+                                  subscription.plan as SubscriptionPlan,
+                                  t
+                                );
+                                return (
+                                  <>
+                                    <div className="text-gray-600 dark:text-gray-300">
+                                      <strong>{t('subscription.plan')} :</strong>{' '}
+                                      {translatedPlan.name}
+                                    </div>
+                                    <div className="text-gray-600 dark:text-gray-300">
+                                      <strong>{t('subscription.price')} :</strong>{' '}
+                                      {translatedPlan.price}€/
+                                      {translatedPlan.interval}
+                                    </div>
+                                  </>
+                                );
+                              } catch {
+                                return (
+                                  <div className="text-gray-600 dark:text-gray-300">
+                                    <strong>{t('subscription.plan')} :</strong> {subscription.plan}
+                                  </div>
+                                );
+                              }
+                            })()}
                           </div>
                         )}
 
@@ -463,17 +493,19 @@ function ProfilePage() {
                               <CalendarIcon className="w-5 h-5 text-yellow-600 mr-3 mt-0.5" />
                               <div>
                                 <h4 className="font-medium text-yellow-800 dark:text-yellow-200">
-                                  Période d'essai gratuit
+                                  {t('subscription.trial.title')}
                                 </h4>
                                 <p className="text-yellow-700 dark:text-yellow-300 text-sm mt-1">
-                                  {subscription.daysLeftInTrial} jour
-                                  {subscription.daysLeftInTrial > 1 ? 's' : ''} restant
-                                  {subscription.daysLeftInTrial > 1 ? 's' : ''}
+                                  {t('subscription.trial.daysLeft', {
+                                    count: subscription.daysLeftInTrial,
+                                  })}
                                   {subscription.trialEnd && (
                                     <span>
                                       {' '}
-                                      • Se termine le{' '}
-                                      {subscription.trialEnd.toLocaleDateString('fr-FR')}
+                                      •{' '}
+                                      {t('subscription.trial.endsOn', {
+                                        date: subscription.trialEnd.toLocaleDateString('fr-FR'),
+                                      })}
                                     </span>
                                   )}
                                 </p>
@@ -489,12 +521,10 @@ function ProfilePage() {
                               <AlertTriangleIcon className="w-5 h-5 text-orange-600 mr-3 mt-0.5" />
                               <div>
                                 <h4 className="font-medium text-orange-800 dark:text-orange-200">
-                                  Abonnement en cours d'annulation
+                                  {t('subscription.canceling.title')}
                                 </h4>
                                 <p className="text-orange-700 dark:text-orange-300 text-sm mt-1">
-                                  Votre abonnement se terminera à la fin de votre période de
-                                  facturation actuelle. Vous garderez l'accès à toutes les
-                                  fonctionnalités jusqu'à cette date.
+                                  {t('subscription.canceling.description')}
                                 </p>
                               </div>
                             </div>
@@ -502,22 +532,40 @@ function ProfilePage() {
                         )}
 
                         {/* Fonctionnalités incluses */}
-                        {subscription.plan && PLANS[subscription.plan] && (
+                        {subscription.plan && (
                           <div>
                             <h4 className="font-medium text-gray-900 dark:text-white mb-4">
-                              Fonctionnalités incluses :
+                              {t('subscription.features.title')}
                             </h4>
-                            <ul className="space-y-3">
-                              {PLANS[subscription.plan].features.map((feature, index) => (
-                                <li
-                                  key={index}
-                                  className="flex items-center text-gray-600 dark:text-gray-300"
-                                >
-                                  <CheckIcon className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
-                                  {feature}
-                                </li>
-                              ))}
-                            </ul>
+                            {(() => {
+                              try {
+                                const translatedPlan = getTranslatedPlan(
+                                  subscription.plan as SubscriptionPlan,
+                                  t
+                                );
+                                return (
+                                  <ul className="space-y-3">
+                                    {translatedPlan.features.map(
+                                      (feature: string, index: number) => (
+                                        <li
+                                          key={index}
+                                          className="flex items-center text-gray-600 dark:text-gray-300"
+                                        >
+                                          <CheckIcon className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
+                                          {feature}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                );
+                              } catch {
+                                return (
+                                  <p className="text-gray-500 dark:text-gray-400 text-sm">
+                                    {t('subscription.plan')} : {subscription.plan}
+                                  </p>
+                                );
+                              }
+                            })()}
                           </div>
                         )}
                       </div>
@@ -532,13 +580,13 @@ function ProfilePage() {
                             disabled={cancelLoading}
                             className="text-red-600 hover:text-red-700 border-red-300 hover:border-red-400"
                           >
-                            Annuler l'abonnement
+                            {t('subscription.actions.cancel')}
                           </Button>
                         )}
 
                         {!subscription.hasActiveSubscription && !subscription.isInTrial && (
                           <Button onClick={() => (window.location.href = '/pricing')} size="sm">
-                            Choisir un plan
+                            {t('subscription.actions.choosePlan')}
                           </Button>
                         )}
 
@@ -548,7 +596,7 @@ function ProfilePage() {
                             variant="outline"
                             size="sm"
                           >
-                            Changer de plan
+                            {t('subscription.actions.changePlan')}
                           </Button>
                         )}
                       </div>
@@ -562,14 +610,13 @@ function ProfilePage() {
                         <AlertTriangleIcon className="w-5 h-5 text-red-600 mr-3 mt-0.5" />
                         <div>
                           <h4 className="font-medium text-red-800 dark:text-red-200">
-                            Essai gratuit expiré
+                            {t('subscription.trialExpired.title')}
                           </h4>
                           <p className="text-red-700 dark:text-red-300 text-sm mt-1 mb-4">
-                            Votre période d'essai a pris fin. Choisissez un plan pour continuer à
-                            utiliser Penpal AI.
+                            {t('subscription.trialExpired.description')}
                           </p>
                           <Button onClick={() => (window.location.href = '/pricing')} size="sm">
-                            Voir les plans
+                            {t('subscription.actions.viewPlans')}
                           </Button>
                         </div>
                       </div>
@@ -588,10 +635,10 @@ function ProfilePage() {
               isOpen={cancelModal.isOpen}
               onClose={cancelModal.closeModal}
               onConfirm={handleCancelSubscription}
-              title="Annuler votre abonnement"
-              message="Êtes-vous sûr de vouloir annuler votre abonnement ? Vous garderez l'accès jusqu'à la fin de votre période de facturation actuelle, mais votre abonnement ne sera pas renouvelé."
-              confirmText="Oui, annuler"
-              cancelText="Non, garder"
+              title={t('modals.cancelSubscription.title')}
+              message={t('modals.cancelSubscription.message')}
+              confirmText={t('modals.cancelSubscription.confirm')}
+              cancelText={t('modals.cancelSubscription.cancel')}
               type="danger"
               isLoading={cancelLoading}
             />
@@ -599,10 +646,10 @@ function ProfilePage() {
             <AlertModal
               isOpen={successModal.isOpen}
               onClose={successModal.closeModal}
-              title="Abonnement annulé avec succès"
-              message="Votre abonnement a été annulé et se terminera à la fin de votre période de facturation actuelle. Vous garderez l'accès à toutes les fonctionnalités jusqu'à cette date."
+              title={t('modals.subscriptionCanceled.title')}
+              message={t('modals.subscriptionCanceled.message')}
               type="success"
-              closeText="D'accord"
+              closeText={t('modals.subscriptionCanceled.close')}
             />
           </>
         )}
@@ -622,7 +669,7 @@ export default ProfilePage;
 export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'auth'])),
+      ...(await serverSideTranslations(locale, ['common', 'auth', 'profile'])),
     },
   };
 };

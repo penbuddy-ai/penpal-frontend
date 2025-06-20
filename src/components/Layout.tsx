@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'next-i18next';
 import { ThemeToggle } from './theme';
 import LanguageSwitcher from './LanguageSwitcher';
 import { UserMenu } from './auth/UserMenu';
@@ -17,6 +18,7 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -39,13 +41,13 @@ export function Layout({ children }: LayoutProps) {
             {isAuthenticated && (
               <nav className="hidden md:flex space-x-6">
                 <NavLink href="/chat" active={router.pathname === '/chat'}>
-                  Chat
+                  {t('navigation.chat')}
                 </NavLink>
                 <NavLink href="/progress" active={router.pathname === '/progress'}>
-                  Progrès
+                  {t('navigation.progress')}
                 </NavLink>
                 <NavLink href="/about" active={router.pathname === '/about'}>
-                  À propos
+                  {t('navigation.about')}
                 </NavLink>
               </nav>
             )}
@@ -54,10 +56,10 @@ export function Layout({ children }: LayoutProps) {
             {!isAuthenticated && !isLoading && (
               <nav className="hidden md:flex space-x-6">
                 <NavLink href="/about" active={router.pathname === '/about'}>
-                  À propos
+                  {t('navigation.about')}
                 </NavLink>
                 <NavLink href="/features" active={router.pathname === '/features'}>
-                  Fonctionnalités
+                  {t('navigation.features')}
                 </NavLink>
               </nav>
             )}
@@ -79,7 +81,7 @@ export function Layout({ children }: LayoutProps) {
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-neutral-600 dark:text-neutral-400 mb-4 md:mb-0">
-              © 2025 PenPal AI. Tous droits réservés.
+              {t('footer.copyright')}
             </p>
 
             {/* Liens du footer */}
@@ -88,19 +90,19 @@ export function Layout({ children }: LayoutProps) {
                 href="/privacy"
                 className="text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
               >
-                Confidentialité
+                {t('footer.privacy')}
               </Link>
               <Link
                 href="/terms"
                 className="text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
               >
-                Conditions
+                {t('footer.terms')}
               </Link>
               <Link
                 href="/support"
                 className="text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
               >
-                Support
+                {t('footer.support')}
               </Link>
             </div>
           </div>

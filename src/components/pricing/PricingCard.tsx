@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { SubscriptionPlan, PLANS } from '@/lib/stripe';
+import { SubscriptionPlan } from '@/lib/stripe';
 import { CheckIcon } from 'lucide-react';
+import { useTranslation } from 'next-i18next';
+import { getTranslatedPlan } from '@/lib/plan-utils';
 
 interface PricingCardProps {
   plan: SubscriptionPlan;
@@ -18,7 +20,8 @@ export function PricingCard({
   loading = false,
   currentPlan,
 }: PricingCardProps) {
-  const planDetails = PLANS[plan];
+  const { t } = useTranslation('pages');
+  const planDetails = getTranslatedPlan(plan, t);
   const isCurrentPlan = currentPlan === plan;
   const [isHovered, setIsHovered] = useState(false);
 
@@ -41,7 +44,7 @@ export function PricingCard({
       {isPopular && (
         <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
           <span className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium">
-            Le plus populaire
+            {t('components.pricingCard.popular')}
           </span>
         </div>
       )}
@@ -50,7 +53,7 @@ export function PricingCard({
       {isCurrentPlan && (
         <div className="absolute -top-3 right-4">
           <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-            Plan actuel
+            {t('components.pricingCard.currentPlan')}
           </span>
         </div>
       )}
@@ -70,7 +73,7 @@ export function PricingCard({
         {plan === SubscriptionPlan.YEARLY && 'savings' in planDetails && planDetails.savings && (
           <div className="mt-2">
             <span className="inline-block bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full">
-              Économisez {planDetails.savings}€/an
+              {t('components.pricingCard.savings', { amount: planDetails.savings })}
             </span>
           </div>
         )}
@@ -78,7 +81,7 @@ export function PricingCard({
 
       {/* Features */}
       <ul className="space-y-3 mb-8">
-        {planDetails.features.map((feature, index) => (
+        {planDetails.features.map((feature: string, index: number) => (
           <li key={index} className="flex items-start">
             <CheckIcon className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
             <span className="text-gray-700">{feature}</span>
@@ -105,15 +108,16 @@ export function PricingCard({
         {loading ? (
           <div className="flex items-center justify-center">
             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-            Chargement...
+            {t('components.pricingCard.loading')}
           </div>
         ) : isCurrentPlan ? (
-          'Plan actuel'
+          t('components.pricingCard.currentPlan')
         ) : (
           <>
-            Commencer{' '}
-            {plan === SubscriptionPlan.YEARLY ? "l'abonnement annuel" : "l'abonnement mensuel"}
-            <div className="text-sm opacity-80 mt-1">30 jours gratuits • Carte requise</div>
+            {plan === SubscriptionPlan.YEARLY
+              ? t('components.pricingCard.startYearly')
+              : t('components.pricingCard.startMonthly')}
+            <div className="text-sm opacity-80 mt-1">{t('components.pricingCard.trialInfo')}</div>
           </>
         )}
       </motion.button>
@@ -121,7 +125,7 @@ export function PricingCard({
       {/* Trial Info */}
       {!isCurrentPlan && (
         <p className="text-xs text-gray-500 text-center mt-3">
-          Validation de carte requise • Paiement de 0€ • Aucun frais pendant l'essai
+          {t('components.pricingCard.validationInfo')}
         </p>
       )}
     </motion.div>

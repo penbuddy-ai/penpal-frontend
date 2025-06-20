@@ -1,6 +1,7 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { LoginForm } from '@/components/auth/LoginForm';
@@ -14,6 +15,7 @@ import { MessageCircle, Sparkles, ArrowLeft, Users } from 'lucide-react';
  * Login page
  */
 export default function LoginPage() {
+  const { t } = useTranslation('pages');
   const router = useRouter();
   const { login, isLoading, error } = useUserStore();
 
@@ -47,8 +49,8 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Connexion | PenPal</title>
-        <meta name="description" content="Connectez-vous à votre compte PenPal" />
+        <title>{t('auth.loginPage.title')}</title>
+        <meta name="description" content={t('auth.loginDescription')} />
       </Head>
 
       <div className="min-h-screen relative overflow-hidden">
@@ -119,7 +121,7 @@ export default function LoginPage() {
                 className="mr-2 transition-transform group-hover:-translate-x-1"
                 size={20}
               />
-              Retour à l'accueil
+              {t('auth.loginPage.backToHome')}
             </Link>
           </motion.div>
 
@@ -132,11 +134,11 @@ export default function LoginPage() {
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Bon retour !
+                {t('auth.loginPage.welcome')}
               </span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-md mx-auto">
-              Connectez-vous pour continuer vos conversations 💬
+              {t('auth.loginPage.subtitle')}
             </p>
           </motion.div>
 
@@ -165,12 +167,12 @@ export default function LoginPage() {
             className="text-center mt-8 space-y-4"
           >
             <p className="text-gray-600 dark:text-gray-400">
-              Pas encore de compte ?{' '}
+              {t('auth.loginPage.noAccount')}{' '}
               <Link
                 href="/auth/register"
                 className="font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
               >
-                Créez-en un gratuitement
+                {t('auth.loginPage.createAccountFree')}
               </Link>
             </p>
           </motion.div>
@@ -186,7 +188,7 @@ export default function LoginPage() {
 export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'auth'])),
+      ...(await serverSideTranslations(locale, ['common', 'auth', 'pages'])),
     },
   };
 };

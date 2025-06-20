@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -12,6 +13,7 @@ import { Loader2, CheckCircle, XCircle, ArrowRight, Home } from 'lucide-react';
  * Page de callback OAuth sécurisé
  */
 export default function OAuthCallbackPage() {
+  const { t } = useTranslation('pages');
   const router = useRouter();
   const { session, error: queryError } = router.query;
   const { handleOAuthCallback, isLoading, error } = useUserStore();
@@ -253,7 +255,7 @@ export default function OAuthCallbackPage() {
                       href="/auth/login"
                       className="inline-flex items-center justify-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-2xl transition-colors"
                     >
-                      Retour à la connexion
+                      {t('auth.callbackPage.backToLogin')}
                       <ArrowRight className="ml-2" size={16} />
                     </Link>
 

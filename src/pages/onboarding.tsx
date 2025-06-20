@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useHydratedUserStore } from '@/hooks/useHydratedUserStore';
 import { useOnboardingStore } from '@/store/onboardingStore';
 import { OnboardingFlow } from '@/components/onboarding/OnboardingFlow';
@@ -118,8 +120,10 @@ export default function OnboardingPage() {
 }
 
 // Static props for better performance
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
   return {
-    props: {},
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'onboarding'])),
+    },
   };
-}
+};

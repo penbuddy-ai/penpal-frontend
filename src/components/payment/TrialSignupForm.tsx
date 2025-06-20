@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { getStripe, SubscriptionPlan, PLANS } from '../../lib/stripe';
+import { getStripe, SubscriptionPlan } from '../../lib/stripe';
 import { PaymentService, CreateSubscriptionWithCardRequest } from '../../services/payment.service';
 import { CheckIcon, CreditCardIcon } from 'lucide-react';
+import { useTranslation } from 'next-i18next';
+import { getTranslatedPlan } from '../../lib/plan-utils';
 
 interface TrialSignupFormProps {
   userId: string;
@@ -46,12 +48,13 @@ function TrialSignupFormContent({
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
+  const { t } = useTranslation('pages');
   const [loading, setLoading] = useState(false);
   const [cardComplete, setCardComplete] = useState(false);
   const [currentStep, setCurrentStep] = useState<'info' | 'card' | 'processing'>('info');
   const [stripeReady, setStripeReady] = useState(false);
 
-  const planDetails = PLANS[selectedPlan];
+  const planDetails = getTranslatedPlan(selectedPlan, t);
 
   // Check if Stripe is ready
   React.useEffect(() => {
@@ -66,14 +69,14 @@ function TrialSignupFormContent({
     event.preventDefault();
 
     if (!stripe || !elements) {
-      onError?.("Stripe n'est pas encore initialisé. Veuillez rafraîchir la page.");
+      onError?.(t('components.trialSignupForm.errors.stripeNotReady'));
       return;
     }
 
     const cardElement = elements.getElement(CardElement);
 
     if (!cardElement) {
-      onError?.('Élément de carte non trouvé. Veuillez rafraîchir la page.');
+      onError?.(t('components.trialSignupForm.errors.cardElementNotFound'));
       return;
     }
 
@@ -98,7 +101,7 @@ function TrialSignupFormContent({
       }
 
       if (!paymentMethod) {
-        throw new Error('Failed to create payment method');
+        throw new Error(t('components.trialSignupForm.errors.paymentMethodFailed'));
       }
 
       // Only change step after successful payment method creation
@@ -118,7 +121,8 @@ function TrialSignupFormContent({
       // Success! Call the success callback which will handle navigation
       onSuccess?.();
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Une erreur est survenue';
+      const errorMessage =
+        err instanceof Error ? err.message : t('components.trialSignupForm.errors.generalError');
       onError?.(errorMessage);
       setCurrentStep('card');
     } finally {
@@ -147,7 +151,9 @@ function TrialSignupFormContent({
             >
               {currentStep === 'info' ? '1' : <CheckIcon className="w-4 h-4 text-white" />}
             </div>
-            <span className="ml-2 font-medium">Plan sélectionné</span>
+            <span className="ml-2 font-medium">
+              {t('components.trialSignupForm.steps.planSelected')}
+            </span>
           </div>
 
           <div className="flex-1 h-1 mx-4 bg-gray-200 rounded">
@@ -182,7 +188,9 @@ function TrialSignupFormContent({
                 <CreditCardIcon className="w-4 h-4" />
               )}
             </div>
-            <span className="ml-2 font-medium">Informations de paiement</span>
+            <span className="ml-2 font-medium">
+              {t('components.trialSignupForm.steps.paymentInfo')}
+            </span>
           </div>
         </div>
       </div>
@@ -195,8 +203,12 @@ function TrialSignupFormContent({
           className="bg-white rounded-2xl border border-gray-200 p-8"
         >
           <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Confirmez votre choix</h2>
-            <p className="text-gray-600">Vous avez sélectionné le plan {planDetails.name}</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              {t('components.trialSignupForm.confirmChoice')}
+            </h2>
+            <p className="text-gray-600">
+              {t('components.trialSignupForm.selectedPlan', { plan: planDetails.name })}
+            </p>
           </div>
 
           {/* Plan Summary */}
@@ -217,10 +229,11 @@ function TrialSignupFormContent({
               <div className="flex items-center">
                 <span className="text-2xl mr-3">🎉</span>
                 <div>
-                  <h4 className="font-semibold text-green-800">30 jours gratuits inclus !</h4>
+                  <h4 className="font-semibold text-green-800">
+                    {t('components.trialSignupForm.trialBanner.title')}
+                  </h4>
                   <p className="text-green-700 text-sm">
-                    Profitez de toutes les fonctionnalités sans payer maintenant. Le paiement
-                    commencera après votre période d'essai.
+                    {t('components.trialSignupForm.trialBanner.description')}
                   </p>
                 </div>
               </div>
@@ -228,7 +241,7 @@ function TrialSignupFormContent({
 
             {/* Features */}
             <div className="space-y-2">
-              {planDetails.features.map((feature, index) => (
+              {planDetails.features.map((feature: string, index: number) => (
                 <div key={index} className="flex items-center">
                   <CheckIcon className="h-4 w-4 text-green-500 mr-3" />
                   <span className="text-gray-700 text-sm">{feature}</span>
@@ -244,14 +257,14 @@ function TrialSignupFormContent({
                 onClick={onBack}
                 className="flex-1 py-3 px-6 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-colors"
               >
-                Retour
+                {t('components.trialSignupForm.back')}
               </button>
             )}
             <button
               onClick={handleContinueToCard}
               className="flex-1 py-3 px-6 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
             >
-              Continuer
+              {t('components.trialSignupForm.continue')}
             </button>
           </div>
         </motion.div>
@@ -268,19 +281,21 @@ function TrialSignupFormContent({
             <div className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-10 rounded-2xl">
               <div className="text-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Traitement en cours...</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {t('components.trialSignupForm.processing.title')}
+                </h3>
                 <p className="text-gray-600">
-                  Validation de votre carte et création de votre compte
+                  {t('components.trialSignupForm.processing.description')}
                 </p>
               </div>
             </div>
           )}
 
           <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Informations de paiement</h2>
-            <p className="text-gray-600">
-              Nous validons votre carte avec un paiement de 0€ pour sécuriser votre essai gratuit
-            </p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              {t('components.trialSignupForm.paymentTitle')}
+            </h2>
+            <p className="text-gray-600">{t('components.trialSignupForm.paymentDescription')}</p>
           </div>
 
           <form
@@ -293,15 +308,16 @@ function TrialSignupFormContent({
                 <span className="text-blue-500 text-xl mr-3">🔒</span>
                 <div>
                   <h4 className="font-semibold text-blue-900 mb-1">
-                    Pourquoi demandons-nous votre carte maintenant ?
+                    {t('components.trialSignupForm.securityBanner.title')}
                   </h4>
                   <ul className="text-blue-800 text-sm space-y-1">
-                    <li>
-                      • Validation avec un paiement de <strong>0€</strong> (aucun frais)
-                    </li>
-                    <li>• Transition automatique après les 30 jours gratuits</li>
-                    <li>• Vous pouvez annuler à tout moment</li>
-                    <li>• Vos données sont sécurisées par Stripe</li>
+                    {(
+                      t('components.trialSignupForm.securityBanner.reasons', {
+                        returnObjects: true,
+                      }) as string[]
+                    ).map((reason: string, index: number) => (
+                      <li key={index} dangerouslySetInnerHTML={{ __html: `• ${reason}` }} />
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -310,7 +326,7 @@ function TrialSignupFormContent({
             {/* Card Input */}
             <div className="space-y-4">
               <label className="block text-sm font-medium text-gray-700">
-                Informations de carte bancaire
+                {t('components.trialSignupForm.cardLabel')}
               </label>
 
               <div className="border border-gray-300 rounded-lg p-4 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
@@ -326,8 +342,7 @@ function TrialSignupFormContent({
               </div>
 
               <p className="text-xs text-gray-500">
-                Vos informations sont sécurisées et chiffrées par Stripe. Aucun paiement ne sera
-                effectué pendant votre essai gratuit.
+                {t('components.trialSignupForm.cardSecurityInfo')}
               </p>
             </div>
 
@@ -338,7 +353,7 @@ function TrialSignupFormContent({
                 onClick={() => setCurrentStep('info')}
                 className="flex-1 py-3 px-6 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-colors"
               >
-                Retour
+                {t('components.trialSignupForm.back')}
               </button>
 
               <motion.button
@@ -357,10 +372,10 @@ function TrialSignupFormContent({
                 {loading ? (
                   <div className="flex items-center justify-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Validation en cours...
+                    {t('components.trialSignupForm.validating')}
                   </div>
                 ) : (
-                  'Commencer mon essai gratuit'
+                  t('components.trialSignupForm.startTrial')
                 )}
               </motion.button>
             </div>
@@ -372,16 +387,21 @@ function TrialSignupFormContent({
 }
 
 export function TrialSignupForm(props: TrialSignupFormProps) {
+  const { t } = useTranslation('pages');
   const [stripeError, setStripeError] = useState<string | null>(null);
 
   const stripePromise = React.useMemo(() => {
     try {
       return getStripe();
     } catch (error) {
-      setStripeError(error instanceof Error ? error.message : 'Erreur de chargement Stripe');
+      setStripeError(
+        error instanceof Error
+          ? error.message
+          : t('components.trialSignupForm.errors.stripeLoadError')
+      );
       return null;
     }
-  }, []);
+  }, [t]);
 
   if (stripeError) {
     return (
@@ -391,23 +411,28 @@ export function TrialSignupForm(props: TrialSignupFormProps) {
             <span className="text-red-500 text-xl mr-3">⚠️</span>
             <div>
               <h3 className="font-medium text-red-800 mb-2">
-                Erreur de chargement du système de paiement
+                {t('components.trialSignupForm.errors.stripeLoadError')}
               </h3>
               <p className="text-red-700 text-sm mb-4">{stripeError}</p>
               <div className="text-red-700 text-sm">
-                <p className="font-medium mb-2">Solutions :</p>
+                <p className="font-medium mb-2">
+                  {t('components.trialSignupForm.solutions.title')}
+                </p>
                 <ul className="list-disc list-inside space-y-1">
-                  <li>Désactivez votre bloqueur de publicités</li>
-                  <li>Ajoutez *.stripe.com à votre liste blanche</li>
-                  <li>Essayez en mode navigation privée</li>
-                  <li>Utilisez un autre navigateur</li>
+                  {(
+                    t('components.trialSignupForm.solutions.list', {
+                      returnObjects: true,
+                    }) as string[]
+                  ).map((solution: string, index: number) => (
+                    <li key={index}>{solution}</li>
+                  ))}
                 </ul>
               </div>
               <button
                 onClick={() => window.location.reload()}
                 className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
               >
-                Rafraîchir la page
+                {t('components.trialSignupForm.refreshPage')}
               </button>
             </div>
           </div>
@@ -421,7 +446,7 @@ export function TrialSignupForm(props: TrialSignupFormProps) {
       <div className="max-w-2xl mx-auto">
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Chargement du système de paiement...</p>
+          <p className="text-gray-600">{t('components.trialSignupForm.errors.loadingStripe')}</p>
         </div>
       </div>
     );

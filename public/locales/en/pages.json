@@ -1,0 +1,273 @@
+{
+  "home": {
+    "title": "PenPal - Your conversational AI to learn languages",
+    "description": "Learn languages naturally with your conversational AI partner. 24/7 conversations, personalized corrections and adapted progression.",
+    "hero": {
+      "mainTitle": "Speak",
+      "mainSubtitle": "Naturally",
+      "subtitle": "Your conversational AI partner to <highlight>master languages</highlight> by chatting naturally 🌟",
+      "welcomeBack": "Welcome back, ",
+      "startChat": "Start chatting",
+      "signUpFree": "Get started for free",
+      "signIn": "Sign in",
+      "demoFree": "Free AI Demo"
+    },
+    "features": {
+      "chat247": {
+        "title": "24/7 Conversations",
+        "description": "Chat whenever you want with your always-available AI"
+      },
+      "smartCorrections": {
+        "title": "Smart corrections",
+        "description": "Learn from your mistakes with contextual corrections"
+      },
+      "naturalProgress": {
+        "title": "Progress naturally",
+        "description": "Adapt your learning to your pace and level"
+      }
+    }
+  },
+  "demo": {
+    "title": "Discover artificial intelligence for language learning",
+    "description": "Practice your language skills with PenPal AI"
+  },
+  "pricing": {
+    "title": "Choose your Penpal AI plan",
+    "subtitle": "Start with 30 days free. Credit card required for validation. Cancel anytime.",
+    "trialWarning": "Your free trial ends in {{days}} day(s). Select a plan to continue.",
+    "hello": "Hello {{firstName}} {{lastName}}!",
+    "authNotice": "💡 Sign in to see your subscription status and start your trial",
+    "subscription": {
+      "trialActive": "🎉 Free trial active - {{days}} day(s) remaining",
+      "activeSubscription": "✅ Active subscription - {{plan}} Plan",
+      "alreadyActive": "You already have an active subscription. Plan changes coming soon!"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "afterTrial": {
+        "question": "What happens after the 30 free days?",
+        "answer": "After your trial period, your subscription renews automatically to the chosen plan. You can cancel anytime before the trial ends."
+      },
+      "changePlan": {
+        "question": "Can I change plans anytime?",
+        "answer": "Yes, you can switch from monthly to yearly plan (or vice versa) anytime from your account settings."
+      },
+      "hiddenFees": {
+        "question": "Are there any hidden fees?",
+        "answer": "No, our pricing is transparent. No setup, configuration or cancellation fees."
+      }
+    },
+    "contact": "Questions? Contact us at"
+  },
+  "checkout": {
+    "title": "Start your free trial",
+    "planSelected": "{{planName}} Plan selected • 30 days free • Then {{price}}€/{{interval}}",
+    "welcome": "Welcome {{firstName}} {{lastName}}!",
+    "error": {
+      "title": "Registration error",
+      "retry": "Try again"
+    },
+    "trustSignals": {
+      "secure": "Secure payment by Stripe",
+      "noCommitment": "No commitment",
+      "easyCancel": "Cancel in 1 click"
+    },
+    "contact": "Questions? Contact us at"
+  },
+  "checkoutSuccess": {
+    "title": "Congratulations! 🎉",
+    "subtitle": "Your free trial has been successfully activated",
+    "welcome": "Welcome {{firstName}}, you can now enjoy Penpal AI!",
+    "features": {
+      "days": "30 days",
+      "trial": "Free trial",
+      "unlimited": "Unlimited",
+      "conversations": "Conversations",
+      "support24": "24/7",
+      "support": "Support"
+    },
+    "reminder": {
+      "title": "Reminder:",
+      "text": "Your trial period ends in 30 days. You can cancel anytime from your profile."
+    },
+    "actions": {
+      "startChat": "Start chatting",
+      "viewProfile": "View my profile"
+    },
+    "autoRedirect": "Auto-redirecting to chat in {{countdown}} seconds",
+    "contact": "Questions? Contact us at"
+  },
+  "components": {
+    "pricingCard": {
+      "popular": "Most popular",
+      "currentPlan": "Current plan",
+      "savings": "Save {{amount}}€/year",
+      "startMonthly": "Start monthly subscription",
+      "startYearly": "Start yearly subscription",
+      "trialInfo": "30 days free • Card required",
+      "validationInfo": "Card validation required • €0 payment • No charges during trial",
+      "loading": "Loading..."
+    },
+    "trialSignupForm": {
+      "steps": {
+        "planSelected": "Plan selected",
+        "paymentInfo": "Payment information"
+      },
+      "confirmChoice": "Confirm your choice",
+      "selectedPlan": "You have selected the {{plan}} plan",
+      "trialBanner": {
+        "title": "30 days free included!",
+        "description": "Enjoy all features without paying now. Payment will start after your trial period."
+      },
+      "back": "Back",
+      "continue": "Continue",
+      "paymentTitle": "Payment information",
+      "paymentDescription": "We validate your card with a €0 payment to secure your free trial",
+      "processing": {
+        "title": "Processing...",
+        "description": "Validating your card and creating your account"
+      },
+      "securityBanner": {
+        "title": "Why do we ask for your card now?",
+        "reasons": [
+          "Validation with a €0 payment (no charges)",
+          "Automatic transition after 30 free days",
+          "You can cancel anytime",
+          "Your data is secured by Stripe"
+        ]
+      },
+      "cardLabel": "Credit card information",
+      "cardSecurityInfo": "Your information is secured and encrypted by Stripe. No payment will be made during your free trial.",
+      "startTrial": "Start my free trial",
+      "validating": "Validating...",
+      "errors": {
+        "stripeNotReady": "Stripe is not yet initialized. Please refresh the page.",
+        "cardElementNotFound": "Card element not found. Please refresh the page.",
+        "paymentMethodFailed": "Failed to create payment method",
+        "generalError": "An error occurred",
+        "stripeLoadError": "Payment system loading error",
+        "loadingStripe": "Loading payment system..."
+      },
+      "solutions": {
+        "title": "Solutions:",
+        "list": [
+          "Disable your ad blocker",
+          "Add *.stripe.com to your whitelist",
+          "Try in private browsing mode",
+          "Use a different browser"
+        ]
+      },
+      "refreshPage": "Refresh page"
+    }
+  },
+  "plans": {
+    "monthly": {
+      "name": "Monthly",
+      "description": "Full access to Penpal AI",
+      "features": [
+        "Advanced conversational AI",
+        "Content generation",
+        "Email support",
+        "Mobile and desktop access"
+      ]
+    },
+    "yearly": {
+      "name": "Yearly",
+      "description": "Full access to Penpal AI (save 2 months)",
+      "features": [
+        "Advanced conversational AI",
+        "Content generation",
+        "Priority support",
+        "Mobile and desktop access",
+        "2 months free",
+        "Early access to new features"
+      ]
+    },
+    "intervals": {
+      "month": "month",
+      "year": "year"
+    }
+  },
+  "userMenu": {
+    "login": "Login",
+    "register": "Sign up",
+    "profile": "My profile",
+    "admin": "Administration",
+    "logout": "Logout"
+  },
+  "auth": {
+    "callbackLoading": "Finalizing your secure connection",
+    "callbackSuccess": "Welcome! You will be redirected to the home page...",
+    "callbackError": "Authentication error",
+    "callbackErrorMessage": "An error occurred during authentication.",
+    "redirecting": "Redirecting to login in {{countdown}} second{{plural}}",
+    "backToLogin": "Back to login",
+    "backToHome": "Back to home",
+    "forgotPasswordTitle": "Forgot password | PenPal",
+    "forgotPasswordDescription": "Recover access to your PenPal account by resetting your password",
+    "forgotPasswordHint": "No problem! Enter your email and we'll send you a reset link.",
+    "forgotPasswordRemember": "Remember your password?",
+    "forgotPasswordContact": "If you don't receive the email, check your spam folder or contact our support.",
+    "resetPasswordTitle": "Reset password | PenPal",
+    "resetPasswordDescription": "Create a new secure password for your PenPal account",
+    "resetPasswordInstruction": "Create a secure password to protect your account 🔐",
+    "resetPasswordRemember": "Remember your password?",
+    "loginDescription": "Log in to your PenPal account",
+    "loginWelcome": "Welcome back!",
+    "loginSubtitle": "Log in to continue your conversations 💬",
+    "registerDescription": "Create your PenPal account to start learning",
+    "loginPage": {
+      "title": "Login | PenPal",
+      "backToHome": "Back to home",
+      "welcome": "Welcome back!",
+      "subtitle": "Log in to continue your conversations 💬",
+      "noAccount": "Don't have an account yet?",
+      "createAccountFree": "Create one for free"
+    },
+    "registerPage": {
+      "title": "Sign up | PenPal",
+      "description": "Create your PenPal account for free and start learning languages",
+      "backToHome": "Back to home",
+      "welcome": "Join us!",
+      "subtitle": "Create your free account and start your language adventure 🚀",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "trustIndicators": {
+        "secure": "Secure",
+        "free": "Free",
+        "instant": "Instant"
+      }
+    },
+    "forgotPasswordPage": {
+      "title": "Forgot password | PenPal",
+      "backToLogin": "Back to login",
+      "welcome": "Forgot your password?",
+      "subtitle": "No problem! Enter your email and we'll send you a reset link 📧",
+      "rememberPassword": "Remember your password?",
+      "signIn": "Sign in",
+      "noAccount": "Don't have an account yet?",
+      "createAccountFree": "Create one for free",
+      "helpText": "If you don't receive the email, check your spam folder or contact our support."
+    },
+    "resetPasswordPage": {
+      "title": "Reset password | PenPal",
+      "backToLogin": "Back to login"
+    },
+    "callbackPage": {
+      "backToLogin": "Back to login",
+      "backToHome": "Back to home"
+    }
+  },
+  "navigation": {
+    "backToHome": "Back to home"
+  },
+  "errors": {
+    "loginError": "Login error:",
+    "registerError": "Registration error:",
+    "forgotPasswordError": "An error occurred",
+    "resetPasswordError": "An error occurred",
+    "authError": "OAuth error:",
+    "oauthNotImplemented": "{{provider}} OAuth not yet implemented",
+    "oauthError": "Error during {{provider}} authentication:"
+  }
+}

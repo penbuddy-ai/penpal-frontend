@@ -1,0 +1,273 @@
+{
+  "home": {
+    "title": "PenPal - Votre IA conversationnelle pour apprendre les langues",
+    "description": "Apprenez les langues naturellement avec votre partenaire IA conversationnel. Conversations 24/7, corrections personnalisées et progression adaptée.",
+    "hero": {
+      "mainTitle": "Parlez",
+      "mainSubtitle": "Naturellement",
+      "subtitle": "Votre partenaire IA conversationnel pour <highlight>maîtriser les langues</highlight> en discutant naturellement 🌟",
+      "welcomeBack": "Bon retour, ",
+      "startChat": "Commencer à chatter",
+      "signUpFree": "Commencer gratuitement",
+      "signIn": "Se connecter",
+      "demoFree": "Démo AI Gratuite"
+    },
+    "features": {
+      "chat247": {
+        "title": "Conversations 24/7",
+        "description": "Discutez quand vous voulez avec votre IA toujours disponible"
+      },
+      "smartCorrections": {
+        "title": "Corrections intelligentes",
+        "description": "Apprenez de vos erreurs avec des corrections contextuelles"
+      },
+      "naturalProgress": {
+        "title": "Progressez naturellement",
+        "description": "Adaptez votre apprentissage à votre rythme et niveau"
+      }
+    }
+  },
+  "demo": {
+    "title": "Découvrez l'intelligence artificielle pour l'apprentissage des langues",
+    "description": "Pratiquez vos compétences linguistiques avec PenPal AI"
+  },
+  "pricing": {
+    "title": "Choisissez votre plan Penpal AI",
+    "subtitle": "Commencez avec 30 jours gratuits. Carte bancaire requise pour validation. Annulez à tout moment.",
+    "trialWarning": "Votre essai gratuit se termine dans {{days}} jour(s). Sélectionnez un plan pour continuer.",
+    "hello": "Bonjour {{firstName}} {{lastName}} !",
+    "authNotice": "💡 Connectez-vous pour voir votre statut d'abonnement et commencer votre essai",
+    "subscription": {
+      "trialActive": "🎉 Essai gratuit actif - {{days}} jour(s) restant(s)",
+      "activeSubscription": "✅ Abonnement actif - Plan {{plan}}",
+      "alreadyActive": "Vous avez déjà un abonnement actif. Changement de plan bientôt disponible !"
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "afterTrial": {
+        "question": "Que se passe-t-il après les 30 jours gratuits ?",
+        "answer": "Après votre période d'essai, votre abonnement se renouvelle automatiquement au plan choisi. Vous pouvez annuler à tout moment avant la fin de l'essai."
+      },
+      "changePlan": {
+        "question": "Puis-je changer de plan à tout moment ?",
+        "answer": "Oui, vous pouvez passer d'un plan mensuel à annuel (ou inversement) à tout moment depuis votre espace compte."
+      },
+      "hiddenFees": {
+        "question": "Y a-t-il des frais cachés ?",
+        "answer": "Non, nos prix sont transparents. Aucun frais d'installation, de configuration ou de résiliation."
+      }
+    },
+    "contact": "Des questions ? Contactez-nous à"
+  },
+  "checkout": {
+    "title": "Démarrez votre essai gratuit",
+    "planSelected": "Plan {{planName}} sélectionné • 30 jours gratuits • Puis {{price}}€/{{interval}}",
+    "welcome": "Bienvenue {{firstName}} {{lastName}} !",
+    "error": {
+      "title": "Erreur lors de l'inscription",
+      "retry": "Réessayer"
+    },
+    "trustSignals": {
+      "secure": "Paiement sécurisé par Stripe",
+      "noCommitment": "Aucun engagement",
+      "easyCancel": "Annulation en 1 clic"
+    },
+    "contact": "Des questions ? Contactez-nous à"
+  },
+  "checkoutSuccess": {
+    "title": "Félicitations ! 🎉",
+    "subtitle": "Votre essai gratuit a été activé avec succès",
+    "welcome": "Bienvenue {{firstName}}, vous pouvez maintenant profiter de Penpal AI !",
+    "features": {
+      "days": "30 jours",
+      "trial": "Essai gratuit",
+      "unlimited": "Illimité",
+      "conversations": "Conversations",
+      "support24": "24/7",
+      "support": "Support"
+    },
+    "reminder": {
+      "title": "Rappel :",
+      "text": "Votre période d'essai se termine dans 30 jours. Vous pouvez annuler à tout moment depuis votre profil."
+    },
+    "actions": {
+      "startChat": "Commencer à chatter",
+      "viewProfile": "Voir mon profil"
+    },
+    "autoRedirect": "Redirection automatique vers le chat dans {{countdown}} secondes",
+    "contact": "Des questions ? Contactez-nous à"
+  },
+  "components": {
+    "pricingCard": {
+      "popular": "Le plus populaire",
+      "currentPlan": "Plan actuel",
+      "savings": "Économisez {{amount}}€/an",
+      "startMonthly": "Commencer l'abonnement mensuel",
+      "startYearly": "Commencer l'abonnement annuel",
+      "trialInfo": "30 jours gratuits • Carte requise",
+      "validationInfo": "Validation de carte requise • Paiement de 0€ • Aucun frais pendant l'essai",
+      "loading": "Chargement..."
+    },
+    "trialSignupForm": {
+      "steps": {
+        "planSelected": "Plan sélectionné",
+        "paymentInfo": "Informations de paiement"
+      },
+      "confirmChoice": "Confirmez votre choix",
+      "selectedPlan": "Vous avez sélectionné le plan {{plan}}",
+      "trialBanner": {
+        "title": "30 jours gratuits inclus !",
+        "description": "Profitez de toutes les fonctionnalités sans payer maintenant. Le paiement commencera après votre période d'essai."
+      },
+      "back": "Retour",
+      "continue": "Continuer",
+      "paymentTitle": "Informations de paiement",
+      "paymentDescription": "Nous validons votre carte avec un paiement de 0€ pour sécuriser votre essai gratuit",
+      "processing": {
+        "title": "Traitement en cours...",
+        "description": "Validation de votre carte et création de votre compte"
+      },
+      "securityBanner": {
+        "title": "Pourquoi demandons-nous votre carte maintenant ?",
+        "reasons": [
+          "Validation avec un paiement de 0€ (aucun frais)",
+          "Transition automatique après les 30 jours gratuits",
+          "Vous pouvez annuler à tout moment",
+          "Vos données sont sécurisées par Stripe"
+        ]
+      },
+      "cardLabel": "Informations de carte bancaire",
+      "cardSecurityInfo": "Vos informations sont sécurisées et chiffrées par Stripe. Aucun paiement ne sera effectué pendant votre essai gratuit.",
+      "startTrial": "Commencer mon essai gratuit",
+      "validating": "Validation en cours...",
+      "errors": {
+        "stripeNotReady": "Stripe n'est pas encore initialisé. Veuillez rafraîchir la page.",
+        "cardElementNotFound": "Élément de carte non trouvé. Veuillez rafraîchir la page.",
+        "paymentMethodFailed": "Failed to create payment method",
+        "generalError": "Une erreur est survenue",
+        "stripeLoadError": "Erreur de chargement du système de paiement",
+        "loadingStripe": "Chargement du système de paiement..."
+      },
+      "solutions": {
+        "title": "Solutions :",
+        "list": [
+          "Désactivez votre bloqueur de publicités",
+          "Ajoutez *.stripe.com à votre liste blanche",
+          "Essayez en mode navigation privée",
+          "Utilisez un autre navigateur"
+        ]
+      },
+      "refreshPage": "Rafraîchir la page"
+    }
+  },
+  "plans": {
+    "monthly": {
+      "name": "Mensuel",
+      "description": "Accès complet à Penpal AI",
+      "features": [
+        "IA conversationnelle avancée",
+        "Génération de contenu",
+        "Support par email",
+        "Accès mobile et desktop"
+      ]
+    },
+    "yearly": {
+      "name": "Annuel",
+      "description": "Accès complet à Penpal AI (économisez 2 mois)",
+      "features": [
+        "IA conversationnelle avancée",
+        "Génération de contenu",
+        "Support prioritaire",
+        "Accès mobile et desktop",
+        "2 mois gratuits",
+        "Nouvelles fonctionnalités en avant-première"
+      ]
+    },
+    "intervals": {
+      "month": "mois",
+      "year": "an"
+    }
+  },
+  "userMenu": {
+    "login": "Connexion",
+    "register": "Inscription",
+    "profile": "Mon profil",
+    "admin": "Administration",
+    "logout": "Déconnexion"
+  },
+  "auth": {
+    "callbackLoading": "Finalisation de votre connexion sécurisée",
+    "callbackSuccess": "Bienvenue ! Vous allez être redirigé vers l'accueil...",
+    "callbackError": "Erreur d'authentification",
+    "callbackErrorMessage": "Une erreur s'est produite lors de l'authentification.",
+    "redirecting": "Redirection vers la connexion dans {{countdown}} seconde{{plural}}",
+    "backToLogin": "Retour à la connexion",
+    "backToHome": "Retour à l'accueil",
+    "forgotPasswordTitle": "Mot de passe oublié | PenPal",
+    "forgotPasswordDescription": "Récupérez l'accès à votre compte PenPal en réinitialisant votre mot de passe",
+    "forgotPasswordHint": "Pas de problème ! Entrez votre email et nous vous enverrons un lien de réinitialisation.",
+    "forgotPasswordRemember": "Vous vous souvenez de votre mot de passe ?",
+    "forgotPasswordContact": "Si vous ne recevez pas l'email, vérifiez votre dossier spam ou contactez notre support.",
+    "resetPasswordTitle": "Réinitialiser le mot de passe | PenPal",
+    "resetPasswordDescription": "Créez un nouveau mot de passe sécurisé pour votre compte PenPal",
+    "resetPasswordInstruction": "Créez un mot de passe sécurisé pour protéger votre compte 🔐",
+    "resetPasswordRemember": "Vous vous souvenez de votre mot de passe ?",
+    "loginDescription": "Connectez-vous à votre compte PenPal",
+    "loginWelcome": "Bon retour !",
+    "loginSubtitle": "Connectez-vous pour continuer vos conversations 💬",
+    "registerDescription": "Créez votre compte PenPal pour commencer à apprendre",
+    "loginPage": {
+      "title": "Connexion | PenPal",
+      "backToHome": "Retour à l'accueil",
+      "welcome": "Bon retour !",
+      "subtitle": "Connectez-vous pour continuer vos conversations 💬",
+      "noAccount": "Pas encore de compte ?",
+      "createAccountFree": "Créez-en un gratuitement"
+    },
+    "registerPage": {
+      "title": "Inscription | PenPal",
+      "description": "Créez votre compte PenPal gratuitement et commencez à apprendre les langues",
+      "backToHome": "Retour à l'accueil",
+      "welcome": "Rejoignez-nous !",
+      "subtitle": "Créez votre compte gratuit et commencez votre aventure linguistique 🚀",
+      "hasAccount": "Vous avez déjà un compte ?",
+      "signIn": "Connectez-vous",
+      "trustIndicators": {
+        "secure": "Sécurisé",
+        "free": "Gratuit",
+        "instant": "Instantané"
+      }
+    },
+    "forgotPasswordPage": {
+      "title": "Mot de passe oublié | PenPal",
+      "backToLogin": "Retour à la connexion",
+      "welcome": "Mot de passe oublié ?",
+      "subtitle": "Pas de problème ! Entrez votre email et nous vous enverrons un lien de réinitialisation 📧",
+      "rememberPassword": "Vous vous souvenez de votre mot de passe ?",
+      "signIn": "Connectez-vous",
+      "noAccount": "Pas encore de compte ?",
+      "createAccountFree": "Créez-en un gratuitement",
+      "helpText": "Si vous ne recevez pas l'email, vérifiez votre dossier spam ou contactez notre support."
+    },
+    "resetPasswordPage": {
+      "title": "Réinitialiser le mot de passe | PenPal",
+      "backToLogin": "Retour à la connexion"
+    },
+    "callbackPage": {
+      "backToLogin": "Retour à la connexion",
+      "backToHome": "Retour à l'accueil"
+    }
+  },
+  "navigation": {
+    "backToHome": "Retour à l'accueil"
+  },
+  "errors": {
+    "loginError": "Erreur de connexion:",
+    "registerError": "Erreur d'inscription:",
+    "forgotPasswordError": "Une erreur est survenue",
+    "resetPasswordError": "Une erreur est survenue",
+    "authError": "Erreur OAuth:",
+    "oauthNotImplemented": "{{provider}} OAuth non encore implémenté",
+    "oauthError": "Erreur lors de l'authentification {{provider}}:"
+  }
+}

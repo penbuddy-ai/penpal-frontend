@@ -1,0 +1,26 @@
+{
+  "input": {
+    "placeholder": "Écrivez votre message...",
+    "sending": "Envoyer",
+    "recording": "Enregistrer un message vocal",
+    "attach": "Joindre un fichier",
+    "typing": "Penpal est en train d'écrire..."
+  },
+  "suggestions": {
+    "title": "Cliquez pour voir les suggestions"
+  },
+  "demo": {
+    "title": "Découvrez l'intelligence artificielle pour l'apprentissage des langues",
+    "instructions": [
+      "• Configurez votre langue, niveau et mode d'apprentissage",
+      "• Utilisez les suggestions de conversation ou écrivez votre propre message",
+      "• Choisissez entre le mode \"Tuteur\" (corrections) ou \"Partenaire\" (conversation)"
+    ],
+    "response": "C'est une réponse simulée à \"{{message}}\"",
+    "error": "Désolé, une erreur s'est produite : {{error}}",
+    "unknownError": "Une erreur inconnue s'est produite"
+  },
+  "corrections": {
+    "hasErrors": "Ce message contient des erreurs. Cliquez pour voir les suggestions."
+  }
+}

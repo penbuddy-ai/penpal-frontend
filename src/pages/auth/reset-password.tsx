@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { ResetPasswordForm } from '@/components/auth/ResetPasswordForm';
@@ -18,6 +19,7 @@ interface ResetPasswordPageProps {
  * Reset password page
  */
 export default function ResetPasswordPage({ token }: ResetPasswordPageProps) {
+  const { t } = useTranslation('pages');
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -142,7 +144,7 @@ export default function ResetPasswordPage({ token }: ResetPasswordPageProps) {
                 className="mr-2 transition-transform group-hover:-translate-x-1"
                 size={20}
               />
-              Retour à la connexion
+              {t('auth.resetPasswordPage.backToLogin')}
             </Link>
           </motion.div>
 

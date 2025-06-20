@@ -1,0 +1,111 @@
+{
+  "title": "Mon Profil | PenPal AI",
+  "description": "Gérez votre profil PenPal AI",
+  "personalInfo": "Informations personnelles",
+  "firstName": "Prénom",
+  "lastName": "Nom",
+  "preferredName": "Nom préféré (optionnel)",
+  "email": "Email",
+  "nativeLanguage": "Langue native",
+  "learningLanguages": "Langues apprises",
+  "notDefined": "Non définie",
+  "noLanguagesSelected": "Aucune langue sélectionnée",
+  "actions": {
+    "edit": "Modifier",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "saving": "Sauvegarde..."
+  },
+  "messages": {
+    "updateSuccess": "Profil mis à jour avec succès !",
+    "updateError": "Erreur lors de la mise à jour",
+    "cancelSuccess": "Abonnement annulé avec succès",
+    "cancelError": "Erreur lors de l'annulation de l'abonnement"
+  },
+  "validation": {
+    "firstNameRequired": "Prénom requis (min. 2 caractères)",
+    "lastNameRequired": "Nom requis (min. 2 caractères)",
+    "emailInvalid": "Email invalide"
+  },
+  "subscription": {
+    "password": "Mot de passe",
+    "changePassword": "Changer le mot de passe",
+    "billing": "Facturation",
+    "plan": "Plan actuel",
+    "monthly": "l'abonnement mensuel",
+    "yearly": "l'abonnement annuel",
+    "trial": "Période d'essai",
+    "trialEnds": "Se termine le",
+    "trialEnded": "Votre période d'essai a pris fin. Choisissez un plan pour continuer à utiliser PenPal AI.",
+    "cancelAtPeriodEnd": "Votre abonnement se terminera à la fin de votre période de facturation actuelle. Vous garderez l'accès à toutes les fonctionnalités jusqu'à cette date.",
+    "cancel": "Annuler l'abonnement",
+    "upgrade": "Améliorer",
+    "choosePlan": "Choisir un plan"
+  },
+  "modals": {
+    "cancelSubscription": {
+      "title": "Annuler votre abonnement",
+      "message": "Êtes-vous sûr de vouloir annuler votre abonnement ? Vous garderez l'accès jusqu'à la fin de votre période de facturation actuelle, mais votre abonnement ne sera pas renouvelé.",
+      "confirm": "Oui, annuler",
+      "cancel": "Non, garder"
+    },
+    "subscriptionCanceled": {
+      "title": "Abonnement annulé avec succès",
+      "message": "Votre abonnement a été annulé et se terminera à la fin de votre période de facturation actuelle. Vous garderez l'accès à toutes les fonctionnalités jusqu'à cette date.",
+      "close": "D'accord"
+    }
+  },
+  "loading": {
+    "initializing": "Initialisation...",
+    "authenticating": "Vérification de l'authentification...",
+    "updating": "Mise à jour..."
+  },
+  "security": {
+    "title": "Sécurité",
+    "password": {
+      "title": "Mot de passe",
+      "lastModified": "Dernière modification récente",
+      "change": "Changer"
+    },
+    "twoFactor": {
+      "title": "Authentification 2FA",
+      "description": "Protection supplémentaire",
+      "configure": "Configurer"
+    }
+  },
+  "subscription": {
+    "title": "Mon Abonnement",
+    "plan": "Plan",
+    "price": "Prix",
+    "password": "Mot de passe",
+    "changePassword": "Changer le mot de passe",
+    "billing": "Facturation",
+    "currentPlan": "Plan actuel",
+    "monthly": "l'abonnement mensuel",
+    "yearly": "l'abonnement annuel",
+    "trial": {
+      "title": "Période d'essai gratuit",
+      "daysLeft": "{{count}} jour restant",
+      "daysLeft_other": "{{count}} jours restants",
+      "endsOn": "Se termine le {{date}}"
+    },
+    "trialEnded": "Votre période d'essai a pris fin. Choisissez un plan pour continuer à utiliser PenPal AI.",
+    "canceling": {
+      "title": "Abonnement en cours d'annulation",
+      "description": "Votre abonnement se terminera à la fin de votre période de facturation actuelle. Vous garderez l'accès à toutes les fonctionnalités jusqu'à cette date."
+    },
+    "features": {
+      "title": "Fonctionnalités incluses :"
+    },
+    "actions": {
+      "cancel": "Annuler l'abonnement",
+      "choosePlan": "Choisir un plan",
+      "changePlan": "Changer de plan",
+      "viewPlans": "Voir les plans"
+    },
+    "trialExpired": {
+      "title": "Essai gratuit expiré",
+      "description": "Votre période d'essai a pris fin. Choisissez un plan pour continuer à utiliser Penpal AI."
+    }
+  }
+}

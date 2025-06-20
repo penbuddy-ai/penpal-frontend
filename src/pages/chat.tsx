@@ -96,7 +96,7 @@ export default function ChatPage() {
 export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ['common', 'chat'])),
     },
   };
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import Button from '@/components/ui/Button/Button';
 
@@ -7,6 +8,7 @@ import Button from '@/components/ui/Button/Button';
  * Composant de menu utilisateur avec authentification
  */
 export const UserMenu: React.FC = () => {
+  const { t } = useTranslation('pages');
   const { user, isAuthenticated, isLoading, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -31,11 +33,11 @@ export const UserMenu: React.FC = () => {
       <div className="flex items-center space-x-2">
         <Link href="/auth/login">
           <Button variant="outline" size="sm">
-            Connexion
+            {t('userMenu.login')}
           </Button>
         </Link>
         <Link href="/auth/register">
-          <Button size="sm">Inscription</Button>
+          <Button size="sm">{t('userMenu.register')}</Button>
         </Link>
       </div>
     );
@@ -114,7 +116,7 @@ export const UserMenu: React.FC = () => {
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   />
                 </svg>
-                Mon profil
+                {t('userMenu.profile')}
               </Link>
 
               <Link
@@ -135,7 +137,7 @@ export const UserMenu: React.FC = () => {
                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
                   />
                 </svg>
-                Tarifs
+                {t('pricing.title')}
               </Link>
 
               {user.role === 'admin' && (
@@ -157,7 +159,7 @@ export const UserMenu: React.FC = () => {
                       d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                     />
                   </svg>
-                  Administration
+                  {t('userMenu.admin')}
                 </Link>
               )}
 
@@ -175,7 +177,7 @@ export const UserMenu: React.FC = () => {
                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                   />
                 </svg>
-                Déconnexion
+                {t('userMenu.logout')}
               </button>
             </div>
           </div>

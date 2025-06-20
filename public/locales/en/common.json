@@ -8,10 +8,43 @@
   "theme": {
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "system": "System",
+    "activate": "Activate {{theme}} theme",
+    "use": "Use system theme"
   },
   "language": {
     "fr": "French",
-    "en": "English"
+    "en": "English",
+    "switchLanguage": "Switch language"
+  },
+  "pricing": {
+    "currentPlan": "Current plan",
+    "savings": "savings"
+  },
+  "loading": "Loading...",
+  "error": "Error",
+  "success": "Success",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "save": "Save",
+  "edit": "Edit",
+  "delete": "Delete",
+  "close": "Close",
+  "back": "Back",
+  "next": "Next",
+  "previous": "Previous",
+  "finish": "Finish",
+  "continue": "Continue",
+  "navigation": {
+    "chat": "Chat",
+    "progress": "Progress",
+    "about": "About",
+    "features": "Features"
+  },
+  "footer": {
+    "copyright": "© 2025 PenPal AI. All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "support": "Support"
   }
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { useOnboardingStore } from '@/store/onboardingStore';
 import { User } from 'lucide-react';
 
@@ -7,6 +8,7 @@ import { User } from 'lucide-react';
  * Step 1: Preferred name input
  */
 export function PreferredNameStep() {
+  const { t } = useTranslation('onboarding');
   const { data, setPreferredName } = useOnboardingStore();
   const [localName, setLocalName] = useState(data.preferredName);
   const [error, setError] = useState('');
@@ -18,7 +20,7 @@ export function PreferredNameStep() {
       setPreferredName(trimmedName);
       setError('');
     } else if (trimmedName.length > 0) {
-      setError('Le nom doit contenir au moins 2 caractères');
+      setError(t('preferredName.error'));
     } else {
       setError('');
     }
@@ -53,11 +55,8 @@ export function PreferredNameStep() {
         transition={{ delay: 0.3 }}
         className="text-center mb-6"
       >
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">Bienvenue sur Penpal ! 🎉</h3>
-        <p className="text-gray-600 text-sm">
-          Pour commencer, dites-nous comment vous préférez être appelé. Cela nous aidera à
-          personnaliser votre expérience d'apprentissage.
-        </p>
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">{t('preferredName.title')}</h3>
+        <p className="text-gray-600 text-sm">{t('preferredName.subtitle')}</p>
       </motion.div>
 
       {/* Input field */}
@@ -69,14 +68,14 @@ export function PreferredNameStep() {
       >
         <div>
           <label htmlFor="preferredName" className="block text-sm font-medium text-gray-700 mb-2">
-            Votre nom préféré
+            {t('preferredName.label')}
           </label>
           <input
             id="preferredName"
             type="text"
             value={localName}
             onChange={handleInputChange}
-            placeholder="Entrez votre nom préféré..."
+            placeholder={t('preferredName.placeholder')}
             className={`
               w-full px-4 py-3 border rounded-lg text-lg focus:outline-none focus:ring-2 transition-colors
               ${
@@ -105,7 +104,7 @@ export function PreferredNameStep() {
           transition={{ delay: 0.6 }}
           className="bg-blue-50 rounded-lg p-3"
         >
-          <h4 className="text-xs font-medium text-blue-900 mb-2">Exemples :</h4>
+          <h4 className="text-xs font-medium text-blue-900 mb-2">{t('preferredName.examples')}</h4>
           <div className="flex flex-wrap gap-2">
             {['Marie', 'Jean-Pierre', "D'Artagnan", 'Alex'].map((example) => (
               <button

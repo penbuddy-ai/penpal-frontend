@@ -1,0 +1,28 @@
+{
+  "theme": {
+    "light": "Activate light theme",
+    "dark": "Activate dark theme",
+    "system": "Use system theme"
+  },
+  "pricing": {
+    "currentPlan": "Current plan",
+    "monthlySubscription": "monthly subscription",
+    "yearlySubscription": "yearly subscription"
+  },
+  "buttons": {
+    "close": "Close",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "upgrade": "Upgrade",
+    "viewPricing": "View pricing"
+  },
+  "status": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "error": "Error",
+    "success": "Success"
+  }
+}

@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChatMessage, Correction, Suggestion, MessageCorrections } from '@/types/chat';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Bot, User, Lightbulb } from 'lucide-react';
 import { CorrectionPopup } from './CorrectionPopup';
 
@@ -15,6 +16,7 @@ interface MessageBubbleProps {
 }
 
 export function MessageBubble({ message, messageCorrections }: MessageBubbleProps) {
+  const { t } = useTranslation('chat');
   const isBot = message.sender === 'bot';
   const [formattedTime, setFormattedTime] = useState<string>('');
   const [showCorrectionPopup, setShowCorrectionPopup] = useState(false);
@@ -70,7 +72,7 @@ export function MessageBubble({ message, messageCorrections }: MessageBubbleProp
               <button
                 onClick={() => setShowCorrectionPopup(true)}
                 className="absolute -top-2 -right-2 p-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg transition-colors group"
-                title="Cliquez pour voir les suggestions"
+                title={t('suggestions.title')}
               >
                 <Lightbulb size={14} />
                 <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">

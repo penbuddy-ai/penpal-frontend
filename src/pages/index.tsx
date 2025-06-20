@@ -1,7 +1,7 @@
 import { Layout } from '@/components/Layout';
 import type { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
+import { useTranslation, Trans } from 'next-i18next';
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -9,17 +9,14 @@ import { useAuth } from '@/hooks/useAuth';
 import { MessageCircle, Sparkles, Globe, Users, Zap, ArrowRight } from 'lucide-react';
 
 export default function Home() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('pages');
   const { isAuthenticated, user, isLoading } = useAuth();
 
   return (
     <Layout>
       <Head>
-        <title>PenPal - Votre IA conversationnelle pour apprendre les langues</title>
-        <meta
-          name="description"
-          content="Apprenez les langues naturellement avec votre partenaire IA conversationnel. Conversations 24/7, corrections personnalisées et progression adaptée."
-        />
+        <title>{t('home.title')}</title>
+        <meta name="description" content={t('home.description')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -76,19 +73,20 @@ export default function Home() {
           </motion.div>
         </div>
 
-        <div className="relative z-10 text-center max-w-5xl mx-auto px-6">
+        <div className="relative z-10 max-w-5xl mx-auto px-6">
           {/* Main Title */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="text-center"
           >
             <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
               <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Parlez
+                {t('home.hero.mainTitle')}
               </span>
               <br />
-              <span className="text-gray-900 dark:text-white">Naturellement</span>
+              <span className="text-gray-900 dark:text-white">{t('home.hero.mainSubtitle')}</span>
             </h1>
           </motion.div>
 
@@ -97,13 +95,18 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-12 text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            className="text-center text-xl md:text-2xl mb-12 text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
           >
-            Votre partenaire IA conversationnel pour{' '}
-            <span className="font-semibold text-purple-600 dark:text-purple-400">
-              maîtriser les langues
-            </span>{' '}
-            en discutant naturellement 🌟
+            <span
+              dangerouslySetInnerHTML={{
+                __html: t('home.hero.subtitle', { interpolation: { escapeValue: false } })
+                  .replace(
+                    /<highlight>/g,
+                    '<span class="font-semibold text-purple-600 dark:text-purple-400">'
+                  )
+                  .replace(/<\/highlight>/g, '</span>'),
+              }}
+            />
           </motion.p>
 
           {/* CTA Buttons */}
@@ -111,7 +114,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+            className="text-center flex flex-col sm:flex-row gap-4 justify-center mb-16"
           >
             {!isLoading && (
               <>
@@ -126,7 +129,7 @@ export default function Home() {
                         className="mr-3 transition-transform group-hover:rotate-12"
                         size={24}
                       />
-                      Commencer à chatter
+                      {t('home.hero.startChat')}
                       <ArrowRight
                         className="ml-3 transition-transform group-hover:translate-x-1"
                         size={20}
@@ -140,7 +143,7 @@ export default function Home() {
                       <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      Démo AI Gratuite
+                      {t('home.hero.demoFree')}
                     </Link>
                   </>
                 ) : (
@@ -154,7 +157,7 @@ export default function Home() {
                         className="mr-3 transition-transform group-hover:rotate-12"
                         size={24}
                       />
-                      Commencer gratuitement
+                      {t('home.hero.signUpFree')}
                       <ArrowRight
                         className="ml-3 transition-transform group-hover:translate-x-1"
                         size={20}
@@ -169,7 +172,7 @@ export default function Home() {
                         className="mr-3 transition-transform group-hover:scale-110"
                         size={24}
                       />
-                      Se connecter
+                      {t('home.hero.signIn')}
                     </Link>
 
                     <Link
@@ -179,7 +182,7 @@ export default function Home() {
                       <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      Démo AI Gratuite
+                      {t('home.hero.demoFree')}
                     </Link>
                   </>
                 )}
@@ -202,10 +205,10 @@ export default function Home() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-              className="mb-12"
+              className="text-center mb-12"
             >
               <p className="text-lg text-gray-600 dark:text-gray-400">
-                Bon retour,{' '}
+                {t('home.hero.welcomeBack')}
                 <span className="font-semibold text-purple-600 dark:text-purple-400">
                   {user.firstName}
                 </span>{' '}
@@ -222,38 +225,44 @@ export default function Home() {
             className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto"
           >
             <div className="group p-6 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600 transition-all duration-300 hover:shadow-lg">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <MessageCircle className="text-white" size={24} />
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform mr-3">
+                  <MessageCircle className="text-white" size={24} />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {t('home.features.chat247.title')}
+                </h3>
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                Conversations 24/7
-              </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Discutez quand vous voulez avec votre IA toujours disponible
+                {t('home.features.chat247.description')}
               </p>
             </div>
 
             <div className="group p-6 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600 transition-all duration-300 hover:shadow-lg">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Zap className="text-white" size={24} />
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform mr-3">
+                  <Zap className="text-white" size={24} />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {t('home.features.smartCorrections.title')}
+                </h3>
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                Corrections intelligentes
-              </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Apprenez de vos erreurs avec des corrections contextuelles
+                {t('home.features.smartCorrections.description')}
               </p>
             </div>
 
             <div className="group p-6 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600 transition-all duration-300 hover:shadow-lg">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-orange-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Globe className="text-white" size={24} />
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-orange-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform mr-3">
+                  <Globe className="text-white" size={24} />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {t('home.features.naturalProgress.title')}
+                </h3>
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                Progressez naturellement
-              </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Adaptez votre apprentissage à votre rythme et niveau
+                {t('home.features.naturalProgress.description')}
               </p>
             </div>
           </motion.div>
@@ -266,7 +275,7 @@ export default function Home() {
 export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ['common', 'pages'])),
     },
   };
 };

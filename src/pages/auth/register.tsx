@@ -1,6 +1,7 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { RegisterForm } from '@/components/auth/RegisterForm';
@@ -14,6 +15,7 @@ import { Sparkles, Globe, ArrowLeft, Heart, Star } from 'lucide-react';
  * Register page
  */
 export default function RegisterPage() {
+  const { t } = useTranslation('pages');
   const router = useRouter();
   const { register, isLoading, error } = useUserStore();
 
@@ -63,11 +65,8 @@ export default function RegisterPage() {
   return (
     <>
       <Head>
-        <title>Inscription | PenPal</title>
-        <meta
-          name="description"
-          content="Créez votre compte PenPal gratuitement et commencez à apprendre les langues"
-        />
+        <title>{t('auth.registerPage.title')}</title>
+        <meta name="description" content={t('auth.registerPage.description')} />
       </Head>
 
       <div className="min-h-screen relative overflow-hidden">
@@ -153,7 +152,7 @@ export default function RegisterPage() {
                 className="mr-2 transition-transform group-hover:-translate-x-1"
                 size={20}
               />
-              Retour à l'accueil
+              {t('auth.registerPage.backToHome')}
             </Link>
           </motion.div>
 
@@ -166,11 +165,11 @@ export default function RegisterPage() {
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">
-                Rejoignez-nous !
+                {t('auth.registerPage.welcome')}
               </span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-lg mx-auto">
-              Créez votre compte gratuit et commencez votre aventure linguistique 🚀
+              {t('auth.registerPage.subtitle')}
             </p>
           </motion.div>
 
@@ -199,12 +198,12 @@ export default function RegisterPage() {
             className="text-center mt-8 space-y-4"
           >
             <p className="text-gray-600 dark:text-gray-400">
-              Vous avez déjà un compte ?{' '}
+              {t('auth.registerPage.hasAccount')}{' '}
               <Link
                 href="/auth/login"
                 className="font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
               >
-                Connectez-vous
+                {t('auth.registerPage.signIn')}
               </Link>
             </p>
 
@@ -217,15 +216,15 @@ export default function RegisterPage() {
             >
               <div className="flex items-center">
                 <span className="mr-1">🔒</span>
-                Sécurisé
+                {t('auth.registerPage.trustIndicators.secure')}
               </div>
               <div className="flex items-center">
                 <span className="mr-1">✨</span>
-                Gratuit
+                {t('auth.registerPage.trustIndicators.free')}
               </div>
               <div className="flex items-center">
                 <span className="mr-1">🚀</span>
-                Instantané
+                {t('auth.registerPage.trustIndicators.instant')}
               </div>
             </motion.div>
           </motion.div>
@@ -241,7 +240,7 @@ export default function RegisterPage() {
 export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'auth'])),
+      ...(await serverSideTranslations(locale, ['common', 'auth', 'pages'])),
     },
   };
 };

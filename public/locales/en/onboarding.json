@@ -1,0 +1,42 @@
+{
+  "welcome": {
+    "title": "Welcome to Penpal! 🎉",
+    "subtitle": "Your profile has been successfully set up. Redirecting to your conversations...",
+    "errorTitle": "Configuration Error",
+    "errorMessage": "Unable to load onboarding step.",
+    "notFoundTitle": "Step Not Found"
+  },
+  "preferredName": {
+    "title": "Welcome to Penpal! 🎉",
+    "subtitle": "To get started, tell us how you prefer to be called. This will help us personalize your learning experience.",
+    "label": "Your preferred name",
+    "placeholder": "Enter your preferred name...",
+    "error": "Name must contain at least 2 characters",
+    "examples": "Examples:"
+  },
+  "languageSelection": {
+    "title": "Choose your language",
+    "subtitle": "Select the language you want to learn",
+    "placeholder": "Search for a language..."
+  },
+  "proficiencyLevel": {
+    "title": "What's your level?",
+    "subtitle": "Select your current level in this language",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  },
+  "summary": {
+    "title": "Summary",
+    "subtitle": "Review your information before continuing",
+    "name": "Preferred name",
+    "language": "Language",
+    "level": "Level",
+    "complete": "Complete registration"
+  },
+  "navigation": {
+    "previous": "Previous",
+    "next": "Next",
+    "skip": "Skip"
+  }
+}

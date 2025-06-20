@@ -5,10 +5,12 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { useChatStore } from '@/store/chatStore';
 import { Send, Mic, Paperclip, Smile } from 'lucide-react';
 
 export function MessageInput() {
+  const { t } = useTranslation('chat');
   const [message, setMessage] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const addMessage = useChatStore((state) => state.addMessage);
@@ -59,8 +61,8 @@ export function MessageInput() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-1.5 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 flex-shrink-0"
-          aria-label="Joindre un fichier"
-          title="Joindre un fichier"
+          aria-label={t('input.attach')}
+          title={t('input.attach')}
         >
           <Paperclip size={18} />
         </motion.button>
@@ -73,7 +75,7 @@ export function MessageInput() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Écrivez votre message..."
+              placeholder={t('input.placeholder')}
               className="w-full bg-transparent px-4 py-3 pr-16 focus:outline-none focus:ring-0 focus:border-transparent resize-none min-h-[44px] max-h-[120px] leading-relaxed text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 text-sm"
               rows={1}
               disabled={isTyping}
@@ -92,8 +94,8 @@ export function MessageInput() {
                     ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
                     : 'text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-md hover:shadow-lg'
                 }`}
-                aria-label="Envoyer"
-                title="Envoyer"
+                aria-label={t('input.sending')}
+                title={t('input.sending')}
               >
                 <Send size={16} />
               </motion.button>
@@ -105,8 +107,8 @@ export function MessageInput() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           className="text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 p-1.5 rounded-full hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all duration-200 flex-shrink-0"
-          aria-label="Enregistrer un message vocal"
-          title="Enregistrer un message vocal"
+          aria-label={t('input.recording')}
+          title={t('input.recording')}
         >
           <Mic size={18} />
         </motion.button>
@@ -138,7 +140,7 @@ export function MessageInput() {
                 className="w-1.5 h-1.5 bg-pink-500 rounded-full"
               />
             </div>
-            <span>Penpal est en train d'écrire...</span>
+            <span>{t('input.typing')}</span>
           </div>
         </motion.div>
       )}

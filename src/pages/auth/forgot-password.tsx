@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { ForgotPasswordForm } from '@/components/auth/ForgotPasswordForm';
@@ -11,6 +12,7 @@ import { ArrowLeft, Mail, Shield, Clock, Key } from 'lucide-react';
  * Forgot password page
  */
 export default function ForgotPasswordPage() {
+  const { t } = useTranslation('pages');
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -38,11 +40,8 @@ export default function ForgotPasswordPage() {
   return (
     <>
       <Head>
-        <title>Mot de passe oublié | PenPal</title>
-        <meta
-          name="description"
-          content="Récupérez l'accès à votre compte PenPal en réinitialisant votre mot de passe"
-        />
+        <title>{t('auth.forgotPasswordPage.title')}</title>
+        <meta name="description" content={t('auth.forgotPasswordDescription')} />
       </Head>
 
       <div className="min-h-screen relative overflow-hidden">
@@ -128,7 +127,7 @@ export default function ForgotPasswordPage() {
                 className="mr-2 transition-transform group-hover:-translate-x-1"
                 size={20}
               />
-              Retour à la connexion
+              {t('auth.forgotPasswordPage.backToLogin')}
             </Link>
           </motion.div>
 
@@ -141,12 +140,11 @@ export default function ForgotPasswordPage() {
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 bg-clip-text text-transparent">
-                Mot de passe oublié ?
+                {t('auth.forgotPasswordPage.welcome')}
               </span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-lg mx-auto">
-              Pas de problème ! Entrez votre email et nous vous enverrons un lien de
-              réinitialisation 📧
+              {t('auth.forgotPasswordPage.subtitle')}
             </p>
           </motion.div>
 
@@ -175,22 +173,22 @@ export default function ForgotPasswordPage() {
             className="text-center mt-8 space-y-4"
           >
             <p className="text-gray-600 dark:text-gray-400">
-              Vous vous souvenez de votre mot de passe ?{' '}
+              {t('auth.forgotPasswordPage.rememberPassword')}{' '}
               <Link
                 href="/auth/login"
                 className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
               >
-                Connectez-vous
+                {t('auth.forgotPasswordPage.signIn')}
               </Link>
             </p>
 
             <p className="text-gray-600 dark:text-gray-400">
-              Pas encore de compte ?{' '}
+              {t('auth.forgotPasswordPage.noAccount')}{' '}
               <Link
                 href="/auth/register"
                 className="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
               >
-                Créez-en un gratuitement
+                {t('auth.forgotPasswordPage.createAccountFree')}
               </Link>
             </p>
 
@@ -201,10 +199,7 @@ export default function ForgotPasswordPage() {
               transition={{ duration: 0.5, delay: 1 }}
               className="pt-6 text-sm text-gray-500 dark:text-gray-400"
             >
-              <p className="max-w-md mx-auto">
-                Si vous ne recevez pas l'email, vérifiez votre dossier spam ou contactez notre
-                support.
-              </p>
+              <p className="max-w-md mx-auto">{t('auth.forgotPasswordPage.helpText')}</p>
             </motion.div>
           </motion.div>
         </div>
@@ -219,7 +214,7 @@ export default function ForgotPasswordPage() {
 export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'auth'])),
+      ...(await serverSideTranslations(locale, ['common', 'auth', 'pages'])),
     },
   };
 };
