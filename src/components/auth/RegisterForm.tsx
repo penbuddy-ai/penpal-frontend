@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 import { FormField } from '../ui/FormField/FormField';
 import { PasswordInput } from '../ui/PasswordInput/PasswordInput';
 import Button from '../ui/Button/Button';
@@ -11,6 +12,7 @@ import { Divider } from '../ui/Divider/Divider';
 import { OAuthButton } from '../ui/OAuthButton/OAuthButton';
 import { AuthError } from '../ui/AuthError/AuthError';
 import { Checkbox } from '../ui/Checkbox/Checkbox';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 /**
  * RegisterForm component props
@@ -113,58 +115,91 @@ export function RegisterForm({
   };
 
   return (
-    <div className="w-full max-w-md space-y-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          {isClient ? t('register.title') : ''}
-        </h1>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-          {isClient ? t('register.welcome') : ''}
-        </p>
-      </div>
-
+    <div className="w-full space-y-6">
       <AuthError message={authError} />
 
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
-        <FormField
-          label={isClient ? t('register.fullName') : ''}
-          id="name"
-          type="text"
-          placeholder="Jean Dupont"
-          required
-          error={errors.name?.message}
-          data-testid="name-input"
-          {...register('name')}
-        />
+      <motion.form
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        onSubmit={handleSubmit(handleFormSubmit)}
+        className="space-y-5"
+      >
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <FormField
+            label={isClient ? t('register.fullName') : ''}
+            id="name"
+            required
+            error={errors.name?.message}
+            data-testid="name-input"
+            render={(props) => (
+              <input
+                {...props}
+                {...register('name')}
+                type="text"
+                placeholder="Jean Dupont"
+                className="h-12 w-full rounded-2xl border-2 border-gray-200/50 dark:border-gray-700/50 focus:border-purple-500 dark:focus:border-purple-400 transition-all duration-300 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:ring-purple-500/20 dark:focus:ring-purple-400/20 focus:outline-none px-4 text-gray-900 dark:text-gray-100 placeholder:text-gray-400"
+              />
+            )}
+          />
+        </motion.div>
 
-        <FormField
-          label={isClient ? t('register.email') : ''}
-          id="email"
-          type="email"
-          placeholder="votre@email.com"
-          required
-          error={errors.email?.message}
-          data-testid="email-input"
-          {...register('email')}
-        />
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <FormField
+            label={isClient ? t('register.email') : ''}
+            id="email"
+            required
+            error={errors.email?.message}
+            data-testid="email-input"
+            render={(props) => (
+              <input
+                {...props}
+                {...register('email')}
+                type="email"
+                placeholder="votre@email.com"
+                className="h-12 w-full rounded-2xl border-2 border-gray-200/50 dark:border-gray-700/50 focus:border-purple-500 dark:focus:border-purple-400 transition-all duration-300 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:ring-purple-500/20 dark:focus:ring-purple-400/20 focus:outline-none px-4 text-gray-900 dark:text-gray-100 placeholder:text-gray-400"
+              />
+            )}
+          />
+        </motion.div>
 
-        <FormField
-          label={isClient ? t('register.password') : ''}
-          id="password"
-          required
-          error={errors.password?.message}
-          render={(props) => (
-            <PasswordInput
-              {...props}
-              {...register('password')}
-              placeholder="••••••••"
-              showStrength
-              data-testid="password-input"
-            />
-          )}
-        />
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <FormField
+            label={isClient ? t('register.password') : ''}
+            id="password"
+            required
+            error={errors.password?.message}
+            render={(props) => (
+              <PasswordInput
+                {...props}
+                {...register('password')}
+                placeholder="••••••••"
+                showStrength
+                className="h-12 rounded-2xl border-2 border-gray-200/50 dark:border-gray-700/50 focus:border-purple-500 dark:focus:border-purple-400 transition-all duration-300 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:ring-purple-500/20 dark:focus:ring-purple-400/20"
+                data-testid="password-input"
+              />
+            )}
+          />
+        </motion.div>
 
-        <div className="pt-2">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="pt-2"
+        >
           <Checkbox
             id="termsAccepted"
             label={
@@ -172,14 +207,14 @@ export function RegisterForm({
                 {isClient ? t('register.termsAccept') : ''}{' '}
                 <Link
                   href="/terms"
-                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium"
                 >
                   {isClient ? t('register.termsLink') : ''}
                 </Link>{' '}
                 {isClient ? t('register.and') : ''}{' '}
                 <Link
                   href="/privacy"
-                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium"
                 >
                   {isClient ? t('register.privacyLink') : ''}
                 </Link>
@@ -188,18 +223,61 @@ export function RegisterForm({
             error={errors.termsAccepted?.message}
             {...register('termsAccepted')}
           />
-        </div>
+        </motion.div>
 
-        <Button type="submit" className="w-full" disabled={!isValid || isLoading}>
-          {isClient ? (isLoading ? t('register.loading') : t('register.submit')) : ''}
-        </Button>
-      </form>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <Button
+            type="submit"
+            className="w-full group bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 px-6 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none flex items-center justify-center"
+            disabled={!isValid || isLoading}
+          >
+            {isClient ? (
+              isLoading ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white mr-2"></div>
+                  {t('register.loading')}
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 transition-transform group-hover:rotate-12" size={20} />
+                  {t('register.submit')}
+                  <ArrowRight
+                    className="ml-2 transition-transform group-hover:translate-x-1"
+                    size={20}
+                  />
+                </>
+              )
+            ) : (
+              ''
+            )}
+          </Button>
+        </motion.div>
+      </motion.form>
 
-      <Divider text={isClient ? t('register.divider') : ''} />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+      >
+        <Divider
+          text={isClient ? t('register.divider') : ''}
+          className="text-gray-500 dark:text-gray-400"
+        />
+      </motion.div>
 
-      <div className="space-y-3">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.7 }}
+        className="space-y-3"
+      >
         <OAuthButton
           provider="google"
+          className="w-full group bg-white dark:bg-gray-800 border-2 border-gray-200/50 dark:border-gray-700/50 hover:border-gray-300 dark:hover:border-gray-600 rounded-2xl py-3 px-6 transition-all duration-300 hover:shadow-lg transform hover:scale-[1.02]"
           icon={
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path
@@ -223,11 +301,14 @@ export function RegisterForm({
           onClick={() => handleOAuthLogin('google')}
           disabled={isLoading}
         >
-          {isClient ? t('register.googleRegister') : ''}
+          <span className="font-medium text-gray-700 dark:text-gray-300">
+            {isClient ? t('register.googleSignup') : ''}
+          </span>
         </OAuthButton>
 
         <OAuthButton
           provider="apple"
+          className="w-full group bg-black dark:bg-white text-white dark:text-black border-2 border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-2xl py-3 px-6 transition-all duration-300 hover:shadow-lg transform hover:scale-[1.02]"
           icon={
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701z" />
@@ -236,21 +317,9 @@ export function RegisterForm({
           onClick={() => handleOAuthLogin('apple')}
           disabled={isLoading}
         >
-          {isClient ? t('register.appleRegister') : ''}
+          <span className="font-medium">{isClient ? t('register.appleSignup') : ''}</span>
         </OAuthButton>
-      </div>
-
-      <div className="text-center text-sm">
-        <p className="text-gray-600 dark:text-gray-300">
-          {isClient ? t('register.hasAccount') : ''}{' '}
-          <Link
-            href="/auth/login"
-            className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
-          >
-            {isClient ? t('register.signIn') : ''}
-          </Link>
-        </p>
-      </div>
+      </motion.div>
     </div>
   );
 }

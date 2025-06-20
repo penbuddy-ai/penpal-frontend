@@ -26,24 +26,38 @@ export default function OnboardingPage() {
       return;
     }
 
-    // Redirect if onboarding is already completed
-    // TODO: Check if user has onboarding completed when user type is updated
-    // if (isHydrated && !isLoading && user?.onboardingCompleted) {
-    //   router.push('/chat');
-    //   return;
-    // }
-  }, [isAuthenticated, isLoading, isHydrated, user, router]);
+    // Redirect if onboarding is already completed according to backend
+    if (isHydrated && !isLoading && user?.onboardingCompleted === true) {
+      console.log('User has already completed onboarding, redirecting to chat');
+      router.push('/chat');
+      return;
+    }
+
+    // Reset local onboarding store if backend says onboarding is not completed
+    // This handles the case where local storage has stale "completed" data
+    if (
+      isHydrated &&
+      !isLoading &&
+      user &&
+      user.onboardingCompleted === false &&
+      data.isCompleted
+    ) {
+      console.log('Backend says onboarding not completed, resetting local store');
+      resetOnboarding();
+    }
+  }, [isAuthenticated, isLoading, isHydrated, user, router, data.isCompleted, resetOnboarding]);
 
   useEffect(() => {
     // Handle onboarding completion redirect
-    if (data.isCompleted) {
+    // Only redirect if both local store AND backend confirm completion
+    if (data.isCompleted && user?.onboardingCompleted === true) {
       const timer = setTimeout(() => {
         router.push('/chat');
       }, 2000);
 
       return () => clearTimeout(timer);
     }
-  }, [data.isCompleted, router]);
+  }, [data.isCompleted, user?.onboardingCompleted, router]);
 
   // Show loading state while checking authentication or hydrating
   if (!isHydrated || isLoading || (!isAuthenticated && !user)) {
@@ -59,8 +73,8 @@ export default function OnboardingPage() {
     );
   }
 
-  // Show completion state
-  if (data.isCompleted) {
+  // Show completion state only if both local and backend confirm completion
+  if (data.isCompleted && user?.onboardingCompleted === true) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
         <motion.div

@@ -16,6 +16,8 @@ export interface User {
   subscriptionStatus?: 'trial' | 'active' | 'past_due' | 'canceled' | 'unpaid' | null;
   subscriptionTrialEnd?: string;
   hasActiveSubscription?: boolean;
+  cancelAtPeriodEnd?: boolean;
+  onboardingCompleted?: boolean;
 }
 
 // Type pour la réponse brute de l'API (avec _id)

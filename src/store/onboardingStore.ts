@@ -235,10 +235,22 @@ export const useOnboardingStore = create<OnboardingState>()(
 
           await OnboardingService.completeOnboarding(data);
 
+          // Update local onboarding state
           set((state) => ({
             data: { ...state.data, isCompleted: true },
             isLoading: false,
           }));
+
+          // Update user store to reflect onboarding completion
+          // Import dynamically to avoid circular dependencies
+          const { default: useUserStore } = await import('./useUserStore');
+          const userStore = useUserStore.getState();
+          if (userStore.user) {
+            userStore.setUser({
+              ...userStore.user,
+              onboardingCompleted: true,
+            });
+          }
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : 'Completion error';
           set({ error: errorMessage, isLoading: false });

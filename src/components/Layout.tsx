@@ -10,6 +10,7 @@ import { UserMenu } from './auth/UserMenu';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/useAuth';
+import { useOnboardingRedirect } from '@/hooks/useOnboardingRedirect';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,6 +19,9 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
+
+  // Check onboarding status and redirect if needed
+  useOnboardingRedirect();
 
   return (
     <div className="min-h-screen bg-white dark:bg-neutral-900 flex flex-col">

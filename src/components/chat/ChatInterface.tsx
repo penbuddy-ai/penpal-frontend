@@ -4,13 +4,14 @@
  */
 
 import React, { useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { MessageBubble } from './MessageBubble';
 import { TypingIndicator } from './TypingIndicator';
 import { MessageInput } from './MessageInput';
 import { DemoSettings } from './DemoSettings';
 import { DemoLimitDisplay } from './DemoLimitDisplay';
 import { useChatStore } from '@/store/chatStore';
-import { Bot, AlertCircle } from 'lucide-react';
+import { MessageCircle, Sparkles } from 'lucide-react';
 
 export function ChatInterface() {
   const currentConversation = useChatStore((state) => state.getCurrentConversation());
@@ -29,82 +30,79 @@ export function ChatInterface() {
 
   if (!currentConversation) {
     return (
-      <div className="flex flex-col h-full items-center justify-center p-4">
-        <p className="text-neutral-500 dark:text-neutral-400">
-          Aucune conversation active. Commencez une nouvelle conversation.
-        </p>
+      <div className="h-full flex flex-col">
+        <div className="flex-1 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center max-w-md"
+          >
+            <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl flex items-center justify-center">
+              <MessageCircle className="w-8 h-8 text-blue-500" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+              Aucune conversation active
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Commencez une nouvelle conversation pour pratiquer vos compétences linguistiques.
+            </p>
+          </motion.div>
+        </div>
+        <MessageInput />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="h-full flex flex-col">
       {/* Chat Header */}
-      <div className="border-b border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
-        <div className="max-w-4xl mx-auto">
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="flex items-center gap-2">
-                  <Bot size={20} className="text-primary-600" />
-                  <h2 className="text-lg font-medium text-neutral-900 dark:text-neutral-100">
-                    {currentConversation.title}
-                  </h2>
-                </div>
-                <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                  Démonstration AI • Langue: {currentConversation.language}
-                </p>
-              </div>
-              <DemoSettings />
-            </div>
-
-            {/* Demo Limit Display dans le header */}
-            <DemoLimitDisplay />
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex-shrink-0 border-b border-gray-200/50 dark:border-gray-700/50 p-4 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm"
+      >
+        <div className="max-w-4xl mx-auto flex items-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mr-3">
+            <Sparkles className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              {currentConversation.title}
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Langue: {currentConversation.language}
+            </p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 bg-white dark:bg-neutral-900">
+      {/* Messages Area - Takes all available space */}
+      <div className="flex-1 overflow-y-auto p-4">
         <div className="max-w-4xl mx-auto">
-          {/* Error Display */}
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-              <div className="flex items-start gap-2">
-                <AlertCircle
-                  size={16}
-                  className="text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0"
-                />
-                <div className="flex-1">
-                  <div className="text-sm text-red-700 dark:text-red-300 mb-2">{error}</div>
-                  <button
-                    onClick={() => setError(null)}
-                    className="text-xs text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200 underline"
-                  >
-                    Fermer
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+            {currentConversation.messages.map((message, index) => (
+              <motion.div
+                key={message.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <MessageBubble message={message} />
+              </motion.div>
+            ))}
 
-          {currentConversation.messages.map((message) => (
-            <MessageBubble
-              key={message.id}
-              message={message}
-              messageCorrections={currentConversation.messageCorrections?.[message.id]}
-            />
-          ))}
+            {isTyping && <TypingIndicator />}
 
-          {isTyping && <TypingIndicator />}
-
-          {/* Used to scroll to bottom */}
-          <div ref={messagesEndRef} />
+            {/* Used to scroll to bottom */}
+            <div ref={messagesEndRef} />
+          </motion.div>
         </div>
       </div>
 
-      {/* Message Input */}
-      <MessageInput />
+      {/* Message Input - Fixed at bottom */}
+      <div className="flex-shrink-0">
+        <MessageInput />
+      </div>
     </div>
   );
 }

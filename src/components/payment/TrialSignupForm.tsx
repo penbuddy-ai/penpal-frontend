@@ -115,9 +115,8 @@ function TrialSignupFormContent({
 
       await PaymentService.createSubscriptionWithCard(subscriptionData);
 
-      // Success!
+      // Success! Call the success callback which will handle navigation
       onSuccess?.();
-      // router.push('/dashboard?welcome=true&trial=true');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Une erreur est survenue';
       onError?.(errorMessage);

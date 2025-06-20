@@ -27,7 +27,9 @@ export default function CheckoutPage() {
     }
   }, [router.query, router.isReady]);
 
-  const handleSuccess = () => {};
+  const handleSuccess = () => {
+    router.push('/checkout/success');
+  };
 
   const handleError = (errorMessage: string) => {
     setError(errorMessage);

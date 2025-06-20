@@ -1,7 +1,7 @@
 import { SubscriptionPlan } from '@/lib/stripe';
 
 // API Configuration
-const PAYMENT_API_URL = process.env.NEXT_PUBLIC_PAYMENT_API_URL || 'http://localhost:3004';
+const PAYMENT_API_URL = process.env.NEXT_PUBLIC_PAYMENT_API_URL || 'http://localhost:3004/api/v1';
 
 // Types
 export interface CreateSubscriptionRequest {
@@ -146,12 +146,16 @@ export class PaymentService {
   /**
    * Cancel subscription
    */
-  static async cancelSubscription(userId: string): Promise<{ message: string }> {
+  static async cancelSubscription(
+    userId: string,
+    cancelAtPeriodEnd = true
+  ): Promise<{ message: string }> {
     const response = await fetch(`${this.baseURL}/subscriptions/user/${userId}/cancel`, {
-      method: 'DELETE',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ cancelAtPeriodEnd }),
     });
 
     if (!response.ok) {
