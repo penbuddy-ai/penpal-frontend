@@ -18,10 +18,12 @@ export function MessageBubble({ message, messageCorrections }: MessageBubbleProp
   const isBot = message.sender === 'bot';
   const [formattedTime, setFormattedTime] = useState<string>('');
   const [showCorrectionPopup, setShowCorrectionPopup] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   // Utiliser useEffect pour formatter l'heure côté client seulement
   // Cela évite les erreurs d'hydratation entre le serveur et le client
   useEffect(() => {
+    setIsClient(true);
     const date = new Date(message.timestamp);
     setFormattedTime(date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
   }, [message.timestamp]);
@@ -48,7 +50,11 @@ export function MessageBubble({ message, messageCorrections }: MessageBubbleProp
                 : 'bg-gradient-to-br from-purple-500 to-pink-500'
             }`}
           >
-            {isBot ? <Bot className="w-4 h-4 text-white" /> : <User className="w-4 h-4 text-white" />}
+            {isBot ? (
+              <Bot className="w-4 h-4 text-white" />
+            ) : (
+              <User className="w-4 h-4 text-white" />
+            )}
           </div>
 
           {/* Message Content */}
@@ -99,9 +105,9 @@ export function MessageBubble({ message, messageCorrections }: MessageBubbleProp
               )}
 
               {/* Timestamp - Rendu côté client uniquement pour éviter les erreurs d'hydratation */}
-              {formattedTime && (
+              {isClient && formattedTime && (
                 <div
-                  className={`text-xs mt-1 ${isBot ? 'text-neutral-500 dark:text-neutral-400' : 'text-primary-200'}`}
+                  className={`text-xs mt-1 ${isBot ? 'text-gray-500 dark:text-gray-400' : 'text-purple-200'}`}
                 >
                   {formattedTime}
                 </div>
