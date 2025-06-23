@@ -1,6 +1,6 @@
 import React, { useState, useEffect, forwardRef } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { Input, InputProps } from '../Input/Input';
 import { cn } from '@/lib/utils';
 

@@ -29,7 +29,25 @@
   },
   "demo": {
     "title": "Découvrez l'intelligence artificielle pour l'apprentissage des langues",
-    "description": "Pratiquez vos compétences linguistiques avec PenPal AI"
+    "description": "Pratiquez vos compétences linguistiques avec PenPal AI",
+    "header": {
+      "title": "Penpal AI Demo",
+      "subtitle": "Découvrez l'intelligence artificielle pour l'apprentissage des langues",
+      "features": {
+        "realTimeCorrections": "Corrections en temps réel",
+        "detailedExplanations": "Explications détaillées",
+        "naturalConversation": "Conversation naturelle"
+      }
+    },
+    "instructions": {
+      "title": "Comment utiliser la démo",
+      "steps": [
+        "Configurez votre langue, niveau et mode d'apprentissage",
+        "Utilisez les suggestions de conversation ou écrivez votre propre message",
+        "L'IA vous donnera des corrections et explications en temps réel",
+        "Choisissez entre le mode \"Tuteur\" (corrections) ou \"Partenaire\" (conversation)"
+      ]
+    }
   },
   "pricing": {
     "title": "Choisissez votre plan Penpal AI",

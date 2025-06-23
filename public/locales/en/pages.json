@@ -29,7 +29,25 @@
   },
   "demo": {
     "title": "Discover artificial intelligence for language learning",
-    "description": "Practice your language skills with PenPal AI"
+    "description": "Practice your language skills with PenPal AI",
+    "header": {
+      "title": "Penpal AI Demo",
+      "subtitle": "Discover artificial intelligence for language learning",
+      "features": {
+        "realTimeCorrections": "Real-time corrections",
+        "detailedExplanations": "Detailed explanations",
+        "naturalConversation": "Natural conversation"
+      }
+    },
+    "instructions": {
+      "title": "How to use the demo",
+      "steps": [
+        "Configure your language, level and learning mode",
+        "Use conversation suggestions or write your own message",
+        "AI will give you corrections and explanations in real time",
+        "Choose between \"Tutor\" mode (corrections) or \"Partner\" mode (conversation)"
+      ]
+    }
   },
   "pricing": {
     "title": "Choose your Penpal AI plan",

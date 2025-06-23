@@ -3,9 +3,11 @@
  * Showcases the AI demo functionality for language learning
  */
 
-import { NextPage } from 'next';
+import { NextPage, GetStaticProps } from 'next';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout } from '@/components/Layout';
 import { ChatInterface } from '@/components/chat/ChatInterface';
 import { useChatStore } from '@/store/chatStore';
@@ -13,6 +15,7 @@ import { Bot, Sparkles } from 'lucide-react';
 
 const DemoPage: NextPage = () => {
   const router = useRouter();
+  const { t } = useTranslation('pages');
   const createNewConversation = useChatStore((state) => state.createNewConversation);
   const currentConversation = useChatStore((state) => state.getCurrentConversation());
 
@@ -34,25 +37,23 @@ const DemoPage: NextPage = () => {
                 <Bot size={24} />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">Penpal AI Demo</h1>
-                <p className="text-primary-100">
-                  Découvrez l'intelligence artificielle pour l'apprentissage des langues
-                </p>
+                <h1 className="text-2xl font-bold">{t('demo.header.title')}</h1>
+                <p className="text-primary-100">{t('demo.header.subtitle')}</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
               <div className="flex items-center gap-2 text-sm">
                 <Sparkles size={16} className="text-primary-200" />
-                <span>Corrections en temps réel</span>
+                <span>{t('demo.header.features.realTimeCorrections')}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Sparkles size={16} className="text-primary-200" />
-                <span>Explications détaillées</span>
+                <span>{t('demo.header.features.detailedExplanations')}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Sparkles size={16} className="text-primary-200" />
-                <span>Conversation naturelle</span>
+                <span>{t('demo.header.features.naturalConversation')}</span>
               </div>
             </div>
           </div>
@@ -62,15 +63,14 @@ const DemoPage: NextPage = () => {
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
             <h2 className="text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">
-              💡 Comment utiliser la démo
+              💡 {t('demo.instructions.title')}
             </h2>
             <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-              <li>• Configurez votre langue, niveau et mode d'apprentissage</li>
-              <li>• Utilisez les suggestions de conversation ou écrivez votre propre message</li>
-              <li>• L'IA vous donnera des corrections et explications en temps réel</li>
-              <li>
-                • Choisissez entre le mode "Tuteur" (corrections) ou "Partenaire" (conversation)
-              </li>
+              {(t('demo.instructions.steps', { returnObjects: true }) as string[]).map(
+                (step, index) => (
+                  <li key={index}>• {step}</li>
+                )
+              )}
             </ul>
           </div>
         </div>
@@ -82,6 +82,14 @@ const DemoPage: NextPage = () => {
       </div>
     </Layout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'pages', 'chat'])),
+    },
+  };
 };
 
 export default DemoPage;

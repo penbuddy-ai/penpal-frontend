@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { motion } from 'framer-motion';
 import { FormField } from '../ui/FormField/FormField';
 import { PasswordInput } from '../ui/PasswordInput/PasswordInput';

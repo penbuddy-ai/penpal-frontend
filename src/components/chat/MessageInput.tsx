@@ -5,7 +5,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { useChatStore } from '@/store/chatStore';
 import { Send, Mic, Paperclip, Smile } from 'lucide-react';
 
