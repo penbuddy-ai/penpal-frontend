@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { useAuth } from '@/hooks/useAuth';
@@ -11,6 +11,12 @@ export const UserMenu: React.FC = () => {
   const { t } = useTranslation('pages');
   const { user, isAuthenticated, isLoading, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Éviter les problèmes d'hydratation
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -20,7 +26,8 @@ export const UserMenu: React.FC = () => {
     }
   };
 
-  if (isLoading) {
+  // Rendu neutre pendant l'hydratation
+  if (!isClient || isLoading) {
     return (
       <div className="flex items-center space-x-2">
         <div className="animate-pulse bg-gray-300 h-8 w-20 rounded"></div>

@@ -8,7 +8,7 @@ import SubscriptionDebug from '../components/SubscriptionDebug';
 import { useTranslation } from 'next-i18next';
 import { getTranslatedPlan } from '../lib/plan-utils';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import type { GetStaticProps } from 'next';
+import type { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
 export default function CheckoutPage() {
@@ -31,7 +31,7 @@ export default function CheckoutPage() {
     } else if (router.isReady) {
       router.push('/pricing');
     }
-  }, [router.query, router.isReady]);
+  }, [router.query, router.isReady, router]);
 
   const handleSuccess = () => {
     router.push('/checkout/success');
@@ -182,7 +182,7 @@ export default function CheckoutPage() {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale = 'fr' }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common', 'pages'])),

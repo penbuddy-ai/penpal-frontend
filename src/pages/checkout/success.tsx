@@ -5,7 +5,7 @@ import { CheckCircleIcon, ArrowRightIcon } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import type { GetStaticProps } from 'next';
+import type { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
 export default function CheckoutSuccessPage() {
@@ -189,7 +189,7 @@ export default function CheckoutSuccessPage() {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale = 'fr' }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common', 'pages'])),

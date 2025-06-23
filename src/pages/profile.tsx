@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
@@ -664,9 +664,9 @@ function ProfilePage() {
 export default ProfilePage;
 
 /**
- * Get static props pour la page de profil
+ * Get server side props pour la page de profil
  */
-export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale = 'fr' }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common', 'auth', 'profile'])),

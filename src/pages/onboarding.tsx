@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useHydratedUserStore } from '@/hooks/useHydratedUserStore';
 import { useOnboardingStore } from '@/store/onboardingStore';
@@ -119,8 +119,8 @@ export default function OnboardingPage() {
   );
 }
 
-// Static props for better performance
-export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
+// Server-side props for authentication and i18n
+export const getServerSideProps: GetServerSideProps = async ({ locale = 'fr' }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common', 'onboarding'])),

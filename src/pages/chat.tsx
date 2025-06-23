@@ -4,7 +4,7 @@
  * Requires active subscription to access
  */
 
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -93,7 +93,7 @@ export default function ChatPage() {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale = 'fr' }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale = 'fr' }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common', 'chat'])),
