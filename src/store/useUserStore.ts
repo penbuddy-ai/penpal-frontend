@@ -99,7 +99,10 @@ const useUserStore = create<UserState>()(
       register: async (userData) => {
         set({ isLoading: true, error: null });
         try {
+          const user = await authService.register(userData);
           set({
+            user,
+            isAuthenticated: true,
             isLoading: false,
             error: null,
           });
