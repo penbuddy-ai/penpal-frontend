@@ -39,8 +39,12 @@ interface ChatState {
 
   // Actions
   getCurrentConversation: () => Conversation | undefined;
+  getDemoConversations: () => Conversation[];
+  getNormalConversations: () => Conversation[];
   setCurrentConversation: (conversationId: string) => void;
   createNewConversation: (language: string) => string;
+  createNewDemoConversation: (language: string) => string;
+  createNewNormalConversation: (language: string) => string;
   addMessage: (
     content: string,
     sender: 'user' | 'bot',
@@ -51,31 +55,34 @@ interface ChatState {
 
   // Demo AI Actions
   sendDemoMessage: (message: string) => Promise<void>;
+  sendNormalMessage: (message: string) => Promise<void>;
   updateDemoSettings: (settings: Partial<ChatState['demoSettings']>) => void;
   setError: (error: string | null) => void;
   resetDemoConversation: () => void;
   canSendDemoMessage: () => boolean;
+  isCurrentConversationDemo: () => boolean;
 }
 
 // Créer des dates fixes pour éviter les problèmes d'hydratation
 const now = new Date();
 
-// Mock data for initial development
+// Mock data for initial development - creating a demo conversation by default
 const mockInitialConversation: Conversation = {
   id: uuidv4(),
-  title: 'Première conversation',
+  title: 'Conversation Démo',
   language: 'fr',
   messages: [
     {
       id: uuidv4(),
       content:
-        "Bonjour ! Je suis Penpal, votre assistant linguistique. Comment puis-je vous aider aujourd'hui ?",
+        "Bonjour ! Je suis Penpal, votre assistant linguistique IA. Essayez d'écrire quelque chose en anglais et je vous aiderai avec des corrections ! 😊",
       sender: 'bot',
       timestamp: now,
     },
   ],
   createdAt: now,
   updatedAt: now,
+  isDemoConversation: true,
 };
 
 export const useChatStore = create<ChatState>()(
@@ -98,6 +105,21 @@ export const useChatStore = create<ChatState>()(
         return conversations.find((conv) => conv.id === currentConversationId);
       },
 
+      getDemoConversations: () => {
+        const { conversations } = get();
+        return conversations.filter((conv) => conv.isDemoConversation === true);
+      },
+
+      getNormalConversations: () => {
+        const { conversations } = get();
+        return conversations.filter((conv) => !conv.isDemoConversation);
+      },
+
+      isCurrentConversationDemo: () => {
+        const currentConv = get().getCurrentConversation();
+        return currentConv?.isDemoConversation === true;
+      },
+
       setCurrentConversation: (conversationId: string) => {
         const { conversations } = get();
         if (conversations.some((conv) => conv.id === conversationId)) {
@@ -106,6 +128,39 @@ export const useChatStore = create<ChatState>()(
       },
 
       createNewConversation: (language: string) => {
+        // By default, create a normal conversation (for backward compatibility)
+        return get().createNewNormalConversation(language);
+      },
+
+      createNewDemoConversation: (language: string) => {
+        const currentTime = new Date();
+        const newConversation: Conversation = {
+          id: uuidv4(),
+          title: `Démo ${currentTime.toLocaleDateString()}`,
+          language,
+          messages: [
+            {
+              id: uuidv4(),
+              content: `Bonjour ! Je suis Penpal, votre assistant linguistique IA. Essayez d'écrire quelque chose en ${language === 'fr' ? 'anglais' : 'français'} et je vous aiderai avec des corrections ! 😊`,
+              sender: 'bot',
+              timestamp: currentTime,
+            },
+          ],
+          createdAt: currentTime,
+          updatedAt: currentTime,
+          isDemoConversation: true,
+        };
+
+        set((state) => ({
+          conversations: [...state.conversations, newConversation],
+          currentConversationId: newConversation.id,
+          demoMessageCount: 0, // Reset demo message count for new demo conversation
+        }));
+
+        return newConversation.id;
+      },
+
+      createNewNormalConversation: (language: string) => {
         const currentTime = new Date();
         const newConversation: Conversation = {
           id: uuidv4(),
@@ -121,6 +176,7 @@ export const useChatStore = create<ChatState>()(
           ],
           createdAt: currentTime,
           updatedAt: currentTime,
+          isDemoConversation: false,
         };
 
         set((state) => ({
@@ -157,11 +213,11 @@ export const useChatStore = create<ChatState>()(
 
         set({ conversations: updatedConversations });
 
-        // Simulate bot typing for development
-        if (sender === 'user') {
+        // For normal conversations, simulate bot typing
+        if (sender === 'user' && !get().isCurrentConversationDemo()) {
           set({ isTyping: true });
 
-          // Mock bot response after a delay
+          // Mock bot response after a delay for normal conversations
           setTimeout(() => {
             const responseTime = new Date();
             const botMessage: ChatMessage = {
@@ -216,8 +272,14 @@ export const useChatStore = create<ChatState>()(
       },
 
       sendDemoMessage: async (message: string) => {
-        const { currentConversationId, demoSettings, demoMessageCount, demoMessageLimit } = get();
-        if (!currentConversationId) return;
+        const {
+          currentConversationId,
+          demoSettings,
+          demoMessageCount,
+          demoMessageLimit,
+          isCurrentConversationDemo,
+        } = get();
+        if (!currentConversationId || !isCurrentConversationDemo()) return;
 
         // Check message limit
         if (demoMessageCount >= demoMessageLimit) {
@@ -329,6 +391,14 @@ export const useChatStore = create<ChatState>()(
         }
       },
 
+      sendNormalMessage: async (message: string) => {
+        const { currentConversationId, isCurrentConversationDemo } = get();
+        if (!currentConversationId || isCurrentConversationDemo()) return;
+
+        // For normal conversations, just use the regular addMessage method
+        get().addMessage(message, 'user');
+      },
+
       updateDemoSettings: (settings: Partial<ChatState['demoSettings']>) => {
         set((state) => ({
           demoSettings: {
@@ -343,14 +413,14 @@ export const useChatStore = create<ChatState>()(
       },
 
       resetDemoConversation: () => {
-        const { currentConversationId } = get();
-        if (!currentConversationId) return;
+        const { currentConversationId, isCurrentConversationDemo } = get();
+        if (!currentConversationId || !isCurrentConversationDemo()) return;
 
         const currentTime = new Date();
         const welcomeMessage: ChatMessage = {
           id: uuidv4(),
           content:
-            "Bonjour ! Je suis Penpal, votre assistant linguistique IA. Comment puis-je vous aider aujourd'hui ? 😊",
+            "Bonjour ! Je suis Penpal, votre assistant linguistique IA. Essayez d'écrire quelque chose et je vous aiderai avec des corrections ! 😊",
           sender: 'bot',
           timestamp: currentTime,
         };

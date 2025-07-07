@@ -14,11 +14,17 @@ import { Layout } from '@/components/Layout';
 import { ChatInterface } from '@/components/chat';
 import { ProtectedRoute } from '@/components/auth';
 import { useAuth } from '@/hooks/useAuth';
+import { useChatStore } from '@/store/chatStore';
 
 export default function ChatPage() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
   const [isCheckingSubscription, setIsCheckingSubscription] = useState(true);
+
+  // Chat store methods
+  const getCurrentConversation = useChatStore((state) => state.getCurrentConversation);
+  const isCurrentConversationDemo = useChatStore((state) => state.isCurrentConversationDemo);
+  const createNewNormalConversation = useChatStore((state) => state.createNewNormalConversation);
 
   useEffect(() => {
     // Only check subscription when user data is loaded
@@ -36,6 +42,25 @@ export default function ChatPage() {
       setIsCheckingSubscription(false);
     }
   }, [user, isLoading, router]);
+
+  // Ensure we have a normal conversation when accessing the chat page
+  useEffect(() => {
+    if (!isLoading && user?.hasActiveSubscription) {
+      const currentConv = getCurrentConversation();
+      const isDemoConv = isCurrentConversationDemo();
+
+      // If no conversation exists or current is a demo conversation, create a normal one
+      if (!currentConv || isDemoConv) {
+        createNewNormalConversation('fr');
+      }
+    }
+  }, [
+    isLoading,
+    user,
+    getCurrentConversation,
+    isCurrentConversationDemo,
+    createNewNormalConversation,
+  ]);
 
   // Show loading while checking subscription
   if (isLoading || isCheckingSubscription) {

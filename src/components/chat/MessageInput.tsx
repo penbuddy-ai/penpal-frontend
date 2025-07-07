@@ -16,6 +16,9 @@ export function MessageInput() {
   const addMessage = useChatStore((state) => state.addMessage);
   const isTyping = useChatStore((state) => state.isTyping);
   const canSendMessage = useChatStore((state) => state.canSendDemoMessage());
+  const isCurrentConversationDemo = useChatStore((state) => state.isCurrentConversationDemo());
+  const sendDemoMessage = useChatStore((state) => state.sendDemoMessage);
+  const sendNormalMessage = useChatStore((state) => state.sendNormalMessage);
 
   // Auto-resize textarea as content grows
   useEffect(() => {
@@ -26,10 +29,11 @@ export function MessageInput() {
     }
   }, [message]);
 
-  const sendDemoMessage = useChatStore((state) => state.sendDemoMessage);
-
   const handleSendMessage = async () => {
-    if (message.trim() === '' || isTyping || !canSendMessage) return;
+    if (message.trim() === '' || isTyping) return;
+
+    // For demo conversations, check the demo message limit
+    if (isCurrentConversationDemo && !canSendMessage) return;
 
     const messageToSend = message.trim();
     setMessage('');
@@ -39,8 +43,12 @@ export function MessageInput() {
       textareaRef.current.style.height = 'auto';
     }
 
-    // Use AI demo instead of the mock message system
-    await sendDemoMessage(messageToSend);
+    // Use appropriate send method based on conversation type
+    if (isCurrentConversationDemo) {
+      await sendDemoMessage(messageToSend);
+    } else {
+      await sendNormalMessage(messageToSend);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -49,6 +57,10 @@ export function MessageInput() {
       handleSendMessage();
     }
   };
+
+  // Check if sending is disabled
+  const isSendDisabled =
+    message.trim() === '' || isTyping || (isCurrentConversationDemo && !canSendMessage);
 
   return (
     <motion.div
@@ -75,7 +87,9 @@ export function MessageInput() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={t('input.placeholder')}
+              placeholder={
+                isCurrentConversationDemo ? t('input.placeholder') : 'Tapez votre message...'
+              }
               className="w-full bg-transparent px-4 py-3 pr-16 focus:outline-none focus:ring-0 focus:border-transparent resize-none min-h-[44px] max-h-[120px] leading-relaxed text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 text-sm"
               rows={1}
               disabled={isTyping}
@@ -85,12 +99,12 @@ export function MessageInput() {
             {/* Action Buttons */}
             <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
               <motion.button
-                whileHover={{ scale: message.trim() ? 1.1 : 1 }}
-                whileTap={{ scale: message.trim() ? 0.9 : 1 }}
+                whileHover={{ scale: !isSendDisabled ? 1.1 : 1 }}
+                whileTap={{ scale: !isSendDisabled ? 0.9 : 1 }}
                 onClick={handleSendMessage}
-                disabled={message.trim() === '' || isTyping}
+                disabled={isSendDisabled}
                 className={`p-1.5 rounded-lg transition-all duration-200 ${
-                  message.trim() === '' || isTyping
+                  isSendDisabled
                     ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
                     : 'text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-md hover:shadow-lg'
                 }`}

@@ -16,15 +16,16 @@ import { Bot, Sparkles } from 'lucide-react';
 const DemoPage: NextPage = () => {
   const router = useRouter();
   const { t } = useTranslation('pages');
-  const createNewConversation = useChatStore((state) => state.createNewConversation);
+  const createNewDemoConversation = useChatStore((state) => state.createNewDemoConversation);
   const currentConversation = useChatStore((state) => state.getCurrentConversation());
+  const isCurrentConversationDemo = useChatStore((state) => state.isCurrentConversationDemo());
 
-  // Create a demo conversation on page load if none exists
+  // Create a demo conversation on page load if none exists or current is not a demo
   useEffect(() => {
-    if (!currentConversation) {
-      createNewConversation('AI Demo');
+    if (!currentConversation || !isCurrentConversationDemo) {
+      createNewDemoConversation('AI Demo');
     }
-  }, [createNewConversation, currentConversation]);
+  }, [createNewDemoConversation, currentConversation, isCurrentConversationDemo]);
 
   return (
     <Layout>

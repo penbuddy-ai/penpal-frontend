@@ -36,6 +36,7 @@ export interface Conversation {
   createdAt: Date;
   updatedAt: Date;
   messageCorrections?: Record<string, MessageCorrections>; // Store corrections by message ID
+  isDemoConversation?: boolean; // Flag to distinguish demo conversations from normal ones
 }
 
 // Demo AI Integration Types

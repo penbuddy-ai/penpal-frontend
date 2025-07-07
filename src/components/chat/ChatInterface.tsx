@@ -14,10 +14,18 @@ import { useHydratedChatStore } from '@/hooks/useHydratedChatStore';
 import { MessageCircle, Sparkles, AlertCircle } from 'lucide-react';
 
 export function ChatInterface() {
-  const { getCurrentConversation, isTyping, error, setError, sendDemoMessage, isHydrated } =
-    useHydratedChatStore();
+  const {
+    getCurrentConversation,
+    isTyping,
+    error,
+    setError,
+    sendDemoMessage,
+    isHydrated,
+    isCurrentConversationDemo,
+  } = useHydratedChatStore();
 
   const currentConversation = getCurrentConversation();
+  const isDemoMode = isCurrentConversationDemo();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Scroll to bottom when messages change or when bot is typing
@@ -81,16 +89,22 @@ export function ChatInterface() {
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                   {currentConversation.title}
+                  {isDemoMode && (
+                    <span className="ml-2 px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
+                      Démo
+                    </span>
+                  )}
                 </h2>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Langue: {currentConversation.language}
                 </p>
               </div>
             </div>
-            <DemoSettings />
+            {/* Only show demo settings for demo conversations */}
+            {isDemoMode && <DemoSettings />}
           </div>
-          {/* Demo Limit Display dans le header */}
-          <DemoLimitDisplay />
+          {/* Only show demo limit display for demo conversations */}
+          {isDemoMode && <DemoLimitDisplay />}
         </div>
       </motion.div>
 
