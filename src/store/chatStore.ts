@@ -8,8 +8,6 @@ import {
   ChatMessage,
   Conversation,
   DemoChatRequest,
-  MessageCorrections,
-  ConversationContext,
   SupportedLanguage,
   LanguageLevel,
   ChatMode,

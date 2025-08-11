@@ -19,7 +19,6 @@ export function ChatInterface() {
     isTyping,
     error,
     setError,
-    sendDemoMessage,
     isHydrated,
     isCurrentConversationDemo,
   } = useHydratedChatStore();

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { PricingCard } from '@/components/pricing/PricingCard';
@@ -17,7 +17,7 @@ export default function PricingPage() {
   const { t } = useTranslation('pages');
 
   // Hook subscription management
-  const { subscription, needsUpgrade, canAccessPremiumFeatures } = useSubscription();
+  const { subscription } = useSubscription();
 
   const requireAuthForAction = () => {
     if (!isAuthenticated) {

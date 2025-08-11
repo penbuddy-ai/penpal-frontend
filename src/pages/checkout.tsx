@@ -13,7 +13,7 @@ import Head from 'next/head';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { user, isAuthenticated, isLoading: authLoading, requireAuth } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const { t } = useTranslation('pages');
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(null);
   const [error, setError] = useState<string | null>(null);

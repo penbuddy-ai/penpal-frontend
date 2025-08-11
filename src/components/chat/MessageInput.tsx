@@ -7,13 +7,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import { useChatStore } from '@/store/chatStore';
-import { Send, Mic, Paperclip, Smile } from 'lucide-react';
+import { Send, Mic, Paperclip } from 'lucide-react';
 
 export function MessageInput() {
   const { t } = useTranslation('chat');
   const [message, setMessage] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const addMessage = useChatStore((state) => state.addMessage);
   const isTyping = useChatStore((state) => state.isTyping);
   const canSendMessage = useChatStore((state) => state.canSendDemoMessage());
   const isCurrentConversationDemo = useChatStore((state) => state.isCurrentConversationDemo());

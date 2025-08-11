@@ -8,7 +8,7 @@ interface MetricsTabProps {
  * Metrics Tab Component
  * Vue des métriques avancées et graphiques (à développer)
  */
-export const MetricsTab: React.FC<MetricsTabProps> = ({ loading }) => {
+export const MetricsTab: React.FC<MetricsTabProps> = () => {
   return (
     <div className="space-y-6">
       {/* Coming Soon Message */}

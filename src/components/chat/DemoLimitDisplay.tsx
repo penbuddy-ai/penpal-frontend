@@ -12,7 +12,6 @@ export function DemoLimitDisplay() {
   const demoMessageCount = useChatStore((state) => state.demoMessageCount);
   const demoMessageLimit = useChatStore((state) => state.demoMessageLimit);
   const resetDemoConversation = useChatStore((state) => state.resetDemoConversation);
-  const canSendMessage = useChatStore((state) => state.canSendDemoMessage());
 
   const percentage = Math.round((demoMessageCount / demoMessageLimit) * 100);
   const isNearLimit = percentage >= 60; // À partir de 3/5 messages (60%)

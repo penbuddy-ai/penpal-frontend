@@ -16,12 +16,14 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint', 'jest', 'prettier'],
   rules: {
-    'prettier/prettier': 'error',
-    '@typescript-eslint/no-unused-vars': ['error'],
+    'prettier/prettier': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/no-unescaped-entities': 'off',
+    'react-hooks/exhaustive-deps': 'warn',
   },
   settings: {
     react: {

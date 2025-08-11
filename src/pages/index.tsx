@@ -1,7 +1,7 @@
 import { Layout } from '@/components/Layout';
 import type { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation, Trans } from 'next-i18next';
+import { useTranslation } from 'next-i18next';
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 import Link from 'next/link';

@@ -3,7 +3,6 @@ import { useTranslation } from 'next-i18next';
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { ServiceHealth } from '../../../services/monitoring.service';
-import { ServiceHealthCard } from '../ServiceHealthCard';
 
 interface ServicesTabProps {
   services: ServiceHealth[];

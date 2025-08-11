@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
  */
 export function SummaryStep() {
   const { data, goToStep, isLoading } = useOnboardingStore();
-  const router = useRouter();
 
   const selectedLanguage = POPULAR_LANGUAGES.find((lang) => lang.code === data.learningLanguage);
   const proficiencyInfo = PROFICIENCY_LEVELS[data.proficiencyLevel];

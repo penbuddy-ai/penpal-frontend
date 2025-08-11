@@ -1,5 +1,3 @@
-import { requireCurrentUserId } from './user-utils';
-
 const API_BASE_URL = process.env.NEXT_PUBLIC_AUTH_SERVICE_URL || 'http://localhost:3002/api/v1';
 
 /**

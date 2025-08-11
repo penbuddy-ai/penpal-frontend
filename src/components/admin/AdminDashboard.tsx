@@ -3,16 +3,9 @@ import { useTranslation } from 'next-i18next';
 import { RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { monitoringService } from '@/services/monitoring.service';
-import { ServiceHealth, HealthSummary } from '@/services/monitoring.service';
+import { ServiceHealth } from '@/services/monitoring.service';
 import { useAuth } from '@/hooks/useAuth';
-import {
-  HealthSummaryWidget,
-  ServiceHealthCard,
-  OverviewTab,
-  ServicesTab,
-  ServiceTab,
-  TabNavigation,
-} from './index';
+import { OverviewTab, ServicesTab, ServiceTab, TabNavigation } from './index';
 import { Tab } from './TabNavigation';
 
 /**
@@ -21,7 +14,7 @@ import { Tab } from './TabNavigation';
  */
 export default function AdminDashboard() {
   const { t } = useTranslation('admin');
-  const { user, isLoading: authLoading } = useAuth();
+  const { isLoading: authLoading } = useAuth();
   const [services, setServices] = useState<ServiceHealth[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());

@@ -47,7 +47,6 @@ function TrialSignupFormContent({
 }: TrialSignupFormProps) {
   const stripe = useStripe();
   const elements = useElements();
-  const router = useRouter();
   const { t } = useTranslation('pages');
   const [loading, setLoading] = useState(false);
   const [cardComplete, setCardComplete] = useState(false);

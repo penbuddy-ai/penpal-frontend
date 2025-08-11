@@ -5,7 +5,6 @@
 
 import { NextPage, GetStaticProps } from 'next';
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout } from '@/components/Layout';
@@ -14,7 +13,6 @@ import { useChatStore } from '@/store/chatStore';
 import { Bot, Sparkles } from 'lucide-react';
 
 const DemoPage: NextPage = () => {
-  const router = useRouter();
   const { t } = useTranslation('pages');
   const createNewDemoConversation = useChatStore((state) => state.createNewDemoConversation);
   const currentConversation = useChatStore((state) => state.getCurrentConversation());

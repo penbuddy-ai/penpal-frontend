@@ -41,7 +41,7 @@ const stepVariants = {
  * Main onboarding flow component
  */
 export function OnboardingFlow() {
-  const { getCurrentStep, getProgress, data, error } = useOnboardingStore();
+  const { getCurrentStep, getProgress, error } = useOnboardingStore();
 
   const currentStep = getCurrentStep();
   const progress = getProgress();
