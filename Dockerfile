@@ -1,45 +1,48 @@
 # Stage 0: Base (libc for Next.js SWC on Alpine)
 FROM node:20-alpine AS base
+# Install libc6-compat for Alpine compatibility
 RUN apk add --no-cache libc6-compat
 
 # Stage 1: Dependencies
 FROM base AS deps
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+# Copy package files
+COPY package.json package-lock.json* ./
 
-# Install all dependencies (including devDependencies) for development
-ARG NODE_ENV=development
-ENV NODE_ENV=${NODE_ENV}
+# Install all dependencies (including devDependencies needed for build)
 RUN npm ci
 
 # Stage 2: Builder
 FROM base AS builder
 WORKDIR /app
 
+# Copy node_modules from deps stage
 COPY --from=deps /app/node_modules ./node_modules
+
+# Copy all source files
 COPY . .
 
-# Ensure production optimizations and pass build-time public env
+# Set build-time environment variables
 ARG NEXT_PUBLIC_API_URL
-ENV NODE_ENV=production \
-    NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
     NEXT_TELEMETRY_DISABLED=1
 
+# Build the application
 RUN npm run build
 
 # Stage 3: Development
 FROM base AS development
 WORKDIR /app
 
-# Copy all files including node_modules for development
+# Copy node_modules and source files
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Set development environment
-ENV NODE_ENV=development
-ENV PORT=3000
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=development \
+    PORT=3000 \
+    NEXT_TELEMETRY_DISABLED=1
 
 EXPOSE 3000
 
@@ -48,9 +51,6 @@ CMD ["npm", "run", "dev"]
 # Stage 4: Production
 FROM base AS production
 WORKDIR /app
-
-# Set to production environment
-ENV NODE_ENV=production
 
 # Create a non-root user to run the app
 RUN addgroup --system --gid 1001 nodejs && \
@@ -69,10 +69,11 @@ RUN chown -R nextjs:nodejs /app
 # Switch to non-root user
 USER nextjs
 
-EXPOSE 3000
+# Set production environment variables
+ENV NODE_ENV=production \
+    PORT=3000 \
+    NEXT_TELEMETRY_DISABLED=1
 
-# Set environment variables for runtime
-ENV PORT=3000
-ENV NEXT_TELEMETRY_DISABLED=1
+EXPOSE 3000
 
 CMD ["node", "server.js"] 
