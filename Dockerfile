@@ -20,13 +20,23 @@ WORKDIR /app
 # Copy node_modules from deps stage
 COPY --from=deps /app/node_modules ./node_modules
 
-# Copy all source files
+# Copy all source files (excluding node_modules, .git, .next)
 COPY . .
 
 # Set build-time environment variables
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
-    NEXT_TELEMETRY_DISABLED=1
+    NEXT_TELEMETRY_DISABLED=1 \
+    NODE_ENV=production
+
+# Clean any existing build artifacts
+RUN rm -rf .next
+
+# Verify installation and show debug info
+RUN echo "=== Working directory ===" && ls -la && \
+    echo "=== Node.js version ===" && node --version && \
+    echo "=== NPM version ===" && npm --version && \
+    echo "=== Next.js version ===" && npx next --version
 
 # Build the application
 RUN npm run build
