@@ -4,15 +4,14 @@ import { RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { monitoringService } from '@/services/monitoring.service';
 import { ServiceHealth, HealthSummary } from '@/services/monitoring.service';
-import { useAuth } from '@/hooks/useAuth';
-import {
-  HealthSummaryWidget,
-  ServiceHealthCard,
-  OverviewTab,
-  ServicesTab,
-  ServiceTab,
-  TabNavigation,
-} from './index';
+import { HealthSummaryWidget } from './HealthSummaryWidget';
+import { ServiceHealthCard } from './ServiceHealthCard';
+import { OverviewTab } from './views/OverviewTab';
+import { ServicesTab } from './views/ServicesTab';
+import { ServiceTab } from './views/ServiceTab';
+import { TabNavigation } from './TabNavigation';
+import { AuthServiceTab } from './views/AuthServiceTab';
+import { AIServiceTab } from './views/AIServiceTab';
 import { Tab } from './TabNavigation';
 
 /**
@@ -21,7 +20,6 @@ import { Tab } from './TabNavigation';
  */
 export default function AdminDashboard() {
   const { t } = useTranslation('admin');
-  const { user, isLoading: authLoading } = useAuth();
   const [services, setServices] = useState<ServiceHealth[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
@@ -77,11 +75,7 @@ export default function AdminDashboard() {
         return <ServicesTab services={services} loading={isLoading} />;
       case 'auth-service':
         return (
-          <ServiceTab
-            serviceName="auth-service"
-            serviceIcon="🔐"
-            serviceDisplayName={t('navigation.authService')}
-            serviceDescription={t('serviceDescriptions.authService')}
+          <AuthServiceTab
             service={service}
             loading={isLoading}
           />
@@ -99,11 +93,7 @@ export default function AdminDashboard() {
         );
       case 'ai-service':
         return (
-          <ServiceTab
-            serviceName="ai-service"
-            serviceIcon="🤖"
-            serviceDisplayName={t('navigation.aiService')}
-            serviceDescription={t('serviceDescriptions.aiService')}
+          <AIServiceTab
             service={service}
             loading={isLoading}
           />
@@ -131,17 +121,6 @@ export default function AdminDashboard() {
         );
     }
   };
-
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-white dark:bg-neutral-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-neutral-600 dark:text-neutral-400">{t('common.loading')}</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
