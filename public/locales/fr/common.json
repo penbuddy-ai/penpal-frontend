@@ -1,5 +1,50 @@
 {
-  "welcome": "Bienvenue sur PenPal AI",
-  "tagline": "Votre partenaire d'apprentissage linguistique IA",
-  "getStarted": "Commencer"
+  "title": "PenPal",
+  "welcome": "Bienvenue sur PenPal",
+  "tagline": "Commencez à correspondre avec des personnes du monde entier",
+  "getStarted": "Commencer",
+  "login": "Se connecter",
+  "register": "S'inscrire",
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système",
+    "activate": "Activer le thème {{theme}}",
+    "use": "Utiliser le thème système"
+  },
+  "language": {
+    "fr": "Français",
+    "en": "Anglais",
+    "switchLanguage": "Changer de langue"
+  },
+  "pricing": {
+    "currentPlan": "Plan actuel",
+    "savings": "économies"
+  },
+  "loading": "Chargement...",
+  "error": "Erreur",
+  "success": "Succès",
+  "cancel": "Annuler",
+  "confirm": "Confirmer",
+  "save": "Sauvegarder",
+  "edit": "Modifier",
+  "delete": "Supprimer",
+  "close": "Fermer",
+  "back": "Retour",
+  "next": "Suivant",
+  "previous": "Précédent",
+  "finish": "Terminer",
+  "continue": "Continuer",
+  "navigation": {
+    "chat": "Chat",
+    "progress": "Progrès",
+    "about": "À propos",
+    "features": "Fonctionnalités"
+  },
+  "footer": {
+    "copyright": "© 2025 PenPal AI. Tous droits réservés.",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "support": "Support"
+  }
 }

@@ -1,0 +1,111 @@
+{
+  "title": "My Profile | PenPal AI",
+  "description": "Manage your PenPal AI profile",
+  "personalInfo": "Personal information",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "preferredName": "Preferred name (optional)",
+  "email": "Email",
+  "nativeLanguage": "Native language",
+  "learningLanguages": "Learning languages",
+  "notDefined": "Not defined",
+  "noLanguagesSelected": "No languages selected",
+  "actions": {
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving..."
+  },
+  "messages": {
+    "updateSuccess": "Profile updated successfully!",
+    "updateError": "Error updating profile",
+    "cancelSuccess": "Subscription canceled successfully",
+    "cancelError": "Error canceling subscription"
+  },
+  "validation": {
+    "firstNameRequired": "First name required (min. 2 characters)",
+    "lastNameRequired": "Last name required (min. 2 characters)",
+    "emailInvalid": "Invalid email"
+  },
+  "subscription": {
+    "password": "Password",
+    "changePassword": "Change password",
+    "billing": "Billing",
+    "plan": "Current plan",
+    "monthly": "monthly subscription",
+    "yearly": "yearly subscription",
+    "trial": "Trial period",
+    "trialEnds": "Ends on",
+    "trialEnded": "Your trial period has ended. Choose a plan to continue using PenPal AI.",
+    "cancelAtPeriodEnd": "Your subscription will end at the end of your current billing period. You will keep access to all features until that date.",
+    "cancel": "Cancel subscription",
+    "upgrade": "Upgrade",
+    "choosePlan": "Choose a plan"
+  },
+  "modals": {
+    "cancelSubscription": {
+      "title": "Cancel your subscription",
+      "message": "Are you sure you want to cancel your subscription? You will keep access until the end of your current billing period, but your subscription will not be renewed.",
+      "confirm": "Yes, cancel",
+      "cancel": "No, keep"
+    },
+    "subscriptionCanceled": {
+      "title": "Subscription canceled successfully",
+      "message": "Your subscription has been canceled and will end at the end of your current billing period. You will keep access to all features until that date.",
+      "close": "Okay"
+    }
+  },
+  "loading": {
+    "initializing": "Initializing...",
+    "authenticating": "Verifying authentication...",
+    "updating": "Updating..."
+  },
+  "security": {
+    "title": "Security",
+    "password": {
+      "title": "Password",
+      "lastModified": "Recently modified",
+      "change": "Change"
+    },
+    "twoFactor": {
+      "title": "2FA Authentication",
+      "description": "Additional protection",
+      "configure": "Configure"
+    }
+  },
+  "subscription": {
+    "title": "My Subscription",
+    "plan": "Plan",
+    "price": "Price",
+    "password": "Password",
+    "changePassword": "Change password",
+    "billing": "Billing",
+    "currentPlan": "Current plan",
+    "monthly": "monthly subscription",
+    "yearly": "yearly subscription",
+    "trial": {
+      "title": "Free trial period",
+      "daysLeft": "{{count}} day left",
+      "daysLeft_other": "{{count}} days left",
+      "endsOn": "Ends on {{date}}"
+    },
+    "trialEnded": "Your trial period has ended. Choose a plan to continue using PenPal AI.",
+    "canceling": {
+      "title": "Subscription being canceled",
+      "description": "Your subscription will end at the end of your current billing period. You will keep access to all features until that date."
+    },
+    "features": {
+      "title": "Included features:"
+    },
+    "actions": {
+      "cancel": "Cancel subscription",
+      "choosePlan": "Choose a plan",
+      "changePlan": "Change plan",
+      "viewPlans": "View plans"
+    },
+    "trialExpired": {
+      "title": "Free trial expired",
+      "description": "Your trial period has ended. Choose a plan to continue using Penpal AI."
+    }
+  }
+}

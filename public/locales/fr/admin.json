@@ -1,0 +1,153 @@
+{
+  "title": "Tableau de Bord Admin",
+  "description": "Surveiller et gérer les services Penpal AI",
+  "navigation": {
+    "overview": "Vue d'ensemble",
+    "services": "Services",
+    "authService": "Service Auth",
+    "dbService": "Service DB",
+    "aiService": "Service IA",
+    "paymentService": "Service Paiement"
+  },
+  "common": {
+    "loading": "Chargement des données de monitoring...",
+    "refresh": "Actualiser",
+    "lastRefresh": "Dernière actualisation",
+    "status": "Statut",
+    "healthy": "Sain",
+    "unhealthy": "Dysfonctionnel",
+    "responseTime": "Temps de Réponse",
+    "lastChecked": "Dernière Vérification",
+    "uptime": "Disponibilité",
+    "requests": "Requêtes",
+    "features": "Fonctionnalités",
+    "apiEndpoints": "Points d'API",
+    "performanceMetrics": "Métriques de Performance",
+    "systemInformation": "Informations Système",
+    "quickActions": "Actions Rapides",
+    "comingSoon": "Bientôt Disponible",
+    "today": "Aujourd'hui",
+    "last24h": "Dernières 24h"
+  },
+  "overview": {
+    "systemHealthOverview": "Vue d'ensemble de la Santé du Système",
+    "totalServices": "Total des Services",
+    "criticalIssues": "Problèmes Critiques",
+    "lastUpdate": "Dernière Mise à Jour",
+    "avgResponseTime": "Temps de Réponse Moyen",
+    "systemHealth": "Santé du Système",
+    "servicesStatus": "Statut des Services",
+    "noServicesFound": "Aucun Service Trouvé",
+    "noServicesMessage": "Aucun service n'est actuellement surveillé.",
+    "environment": "Environnement",
+    "monitoring": "Surveillance",
+    "dataCollection": "Collecte de Données",
+    "retention": "Rétention",
+    "development": "Développement",
+    "everyThirtySeconds": "Toutes les 30 secondes",
+    "realTimeMonitoring": "Surveillance en temps réel"
+  },
+  "services": {
+    "searchPlaceholder": "Rechercher des services...",
+    "sortBy": "Trier par",
+    "name": "Nom",
+    "all": "Tous",
+    "filtered": "Filtrés",
+    "noServicesFound": "Aucun Service Trouvé",
+    "adjustFilters": "Essayez d'ajuster vos filtres ou votre terme de recherche.",
+    "notMonitored": "Aucun service n'est actuellement surveillé.",
+    "description": "Description",
+    "endpoint": "Point de terminaison",
+    "actions": "Actions",
+    "details": "Détails",
+    "logs": "Logs",
+    "error": "Erreur"
+  },
+  "service": {
+    "notFound": "Service Non Trouvé",
+    "notFoundMessage": "Ce service n'est pas actuellement surveillé ou est hors ligne.",
+    "chartsComingSoon": "Graphiques Bientôt Disponibles",
+    "chartsDescription": "Les graphiques de performance en temps réel et la visualisation des données historiques seront affichés ici.",
+    "serviceError": "Erreur de Service",
+    "url": "URL"
+  },
+  "serviceDescriptions": {
+    "authService": "Gère l'authentification, l'autorisation et la gestion de session des utilisateurs",
+    "dbService": "Gère les opérations de base de données, le stockage et la récupération de données",
+    "aiService": "Alimente les conversations IA et le traitement du langage naturel",
+    "paymentService": "Gère le traitement des paiements, les abonnements et la facturation"
+  },
+  "features": {
+    "auth": {
+      "userAuthentication": "Authentification Utilisateur",
+      "jwtTokenManagement": "Gestion des Tokens JWT",
+      "oauthIntegration": "Intégration OAuth",
+      "sessionManagement": "Gestion de Session",
+      "passwordSecurity": "Sécurité des Mots de Passe",
+      "accountManagement": "Gestion de Compte"
+    },
+    "db": {
+      "databaseOperations": "Opérations de Base de Données",
+      "dataManagement": "Gestion des Données",
+      "crudOperations": "Opérations CRUD",
+      "dataValidation": "Validation des Données",
+      "databaseMigrations": "Migrations de Base de Données",
+      "dataBackup": "Sauvegarde des Données"
+    },
+    "ai": {
+      "aiConversations": "Conversations IA",
+      "nlp": "Traitement du Langage Naturel",
+      "responseGeneration": "Génération de Réponses",
+      "contextManagement": "Gestion de Contexte",
+      "aiModelIntegration": "Intégration de Modèles IA",
+      "languageDetection": "Détection de Langue"
+    },
+    "payment": {
+      "paymentProcessing": "Traitement des Paiements",
+      "stripeIntegration": "Intégration Stripe",
+      "subscriptionManagement": "Gestion des Abonnements",
+      "billingOperations": "Opérations de Facturation",
+      "webhookHandling": "Gestion des Webhooks",
+      "invoiceGeneration": "Génération de Factures"
+    }
+  },
+  "endpoints": {
+    "auth": {
+      "login": "Connexion utilisateur",
+      "register": "Inscription utilisateur",
+      "me": "Obtenir l'utilisateur actuel",
+      "logout": "Déconnexion utilisateur"
+    },
+    "db": {
+      "getUsers": "Obtenir les utilisateurs",
+      "createUser": "Créer un utilisateur",
+      "getConversations": "Obtenir les conversations",
+      "createConversation": "Créer une conversation"
+    },
+    "ai": {
+      "startConversation": "Démarrer une conversation",
+      "sendMessage": "Envoyer un message",
+      "getConversation": "Obtenir une conversation",
+      "getAiCharacters": "Obtenir les personnages IA"
+    },
+    "payment": {
+      "createSubscription": "Créer un abonnement",
+      "getSubscription": "Obtenir un abonnement",
+      "processPayment": "Traiter un paiement",
+      "stripeWebhook": "Webhook Stripe"
+    }
+  },
+  "errors": {
+    "loadFailed": "Échec du chargement des données de surveillance. Veuillez vérifier si le service de surveillance fonctionne.",
+    "unknownTab": "Onglet Inconnu",
+    "tabNotConfigured": "Cet onglet n'est pas configuré."
+  },
+  "externalLinks": {
+    "monitoringApi": "API de Surveillance",
+    "monitoringApiDescription": "Voir la documentation API",
+    "prometheus": "Prometheus",
+    "prometheusDescription": "Voir la base de données de métriques",
+    "grafana": "Grafana",
+    "grafanaDescription": "Voir les tableaux de bord"
+  }
+}

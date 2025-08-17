@@ -1,0 +1,28 @@
+{
+  "theme": {
+    "light": "Activer le thème clair",
+    "dark": "Activer le thème sombre",
+    "system": "Utiliser le thème système"
+  },
+  "pricing": {
+    "currentPlan": "Plan actuel",
+    "monthlySubscription": "l'abonnement mensuel",
+    "yearlySubscription": "l'abonnement annuel"
+  },
+  "buttons": {
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "upgrade": "Améliorer",
+    "viewPricing": "Voir les tarifs"
+  },
+  "status": {
+    "loading": "Chargement...",
+    "saving": "Sauvegarde...",
+    "error": "Erreur",
+    "success": "Succès"
+  }
+}

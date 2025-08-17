@@ -1,0 +1,26 @@
+{
+  "input": {
+    "placeholder": "Write your message...",
+    "sending": "Send",
+    "recording": "Record a voice message",
+    "attach": "Attach a file",
+    "typing": "Penpal is typing..."
+  },
+  "suggestions": {
+    "title": "Click to see suggestions"
+  },
+  "demo": {
+    "title": "Discover artificial intelligence for language learning",
+    "instructions": [
+      "• Configure your language, level and learning mode",
+      "• Use conversation suggestions or write your own message",
+      "• Choose between \"Tutor\" mode (corrections) or \"Partner\" mode (conversation)"
+    ],
+    "response": "This is a simulated response to \"{{message}}\"",
+    "error": "Sorry, an error occurred: {{error}}",
+    "unknownError": "An unknown error occurred"
+  },
+  "corrections": {
+    "hasErrors": "This message contains errors. Click to see suggestions."
+  }
+}

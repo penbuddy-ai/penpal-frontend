@@ -1,0 +1,153 @@
+{
+  "title": "Admin Dashboard",
+  "description": "Monitor and manage Penpal AI services",
+  "navigation": {
+    "overview": "Overview",
+    "services": "Services",
+    "authService": "Auth Service",
+    "dbService": "DB Service",
+    "aiService": "AI Service",
+    "paymentService": "Payment Service"
+  },
+  "common": {
+    "loading": "Loading monitoring data...",
+    "refresh": "Refresh",
+    "lastRefresh": "Last refresh",
+    "status": "Status",
+    "healthy": "Healthy",
+    "unhealthy": "Unhealthy",
+    "responseTime": "Response Time",
+    "lastChecked": "Last Checked",
+    "uptime": "Uptime",
+    "requests": "Requests",
+    "features": "Features",
+    "apiEndpoints": "API Endpoints",
+    "performanceMetrics": "Performance Metrics",
+    "systemInformation": "System Information",
+    "quickActions": "Quick Actions",
+    "comingSoon": "Coming Soon",
+    "today": "Today",
+    "last24h": "Last 24h"
+  },
+  "overview": {
+    "systemHealthOverview": "System Health Overview",
+    "totalServices": "Total Services",
+    "criticalIssues": "Critical Issues",
+    "lastUpdate": "Last Update",
+    "avgResponseTime": "Avg Response Time",
+    "systemHealth": "System Health",
+    "servicesStatus": "Services Status",
+    "noServicesFound": "No Services Found",
+    "noServicesMessage": "No services are currently being monitored.",
+    "environment": "Environment",
+    "monitoring": "Monitoring",
+    "dataCollection": "Data Collection",
+    "retention": "Retention",
+    "development": "Development",
+    "everyThirtySeconds": "Every 30 seconds",
+    "realTimeMonitoring": "Real-time monitoring"
+  },
+  "services": {
+    "searchPlaceholder": "Search services...",
+    "sortBy": "Sort by",
+    "name": "Name",
+    "all": "All",
+    "filtered": "Filtered",
+    "noServicesFound": "No Services Found",
+    "adjustFilters": "Try adjusting your filters or search term.",
+    "notMonitored": "No services are currently being monitored.",
+    "description": "Description",
+    "endpoint": "Endpoint",
+    "actions": "Actions",
+    "details": "Details",
+    "logs": "Logs",
+    "error": "Error"
+  },
+  "service": {
+    "notFound": "Service Not Found",
+    "notFoundMessage": "This service is not currently being monitored or is offline.",
+    "chartsComingSoon": "Charts Coming Soon",
+    "chartsDescription": "Real-time performance charts and historical data visualization will be displayed here.",
+    "serviceError": "Service Error",
+    "url": "URL"
+  },
+  "serviceDescriptions": {
+    "authService": "Handles user authentication, authorization, and session management",
+    "dbService": "Manages database operations, data storage, and retrieval",
+    "aiService": "Powers AI conversations and natural language processing",
+    "paymentService": "Handles payment processing, subscriptions, and billing"
+  },
+  "features": {
+    "auth": {
+      "userAuthentication": "User Authentication",
+      "jwtTokenManagement": "JWT Token Management",
+      "oauthIntegration": "OAuth Integration",
+      "sessionManagement": "Session Management",
+      "passwordSecurity": "Password Security",
+      "accountManagement": "Account Management"
+    },
+    "db": {
+      "databaseOperations": "Database Operations",
+      "dataManagement": "Data Management",
+      "crudOperations": "CRUD Operations",
+      "dataValidation": "Data Validation",
+      "databaseMigrations": "Database Migrations",
+      "dataBackup": "Data Backup"
+    },
+    "ai": {
+      "aiConversations": "AI Conversations",
+      "nlp": "Natural Language Processing",
+      "responseGeneration": "Response Generation",
+      "contextManagement": "Context Management",
+      "aiModelIntegration": "AI Model Integration",
+      "languageDetection": "Language Detection"
+    },
+    "payment": {
+      "paymentProcessing": "Payment Processing",
+      "stripeIntegration": "Stripe Integration",
+      "subscriptionManagement": "Subscription Management",
+      "billingOperations": "Billing Operations",
+      "webhookHandling": "Webhook Handling",
+      "invoiceGeneration": "Invoice Generation"
+    }
+  },
+  "endpoints": {
+    "auth": {
+      "login": "User login",
+      "register": "User registration",
+      "me": "Get current user",
+      "logout": "User logout"
+    },
+    "db": {
+      "getUsers": "Get users",
+      "createUser": "Create user",
+      "getConversations": "Get conversations",
+      "createConversation": "Create conversation"
+    },
+    "ai": {
+      "startConversation": "Start conversation",
+      "sendMessage": "Send message",
+      "getConversation": "Get conversation",
+      "getAiCharacters": "Get AI characters"
+    },
+    "payment": {
+      "createSubscription": "Create subscription",
+      "getSubscription": "Get subscription",
+      "processPayment": "Process payment",
+      "stripeWebhook": "Stripe webhook"
+    }
+  },
+  "errors": {
+    "loadFailed": "Failed to load monitoring data. Please check if the monitoring service is running.",
+    "unknownTab": "Unknown Tab",
+    "tabNotConfigured": "This tab is not configured."
+  },
+  "externalLinks": {
+    "monitoringApi": "Monitoring API",
+    "monitoringApiDescription": "View API documentation",
+    "prometheus": "Prometheus",
+    "prometheusDescription": "View metrics database",
+    "grafana": "Grafana",
+    "grafanaDescription": "View dashboards"
+  }
+}
