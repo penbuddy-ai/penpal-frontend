@@ -79,12 +79,12 @@
   },
   "features": {
     "auth": {
-      "userAuthentication": "User Authentication",
-      "jwtTokenManagement": "JWT Token Management",
+      "userRegistration": "User Registration",
+      "emailAuthentication": "Email Authentication",
       "oauthIntegration": "OAuth Integration",
-      "sessionManagement": "Session Management",
+      "jwtTokens": "JWT Tokens",
       "passwordSecurity": "Password Security",
-      "accountManagement": "Account Management"
+      "sessionManagement": "Session Management"
     },
     "db": {
       "databaseOperations": "Database Operations",
@@ -116,7 +116,8 @@
       "login": "User login",
       "register": "User registration",
       "me": "Get current user",
-      "logout": "User logout"
+      "logout": "User logout",
+      "metrics": "User metrics"
     },
     "db": {
       "getUsers": "Get users",
@@ -149,5 +150,55 @@
     "prometheusDescription": "View metrics database",
     "grafana": "Grafana",
     "grafanaDescription": "View dashboards"
+  },
+  "grafana": {
+    "loading": "Loading chart...",
+    "loadingDashboard": "Loading dashboard...",
+    "loadError": "Loading Error",
+    "loadErrorMessage": "Failed to load Grafana chart. Please check that Grafana is running.",
+    "dashboardError": "Dashboard Error",
+    "dashboardErrorMessage": "Failed to load Grafana dashboard. Please check that Grafana is running.",
+    "openInGrafana": "Open in Grafana"
+  },
+  "auth": {
+    "totalUsers": "Total Users",
+    "dashboard": {
+      "title": "Authentication Metrics"
+    },
+    "panels": {
+      "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
+      "usersByLanguage": "Users by Language",
+      "averageLevel": "Average Level by Language"
+    }
+  },
+  "ai": {
+    "provider": "Provider",
+    "defaultModel": "Default Model",
+    "maxTokens": "Max Tokens",
+    "temperature": "Temperature",
+    "rateLimit": "Rate Limit",
+    "configuration": "Configuration",
+    "dashboard": {
+      "title": "AI Service Metrics"
+    },
+    "panels": {
+      "requestsRate": "Requests Rate",
+      "totalCosts": "Total Costs",
+      "tokenConsumption": "Token Consumption",
+      "requestDuration": "Request Duration",
+      "messagesByLanguage": "Messages by Language",
+      "activeConnections": "Active Connections"
+    },
+    "endpoints": {
+      "chat": "General chat",
+      "tutor": "Tutor mode",
+      "conversationPartner": "Conversation partner",
+      "analyze": "Text analysis",
+      "conversationStarters": "Conversation starters",
+      "models": "List models",
+      "providers": "List providers",
+      "health": "Health check"
+    }
   }
 }
