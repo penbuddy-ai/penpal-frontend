@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
+import { useAuth } from '@/hooks/useAuth';
 import { RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { monitoringService } from '@/services/monitoring.service';
 import { ServiceHealth, HealthSummary } from '@/services/monitoring.service';
-import { HealthSummaryWidget } from './HealthSummaryWidget';
-import { ServiceHealthCard } from './ServiceHealthCard';
 import { OverviewTab } from './views/OverviewTab';
 import { ServicesTab } from './views/ServicesTab';
 import { ServiceTab } from './views/ServiceTab';
