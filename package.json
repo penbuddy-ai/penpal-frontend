@@ -16,7 +16,10 @@
     "test:ci": "jest --ci --coverage",
     "lint:ci": "eslint . --ext .js,.jsx,.ts,.tsx --max-warnings=0",
     "build:ci": "next build",
-    "cypress:ci": "cypress run"
+    "cypress:ci": "cypress run",
+    "release:patch": "npm version patch && git push origin $(git describe --tags --abbrev=0)",
+    "release:minor": "npm version minor && git push origin $(git describe --tags --abbrev=0)",
+    "release:major": "npm version major && git push origin $(git describe --tags --abbrev=0)"
   },
   "dependencies": {
     "@auth/core": "^0.34.2",

@@ -35,13 +35,22 @@ jobs:
       - name: Compute tags
         id: tags
         run: |
-          BRANCH_TAG="${REF_SLUG}-latest"
+          if [[ "${GITHUB_REF}" == refs/tags/v*.*.* ]]; then
+            # Version tag (v1.2.3)
+            VERSION=${GITHUB_REF#refs/tags/v}
+            echo "version_tag=${VERSION}" >> $GITHUB_OUTPUT
+            echo "is_version=true" >> $GITHUB_OUTPUT
+          else
+            # Branch push
+            BRANCH_TAG="${REF_SLUG}-latest"
+            echo "branch_tag=${BRANCH_TAG}" >> $GITHUB_OUTPUT
+            echo "is_version=false" >> $GITHUB_OUTPUT
+          fi
           SHA_TAG="sha-${GITHUB_SHA::7}"
-          echo "branch_tag=${BRANCH_TAG}" >> $GITHUB_OUTPUT
           echo "sha_tag=${SHA_TAG}" >> $GITHUB_OUTPUT
 
-      - name: Build & push image (staging)
-        if: github.ref_name == 'develop'
+      - name: Build & push image (version)
+        if: steps.tags.outputs.is_version == 'true'
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -56,11 +65,12 @@ jobs:
             NEXT_PUBLIC_AI_API_KEY=${{ secrets.NEXT_PUBLIC_AI_API_KEY_STAGING }}
             NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_STAGING }}
           tags: |
-            ghcr.io/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:${{ steps.tags.outputs.branch_tag }}
+            ghcr.io/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:${{ steps.tags.outputs.version_tag }}
             ghcr.io/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:${{ steps.tags.outputs.sha_tag }}
+            ghcr.io/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Build & push image (production)
-        if: github.ref_name == 'main'
+      - name: Build & push image (branch)
+        if: steps.tags.outputs.is_version == 'false'
         uses: docker/build-push-action@v6
         with:
           context: .
