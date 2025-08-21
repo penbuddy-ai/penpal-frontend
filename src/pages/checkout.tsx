@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { TrialSignupForm } from '../components/payment/TrialSignupForm';
 import { SubscriptionPlan } from '../lib/stripe';
 import { useAuth } from '../hooks/useAuth';
-import SubscriptionDebug from '../components/SubscriptionDebug';
 import { useTranslation } from 'next-i18next';
 import { getTranslatedPlan } from '../lib/plan-utils';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -121,11 +120,6 @@ export default function CheckoutPage() {
               </div>
             </motion.div>
           )}
-
-          {/* Debug Component - Temporaire */}
-          <div className="mb-8">
-            <SubscriptionDebug />
-          </div>
 
           {/* Trial Signup Form */}
           <motion.div

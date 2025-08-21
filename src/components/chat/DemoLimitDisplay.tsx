@@ -13,6 +13,9 @@ export function DemoLimitDisplay() {
   const demoMessageLimit = useChatStore((state) => state.demoMessageLimit);
   const resetDemoConversation = useChatStore((state) => state.resetDemoConversation);
 
+  // Ne montrer le bouton reset qu'en développement
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
   const percentage = Math.round((demoMessageCount / demoMessageLimit) * 100);
   const isNearLimit = percentage >= 60; // À partir de 3/5 messages (60%)
   const isAtLimit = demoMessageCount >= demoMessageLimit;
@@ -60,10 +63,12 @@ export function DemoLimitDisplay() {
               }`}
             >
               {isAtLimit
-                ? 'Limite atteinte - Utilisez le reset pour continuer'
+                ? isDevelopment
+                  ? 'Limite atteinte - Utilisez le reset pour continuer'
+                  : 'Limite atteinte - Inscrivez-vous pour continuer'
                 : isNearLimit
                   ? 'Vous approchez de la limite'
-                  : 'Mode démo avec limite pour le développement'}
+                  : 'Mode démo limité'}
             </div>
           </div>
         </div>
@@ -83,21 +88,23 @@ export function DemoLimitDisplay() {
             />
           </div>
 
-          {/* Reset button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={resetDemoConversation}
-            className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
-              isAtLimit
-                ? 'bg-red-500 text-white hover:bg-red-600 shadow-md'
-                : 'bg-gray-200/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-300 hover:bg-gray-300/80 dark:hover:bg-gray-600/80 backdrop-blur-sm'
-            }`}
-            aria-label="Reset la conversation démo"
-          >
-            <RefreshCw size={12} />
-            <span className="hidden sm:inline">Reset</span>
-          </motion.button>
+          {/* Reset button - uniquement en développement */}
+          {isDevelopment && (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={resetDemoConversation}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
+                isAtLimit
+                  ? 'bg-red-500 text-white hover:bg-red-600 shadow-md'
+                  : 'bg-gray-200/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-300 hover:bg-gray-300/80 dark:hover:bg-gray-600/80 backdrop-blur-sm'
+              }`}
+              aria-label="Reset la conversation démo"
+            >
+              <RefreshCw size={12} />
+              <span className="hidden sm:inline">Reset</span>
+            </motion.button>
+          )}
         </div>
       </div>
     </motion.div>

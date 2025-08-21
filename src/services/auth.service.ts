@@ -106,15 +106,51 @@ export class AuthService {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(
-          errorData.message || `Erreur HTTP ${response.status}: ${response.statusText}`
-        );
+        const errorMessage =
+          errorData.message || `Erreur HTTP ${response.status}: ${response.statusText}`;
+
+        // Traduction des erreurs serveur communes
+        if (
+          response.status === 401 ||
+          errorMessage.toLowerCase().includes('unauthorized') ||
+          errorMessage.toLowerCase().includes('invalid credentials')
+        ) {
+          throw new AuthError('Email ou mot de passe incorrect', 'INVALID_CREDENTIALS');
+        }
+        if (
+          response.status === 409 ||
+          errorMessage.toLowerCase().includes('already exists') ||
+          errorMessage.toLowerCase().includes('email already')
+        ) {
+          throw new AuthError('Un compte avec cet email existe déjà', 'EMAIL_EXISTS');
+        }
+        if (response.status === 400) {
+          // Gestion des erreurs de validation
+          if (errorData.errors && Array.isArray(errorData.errors)) {
+            const validationErrors = errorData.errors.map((e: any) => e.message || e).join(', ');
+            throw new AuthError(validationErrors, 'VALIDATION_ERROR');
+          }
+          if (errorMessage.toLowerCase().includes('email')) {
+            throw new AuthError('Email invalide', 'INVALID_EMAIL');
+          }
+          if (errorMessage.toLowerCase().includes('password')) {
+            throw new AuthError('Mot de passe invalide', 'INVALID_PASSWORD');
+          }
+        }
+        if (response.status >= 500) {
+          throw new AuthError('Erreur de serveur, veuillez réessayer plus tard', 'SERVER_ERROR');
+        }
+
+        throw new AuthError(errorMessage, 'UNKNOWN_ERROR');
       }
 
       return await response.json();
     } catch (error) {
       console.error(`Erreur lors de la requête vers ${url}:`, error);
-      throw error;
+      if (error instanceof AuthError) {
+        throw error;
+      }
+      throw new AuthError('Erreur de connexion au serveur', 'NETWORK_ERROR');
     }
   }
 
@@ -122,34 +158,50 @@ export class AuthService {
    * Connexion avec email/mot de passe
    */
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const validatedData = loginSchema.parse(credentials);
+    try {
+      const validatedData = loginSchema.parse(credentials);
 
-    const response = await this.makeRequest<{ access_token: string; user: ApiUser }>(
-      '/auth/login',
-      {
-        method: 'POST',
-        body: JSON.stringify(validatedData),
+      const response = await this.makeRequest<{ access_token: string; user: ApiUser }>(
+        '/auth/login',
+        {
+          method: 'POST',
+          body: JSON.stringify(validatedData),
+        }
+      );
+
+      return {
+        access_token: response.access_token,
+        user: transformApiUser(response.user),
+      };
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const messages = error.errors.map((e) => e.message).join(', ');
+        throw new AuthError(messages, 'VALIDATION_ERROR');
       }
-    );
-
-    return {
-      access_token: response.access_token,
-      user: transformApiUser(response.user),
-    };
+      throw error;
+    }
   }
 
   /**
    * Inscription d'un nouvel utilisateur
    */
   async register(userData: RegisterData): Promise<User> {
-    const validatedData = registerSchema.parse(userData);
+    try {
+      const validatedData = registerSchema.parse(userData);
 
-    const apiUser = await this.makeRequest<ApiUser>('/auth/register', {
-      method: 'POST',
-      body: JSON.stringify(validatedData),
-    });
+      const apiUser = await this.makeRequest<ApiUser>('/auth/register', {
+        method: 'POST',
+        body: JSON.stringify(validatedData),
+      });
 
-    return transformApiUser(apiUser);
+      return transformApiUser(apiUser);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const messages = error.errors.map((e) => e.message).join(', ');
+        throw new AuthError(messages, 'VALIDATION_ERROR');
+      }
+      throw error;
+    }
   }
 
   /**

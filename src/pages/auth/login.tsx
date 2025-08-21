@@ -30,17 +30,12 @@ export default function LoginPage() {
     }
   };
 
-  const handleOAuthLogin = async (provider: 'google' | 'apple') => {
+  const handleOAuthLogin = async (provider: 'google') => {
     try {
-      if (provider === 'google') {
-        // Redirection vers Google OAuth avec URL de callback
-        const currentUrl = window.location.origin;
-        const redirectUrl = `${currentUrl}/auth/callback`;
-        authService.redirectToGoogleOAuth(redirectUrl);
-      } else {
-        // Pour Apple, on pourrait implémenter une logique similaire
-        console.log(`${provider} OAuth non encore implémenté`);
-      }
+      // Redirection vers Google OAuth avec URL de callback
+      const currentUrl = window.location.origin;
+      const redirectUrl = `${currentUrl}/auth/callback`;
+      authService.redirectToGoogleOAuth(redirectUrl);
     } catch (error) {
       console.error(`Erreur lors de l'authentification ${provider}:`, error);
     }
