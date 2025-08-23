@@ -37,9 +37,9 @@ export default function Home() {
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className="absolute top-20 left-20 text-blue-200 dark:text-blue-800"
+            className="absolute top-20 left-10 md:left-20 text-blue-200 dark:text-blue-800"
           >
-            <MessageCircle size={80} />
+            <MessageCircle className="w-12 h-12 md:w-20 md:h-20" />
           </motion.div>
 
           <motion.div
@@ -52,9 +52,9 @@ export default function Home() {
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className="absolute top-40 right-20 text-purple-200 dark:text-purple-800"
+            className="absolute top-40 right-10 md:right-20 text-purple-200 dark:text-purple-800"
           >
-            <Globe size={60} />
+            <Globe className="w-10 h-10 md:w-16 md:h-16" />
           </motion.div>
 
           <motion.div
@@ -67,13 +67,13 @@ export default function Home() {
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className="absolute bottom-40 left-40 text-indigo-200 dark:text-indigo-800"
+            className="absolute bottom-40 left-10 md:left-40 text-indigo-200 dark:text-indigo-800"
           >
-            <Sparkles size={70} />
+            <Sparkles className="w-12 h-12 md:w-18 md:h-18" />
           </motion.div>
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-6">
           {/* Main Title */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -81,7 +81,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
               <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                 {t('home.hero.mainTitle')}
               </span>

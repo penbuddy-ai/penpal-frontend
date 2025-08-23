@@ -9,6 +9,7 @@ import { MessageBubble } from './MessageBubble';
 import { TypingIndicator } from './TypingIndicator';
 import { MessageInput } from './MessageInput';
 import { DemoSettings } from './DemoSettings';
+import { AISettings } from './AISettings';
 import { DemoLimitDisplay } from './DemoLimitDisplay';
 import { useHydratedChatStore } from '@/hooks/useHydratedChatStore';
 import { MessageCircle, Sparkles, AlertCircle } from 'lucide-react';
@@ -99,8 +100,8 @@ export function ChatInterface() {
                 </p>
               </div>
             </div>
-            {/* Only show demo settings for demo conversations */}
-            {isDemoMode && <DemoSettings />}
+            {/* Show demo settings for demo conversations, AI settings for normal conversations */}
+            {isDemoMode ? <DemoSettings /> : <AISettings />}
           </div>
           {/* Only show demo limit display for demo conversations */}
           {isDemoMode && <DemoLimitDisplay />}

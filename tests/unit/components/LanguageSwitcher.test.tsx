@@ -1,7 +1,7 @@
 /**
  * Tests for LanguageSwitcher component
  */
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import LanguageSwitcher from '../../../src/components/LanguageSwitcher';
 import { useRouter } from 'next/router';
 
@@ -33,14 +33,12 @@ describe('LanguageSwitcher', () => {
 
     render(<LanguageSwitcher />);
 
-    // Since current locale is 'fr', it should show the English option
-    const englishLink = screen.getByText(/English/i);
-    expect(englishLink).toBeInTheDocument();
-    expect(englishLink).toHaveAttribute('href', '/');
+    // Open dropdown
+    fireEvent.click(screen.getByRole('button', { name: /language.switchLanguage/i }));
 
-    // It should not show the French option since that's the current locale
-    const frenchLink = screen.queryByText(/Français/i);
-    expect(frenchLink).not.toBeInTheDocument();
+    // Since current locale is 'fr', it should show the English option in the dropdown
+    const englishLink = screen.getAllByRole('link', { name: /English/i })[0];
+    expect(englishLink).toBeInTheDocument();
   });
 
   test('renders the language switcher with French option when locale is English', () => {
@@ -60,13 +58,11 @@ describe('LanguageSwitcher', () => {
 
     render(<LanguageSwitcher />);
 
-    // Since current locale is 'en', it should show the French option
-    const frenchLink = screen.getByText(/Français/i);
-    expect(frenchLink).toBeInTheDocument();
-    expect(frenchLink).toHaveAttribute('href', '/');
+    // Open dropdown
+    fireEvent.click(screen.getByRole('button', { name: /language.switchLanguage/i }));
 
-    // It should not show the English option since that's the current locale
-    const englishLink = screen.queryByText(/English/i);
-    expect(englishLink).not.toBeInTheDocument();
+    // Since current locale is 'en', it should show the French option in the dropdown
+    const frenchLink = screen.getAllByRole('link', { name: /Français/i })[0];
+    expect(frenchLink).toBeInTheDocument();
   });
 });

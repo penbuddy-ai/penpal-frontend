@@ -1,6 +1,6 @@
 /**
- * Demo Settings Component
- * Allows users to configure AI demo language, level, and mode
+ * AI Settings Component
+ * Allows users to configure AI language, level, and mode for normal conversations
  */
 
 import React from 'react';
@@ -10,9 +10,9 @@ import { useChatStore } from '@/store/chatStore';
 import { SupportedLanguage, LanguageLevel, ChatMode } from '@/types/chat';
 import { Settings, BookOpen, Users, Bot, X } from 'lucide-react';
 
-export function DemoSettings() {
-  const demoSettings = useChatStore((state) => state.demoSettings);
-  const updateDemoSettings = useChatStore((state) => state.updateDemoSettings);
+export function AISettings() {
+  const aiSettings = useChatStore((state) => state.aiSettings);
+  const updateAISettings = useChatStore((state) => state.updateAISettings);
   const [isOpen, setIsOpen] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
 
@@ -110,7 +110,7 @@ export function DemoSettings() {
                 <div className="flex items-center gap-2">
                   <Bot size={20} className="text-blue-600 dark:text-blue-400" />
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                    Paramètres Démo IA
+                    Paramètres IA
                   </h3>
                 </div>
                 <button
@@ -123,7 +123,7 @@ export function DemoSettings() {
               </div>
 
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-                Configuration pour les conversations de démonstration
+                Configuration pour les conversations normales
               </p>
 
               {/* Language Selection */}
@@ -131,19 +131,23 @@ export function DemoSettings() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Langue d'apprentissage
                 </label>
-                <div className="grid grid-cols-1 gap-2">
+                <div className={`grid gap-2 ${isMobile ? 'grid-cols-1' : 'grid-cols-1'}`}>
                   {languages.map((lang) => (
                     <button
                       key={lang.value}
-                      onClick={() => updateDemoSettings({ language: lang.value })}
-                      className={`flex items-center gap-3 p-2 rounded-lg border transition-all duration-200 text-left ${
-                        demoSettings.language === lang.value
+                      onClick={() => updateAISettings({ language: lang.value })}
+                      className={`flex items-center gap-3 rounded-lg border transition-all duration-200 ${
+                        isMobile ? 'p-3' : 'p-2'
+                      } ${
+                        aiSettings.language === lang.value
                           ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-blue-200 dark:border-blue-700 text-blue-900 dark:text-blue-100'
                           : 'border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 backdrop-blur-sm'
                       }`}
                     >
-                      <span className="text-lg">{lang.flag}</span>
-                      <span className="text-sm font-medium">{lang.label}</span>
+                      <span className={isMobile ? 'text-xl' : 'text-lg'}>{lang.flag}</span>
+                      <span className={`font-medium ${isMobile ? 'text-base' : 'text-sm'}`}>
+                        {lang.label}
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -152,21 +156,27 @@ export function DemoSettings() {
               {/* Level Selection */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Niveau
+                  Niveau de difficulté
                 </label>
                 <div className="grid grid-cols-1 gap-2">
                   {levels.map((level) => (
                     <button
                       key={level.value}
-                      onClick={() => updateDemoSettings({ level: level.value })}
-                      className={`p-2 rounded-lg border transition-all duration-200 text-left ${
-                        demoSettings.level === level.value
+                      onClick={() => updateAISettings({ level: level.value })}
+                      className={`flex flex-col items-start gap-1 rounded-lg border transition-all duration-200 text-left ${
+                        isMobile ? 'p-3' : 'p-2'
+                      } ${
+                        aiSettings.level === level.value
                           ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-blue-200 dark:border-blue-700 text-blue-900 dark:text-blue-100'
                           : 'border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 backdrop-blur-sm'
                       }`}
                     >
-                      <div className="text-sm font-medium">{level.label}</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                      <div className={`font-medium ${isMobile ? 'text-base' : 'text-sm'}`}>
+                        {level.label}
+                      </div>
+                      <div
+                        className={`text-gray-500 dark:text-gray-400 ${isMobile ? 'text-sm' : 'text-xs'}`}
+                      >
                         {level.description}
                       </div>
                     </button>
@@ -183,17 +193,27 @@ export function DemoSettings() {
                   {modes.map((mode) => (
                     <button
                       key={mode.value}
-                      onClick={() => updateDemoSettings({ mode: mode.value })}
-                      className={`flex items-start gap-3 p-2 rounded-lg border transition-all duration-200 text-left ${
-                        demoSettings.mode === mode.value
+                      onClick={() => updateAISettings({ mode: mode.value })}
+                      className={`flex items-start gap-3 rounded-lg border transition-all duration-200 text-left ${
+                        isMobile ? 'p-3' : 'p-2'
+                      } ${
+                        aiSettings.mode === mode.value
                           ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-blue-200 dark:border-blue-700 text-blue-900 dark:text-blue-100'
                           : 'border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 backdrop-blur-sm'
                       }`}
                     >
-                      <div className="mt-0.5 text-blue-600 dark:text-blue-400">{mode.icon}</div>
+                      <div
+                        className={`text-blue-600 dark:text-blue-400 ${isMobile ? 'mt-1' : 'mt-0.5'}`}
+                      >
+                        {mode.icon}
+                      </div>
                       <div>
-                        <div className="text-sm font-medium">{mode.label}</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                        <div className={`font-medium ${isMobile ? 'text-base' : 'text-sm'}`}>
+                          {mode.label}
+                        </div>
+                        <div
+                          className={`text-gray-500 dark:text-gray-400 ${isMobile ? 'text-sm' : 'text-xs'}`}
+                        >
                           {mode.description}
                         </div>
                       </div>
@@ -204,10 +224,16 @@ export function DemoSettings() {
 
               {/* Current Settings Summary */}
               <div className="pt-3 border-t border-gray-200/50 dark:border-gray-700/50">
-                <div className="text-xs text-gray-500 dark:text-gray-400">
-                  Configuration actuelle: {demoSettings.language} •{' '}
-                  {levels.find((l) => l.value === demoSettings.level)?.label} •{' '}
-                  {modes.find((m) => m.value === demoSettings.mode)?.label}
+                <div
+                  className={`text-gray-500 dark:text-gray-400 ${isMobile ? 'text-sm' : 'text-xs'}`}
+                >
+                  <span className="font-medium">Configuration actuelle:</span>
+                  <br className={isMobile ? 'block' : 'hidden'} />
+                  <span className={isMobile ? '' : 'ml-1'}>
+                    {aiSettings.language} •{' '}
+                    {levels.find((l) => l.value === aiSettings.level)?.label} •{' '}
+                    {modes.find((m) => m.value === aiSettings.mode)?.label}
+                  </span>
                 </div>
               </div>
             </motion.div>
@@ -219,24 +245,27 @@ export function DemoSettings() {
 
   return (
     <>
-      <motion.button
-        whileHover={{ scale: isMobile ? 1 : 1.05 }}
-        whileTap={{ scale: 0.95 }}
+      <button
         onClick={handleToggle}
-        className={`flex items-center gap-2 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200/50 dark:border-blue-700/50 rounded-lg hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 transition-all duration-200 backdrop-blur-sm ${
+        className={`flex items-center gap-2 rounded-lg font-medium transition-all duration-200 ${
           isMobile ? 'px-4 py-3 text-base' : 'px-3 py-2 text-sm'
-        } ${isOpen ? 'ring-2 ring-blue-200 dark:ring-blue-700' : ''}`}
-        aria-label="Paramètres de démonstration AI"
+        } ${
+          isOpen
+            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 ring-2 ring-blue-200 dark:ring-blue-700'
+            : 'bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200/80 dark:hover:bg-gray-700/80'
+        } backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 ${
+          isMobile ? 'active:scale-95' : 'hover:scale-105'
+        }`}
       >
-        <Settings size={isMobile ? 20 : 16} className="text-blue-600 dark:text-blue-400" />
-        <span
-          className={`text-blue-700 dark:text-blue-300 ${isMobile ? 'sm:inline' : 'hidden sm:inline'}`}
-        >
-          {isMobile ? 'Démo' : 'Paramètres AI'}
-        </span>
-      </motion.button>
+        <Bot size={isMobile ? 20 : 16} />
+        <span className={isMobile ? 'hidden sm:inline' : ''}>Paramètres IA</span>
+        <span className={isMobile ? 'sm:hidden' : 'hidden'}>IA</span>
+        <Settings
+          size={isMobile ? 16 : 14}
+          className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+        />
+      </button>
 
-      {/* Portal for the panel */}
       {typeof window !== 'undefined' && createPortal(panelContent, document.body)}
     </>
   );

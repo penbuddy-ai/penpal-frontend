@@ -79,12 +79,12 @@
   },
   "features": {
     "auth": {
-      "userAuthentication": "Authentification Utilisateur",
-      "jwtTokenManagement": "Gestion des Tokens JWT",
+      "userRegistration": "Inscription Utilisateur",
+      "emailAuthentication": "Authentification Email",
       "oauthIntegration": "Intégration OAuth",
-      "sessionManagement": "Gestion de Session",
+      "jwtTokens": "Tokens JWT",
       "passwordSecurity": "Sécurité des Mots de Passe",
-      "accountManagement": "Gestion de Compte"
+      "sessionManagement": "Gestion de Session"
     },
     "db": {
       "databaseOperations": "Opérations de Base de Données",
@@ -116,7 +116,8 @@
       "login": "Connexion utilisateur",
       "register": "Inscription utilisateur",
       "me": "Obtenir l'utilisateur actuel",
-      "logout": "Déconnexion utilisateur"
+      "logout": "Déconnexion utilisateur",
+      "metrics": "Métriques des utilisateurs"
     },
     "db": {
       "getUsers": "Obtenir les utilisateurs",
@@ -149,5 +150,55 @@
     "prometheusDescription": "Voir la base de données de métriques",
     "grafana": "Grafana",
     "grafanaDescription": "Voir les tableaux de bord"
+  },
+  "grafana": {
+    "loading": "Chargement du graphique...",
+    "loadingDashboard": "Chargement du tableau de bord...",
+    "loadError": "Erreur de Chargement",
+    "loadErrorMessage": "Impossible de charger le graphique Grafana. Vérifiez que Grafana est en cours d'exécution.",
+    "dashboardError": "Erreur du Tableau de Bord",
+    "dashboardErrorMessage": "Impossible de charger le tableau de bord Grafana. Vérifiez que Grafana est en cours d'exécution.",
+    "openInGrafana": "Ouvrir dans Grafana"
+  },
+  "auth": {
+    "totalUsers": "Total Utilisateurs",
+    "dashboard": {
+      "title": "Métriques d'Authentification"
+    },
+    "panels": {
+      "totalUsers": "Total des Utilisateurs",
+      "activeUsers": "Utilisateurs Actifs",
+      "usersByLanguage": "Utilisateurs par Langue",
+      "averageLevel": "Niveau Moyen par Langue"
+    }
+  },
+  "ai": {
+    "provider": "Fournisseur",
+    "defaultModel": "Modèle par Défaut",
+    "maxTokens": "Max Tokens",
+    "temperature": "Température",
+    "rateLimit": "Limite de Taux",
+    "configuration": "Configuration",
+    "dashboard": {
+      "title": "Métriques du Service IA"
+    },
+    "panels": {
+      "requestsRate": "Taux de Requêtes",
+      "totalCosts": "Coûts Totaux",
+      "tokenConsumption": "Consommation de Tokens",
+      "requestDuration": "Durée des Requêtes",
+      "messagesByLanguage": "Messages par Langue",
+      "activeConnections": "Connexions Actives"
+    },
+    "endpoints": {
+      "chat": "Chat général",
+      "tutor": "Mode tuteur",
+      "conversationPartner": "Partenaire de conversation",
+      "analyze": "Analyse de texte",
+      "conversationStarters": "Démarreurs de conversation",
+      "models": "Lister les modèles",
+      "providers": "Lister les fournisseurs",
+      "health": "Vérification de santé"
+    }
   }
 }

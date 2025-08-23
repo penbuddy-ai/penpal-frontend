@@ -7,5 +7,6 @@ export { MessageBubble } from './MessageBubble';
 export { MessageInput } from './MessageInput';
 export { TypingIndicator } from './TypingIndicator';
 export { DemoSettings } from './DemoSettings';
+export { AISettings } from './AISettings';
 export { DemoLimitDisplay } from './DemoLimitDisplay';
 export { CorrectionPopup } from './CorrectionPopup';

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { authService, User as AuthUser, AuthResponse } from '@/services/auth.service';
+import { authService, User as AuthUser, AuthResponse, AuthError } from '@/services/auth.service';
 
 // Type étendu pour inclure les propriétés de langue
 type User = AuthUser & {
@@ -85,7 +85,12 @@ const useUserStore = create<UserState>()(
             _lastAuthCheck: Date.now(),
           });
         } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : 'Erreur de connexion';
+          let errorMessage = 'Erreur de connexion';
+          if (error instanceof AuthError) {
+            errorMessage = error.message;
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
           set({
             error: errorMessage,
             isLoading: false,
@@ -107,7 +112,12 @@ const useUserStore = create<UserState>()(
             error: null,
           });
         } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : "Erreur d'inscription";
+          let errorMessage = "Erreur d'inscription";
+          if (error instanceof AuthError) {
+            errorMessage = error.message;
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
           set({
             error: errorMessage,
             isLoading: false,

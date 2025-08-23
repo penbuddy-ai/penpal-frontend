@@ -29,6 +29,12 @@ interface ChatState {
     level: LanguageLevel;
     mode: ChatMode;
   };
+  // Normal conversation AI settings
+  aiSettings: {
+    language: SupportedLanguage;
+    level: LanguageLevel;
+    mode: ChatMode;
+  };
   // Error state
   error: string | null;
   // Demo limitations
@@ -55,6 +61,7 @@ interface ChatState {
   sendDemoMessage: (message: string) => Promise<void>;
   sendNormalMessage: (message: string) => Promise<void>;
   updateDemoSettings: (settings: Partial<ChatState['demoSettings']>) => void;
+  updateAISettings: (settings: Partial<ChatState['aiSettings']>) => void;
   setError: (error: string | null) => void;
   resetDemoConversation: () => void;
   canSendDemoMessage: () => boolean;
@@ -93,6 +100,11 @@ export const useChatStore = create<ChatState>()(
         language: 'English',
         level: 'intermediate',
         mode: 'tutor',
+      },
+      aiSettings: {
+        language: 'English',
+        level: 'intermediate',
+        mode: 'conversation-partner',
       },
       error: null,
       demoMessageCount: 0,
@@ -210,36 +222,6 @@ export const useChatStore = create<ChatState>()(
         });
 
         set({ conversations: updatedConversations });
-
-        // For normal conversations, simulate bot typing
-        if (sender === 'user' && !get().isCurrentConversationDemo()) {
-          set({ isTyping: true });
-
-          // Mock bot response after a delay for normal conversations
-          setTimeout(() => {
-            const responseTime = new Date();
-            const botMessage: ChatMessage = {
-              id: uuidv4(),
-              content: `C'est une réponse simulée à "${content}"`,
-              sender: 'bot',
-              timestamp: responseTime,
-            };
-
-            set((state) => ({
-              conversations: state.conversations.map((conv) => {
-                if (conv.id === currentConversationId) {
-                  return {
-                    ...conv,
-                    messages: [...conv.messages, botMessage],
-                    updatedAt: responseTime,
-                  };
-                }
-                return conv;
-              }),
-              isTyping: false,
-            }));
-          }, 1500);
-        }
       },
 
       setTypingStatus: (isTyping: boolean) => {
@@ -390,17 +372,103 @@ export const useChatStore = create<ChatState>()(
       },
 
       sendNormalMessage: async (message: string) => {
-        const { currentConversationId, isCurrentConversationDemo } = get();
+        const { currentConversationId, isCurrentConversationDemo, conversations, aiSettings } =
+          get();
         if (!currentConversationId || isCurrentConversationDemo()) return;
 
-        // For normal conversations, just use the regular addMessage method
-        get().addMessage(message, 'user');
+        const currentConversation = conversations.find((conv) => conv.id === currentConversationId);
+        if (!currentConversation) return;
+
+        // Clear any existing error
+        set({ error: null });
+
+        // Add user message immediately
+        const userMessage: ChatMessage = {
+          id: uuidv4(),
+          content: message,
+          sender: 'user',
+          timestamp: new Date(),
+        };
+
+        set((state) => ({
+          conversations: state.conversations.map((conv) => {
+            if (conv.id === currentConversationId) {
+              return {
+                ...conv,
+                messages: [...conv.messages, userMessage],
+                updatedAt: new Date(),
+              };
+            }
+            return conv;
+          }),
+          isTyping: true,
+        }));
+
+        try {
+          // Use the configured AI settings for normal conversations
+          const request: DemoChatRequest = {
+            message,
+            language: aiSettings.language,
+            level: aiSettings.level,
+            mode: aiSettings.mode,
+          };
+
+          const response = await AIDemoService.sendMessage(request);
+
+          if (!response.success || !response.data) {
+            throw new Error(AIDemoService.getErrorMessage(response));
+          }
+
+          const { aiResponse, corrections } = response.data;
+
+          // Add AI response message
+          const aiMessage: ChatMessage = {
+            id: uuidv4(),
+            content: aiResponse,
+            sender: 'bot',
+            timestamp: new Date(),
+          };
+
+          // Store corrections in conversation metadata for MessageBubble access
+          set((state) => ({
+            conversations: state.conversations.map((conv) => {
+              if (conv.id === currentConversationId) {
+                return {
+                  ...conv,
+                  messages: [...conv.messages, aiMessage],
+                  updatedAt: new Date(),
+                  messageCorrections: {
+                    ...conv.messageCorrections,
+                    [userMessage.id]: corrections,
+                  },
+                };
+              }
+              return conv;
+            }),
+            isTyping: false,
+          }));
+        } catch (error) {
+          console.error('Error sending normal message:', error);
+          set({
+            isTyping: false,
+            error: error instanceof Error ? error.message : "Une erreur inconnue s'est produite",
+          });
+        }
       },
 
       updateDemoSettings: (settings: Partial<ChatState['demoSettings']>) => {
         set((state) => ({
           demoSettings: {
             ...state.demoSettings,
+            ...settings,
+          },
+        }));
+      },
+
+      updateAISettings: (settings: Partial<ChatState['aiSettings']>) => {
+        set((state) => ({
+          aiSettings: {
+            ...state.aiSettings,
             ...settings,
           },
         }));
