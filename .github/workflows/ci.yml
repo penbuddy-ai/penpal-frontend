@@ -49,7 +49,7 @@ jobs:
           SHA_TAG="sha-${GITHUB_SHA::7}"
           echo "sha_tag=${SHA_TAG}" >> $GITHUB_OUTPUT
 
-      - name: Build & push image (version)
+      - name: Build & push image (version tag - staging)
         if: steps.tags.outputs.is_version == 'true'
         uses: docker/build-push-action@v6
         with:
@@ -69,8 +69,27 @@ jobs:
             ghcr.io/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:${{ steps.tags.outputs.sha_tag }}
             ghcr.io/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Build & push image (branch)
-        if: steps.tags.outputs.is_version == 'false'
+      - name: Build & push image (develop branch - staging)
+        if: github.ref_name == 'develop'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          build-args: |
+            NEXT_PUBLIC_AUTH_SERVICE_URL=${{ vars.NEXT_PUBLIC_AUTH_SERVICE_URL_STAGING }}
+            NEXT_PUBLIC_AI_SERVICE_URL=${{ vars.NEXT_PUBLIC_AI_SERVICE_URL_STAGING }}
+            NEXT_PUBLIC_PAYMENT_API_URL=${{ vars.NEXT_PUBLIC_PAYMENT_API_URL_STAGING }}
+            NEXT_PUBLIC_MONITORING_API_URL=${{ vars.NEXT_PUBLIC_MONITORING_API_URL_STAGING }}
+            NEXT_PUBLIC_AI_API_KEY=${{ secrets.NEXT_PUBLIC_AI_API_KEY_STAGING }}
+            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_STAGING }}
+          tags: |
+            ghcr.io/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:${{ steps.tags.outputs.branch_tag }}
+            ghcr.io/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:${{ steps.tags.outputs.sha_tag }}
+
+      - name: Build & push image (main branch - production)
+        if: github.ref_name == 'main'
         uses: docker/build-push-action@v6
         with:
           context: .
